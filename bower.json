@@ -1,0 +1,21 @@
+{
+  "name": "TheLoop",
+  "homepage": "https://github.com/onyoo/TheLoop",
+  "authors": [
+    "onyoo <roberto9m9@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-ui-router": "^0.2.18"
+  }
+}
