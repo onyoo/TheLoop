@@ -12,7 +12,7 @@ angular
         controller: 'EventsController as ctrl',
         resolve: {
           events: function (EventsService) {
-            return EventsService.getEvents();
+            return EventsService.byZipcode(84074);
           }
         }
       // })
