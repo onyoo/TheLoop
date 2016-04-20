@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ui.router'])
+  .module('app', ['ui.router', 'templates'])
   .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
