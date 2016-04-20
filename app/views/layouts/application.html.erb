@@ -5,12 +5,13 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= csrf_meta_tags %>
   <%= javascript_include_tag 'application' %>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.1/lodash.min.js'></script>
 </head>
 <body>
+  
   <div ng-app="app" class="app">
     <div ui-view></div>
   </div>
-<!-- <%= yield %> -->
 
 </body>
 </html>

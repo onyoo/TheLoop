@@ -12,7 +12,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "vendor/assets/bower_components"
   ],
   "dependencies": {
     "angular": "^1.5.5",

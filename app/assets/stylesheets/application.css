@@ -15,3 +15,7 @@
 #events_list {
   width: 80%;
 }
+
+.angular-google-map-container {
+  height: 400px;
+}
