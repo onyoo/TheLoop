@@ -15,16 +15,16 @@ angular
             return EventsService.getEvents();
           }
         }
-      })
-      .state('event', {
-        url: '/event/:id',
-        templateUrl: 'views/show_event.html',
-        controller: 'EventController as event',
-        resolve: {
-          story: function ($stateParams, EventsService) {
-            return EventsService.getEvent($stateParams.id);
-          }
-        }
+      // })
+      // .state('event', {
+      //   url: '/event/:id',
+      //   templateUrl: 'views/show_event.html',
+      //   controller: 'EventController as event',
+      //   resolve: {
+      //     story: function ($stateParams, EventsService) {
+      //       return EventsService.getEvent($stateParams.id);
+      //     }
+      //   }
       });
     $urlRouterProvider.otherwise('/');
   });

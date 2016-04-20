@@ -1,4 +1,4 @@
-var Item = {
+var Event = {
   templateUrl: 'events/event.html',
   bindings: {
     id: '='
@@ -10,7 +10,7 @@ var Item = {
       .getEvent(this.id)
       .then(function(res){
         ctrl.data = res.data;
-      })
+    })
   },
   controllerAs: 'event'
 };
