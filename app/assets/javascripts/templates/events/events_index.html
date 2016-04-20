@@ -1,4 +1,11 @@
 <h2>Welcome To The Loop</h2>
-<li ng-repeat="eventData in ctrl.data">
+<a ui-sref='home'>Home</a>
+
+<p><input type="text" placeholder='Keyword Search' ng-model='keyword'></p>
+
+<li id='events_list' ng-repeat="eventData in ctrl.data | filter:keyword" >
   <event details='eventData'></event>
 </li>
+<div id='map_view'>
+  Map
+</div>
