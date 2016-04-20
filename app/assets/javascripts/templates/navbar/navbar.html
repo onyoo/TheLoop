@@ -1,0 +1,13 @@
+<div class="navbar-fixed">
+  <nav ng-controller="NavbarController">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">The Loop</a>
+      <ul class="right hide-on-med-and-down">
+        <li ng-hide="signedIn()" ui-sref-active="active"><a href="#"  ui-sref="home.login" >Log In</a></li>
+        <li ng-hide="signedIn()" ui-sref-active="active"><a href="#"  ui-sref="home.register" >Sign Up</a></li>
+      
+        <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out &nbsp;&nbsp;</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
