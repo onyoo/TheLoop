@@ -5,7 +5,8 @@ angular
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'LoopApp/Templates/home.html',
+        templateUrl: 'home.html',
         controller: 'EventsController as EventsCtrl'
       });
+    $urlRouterProvider.otherwise('/');
   });
