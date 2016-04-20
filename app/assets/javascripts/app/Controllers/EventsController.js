@@ -7,8 +7,8 @@ function EventsController(events, EventsService, uiGmapGoogleMapApi, $scope){
   ctrl.zipcodeSearch = function() {
     EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
       ctrl.data      = resp.data.events.event;
-      ctrl.latitude  = resp.data.events.event.latitude
-      ctrl.longitude = resp.data.events.event.longitude
+      ctrl.latitude  = resp.data.events.event.latitude;
+      ctrl.longitude = resp.data.events.event.longitude;
     });
   };
 
