@@ -1,5 +1,9 @@
 function EventController(event){
-  this.data = event.data.events.event;
+  var ctrl = this;
+  ctrl.data = event.data;
+
+  ctrl.latitude = ctrl.latitude;
+  ctrl.longitude = ctrl.longitude;
 }
 
 

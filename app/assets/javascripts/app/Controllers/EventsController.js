@@ -8,8 +8,12 @@ function EventsController(events, EventsService, uiGmapGoogleMapApi, $scope){
     });
   };
 
+  var areaLat      = 44.2126995,
+      areaLng      = -100.2471641,
+      areaZoom     = 3;
+
   uiGmapGoogleMapApi.then(function(maps) {
-    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+    $scope.map     = { center: { latitude: areaLat, longitude: areaLng }, zoom: areaZoom };
     $scope.options = { scrollwheel: false };
   });
 

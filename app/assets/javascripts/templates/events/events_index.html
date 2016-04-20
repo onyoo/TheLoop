@@ -4,7 +4,7 @@
 <p><input type="text" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
 
 <form ng-submit='ctrl.zipcodeSearch()'>
-  <input type="text" placeholder='Different Zipcode' ng-model='ctrl.zipcode'>
+  <input type="text" placeholder='Different Zipcode or City' ng-model='ctrl.zipcode'>
   <input type="submit" hidden='true'>
 </form>
 
@@ -13,7 +13,7 @@
 </li>
 <div id='map_view'>
   Map
-    <!-- <div ng-controller="mapController"> -->
-  <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>
-    <!-- </div> -->
+
+  <!-- <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map> -->
+
 </div>

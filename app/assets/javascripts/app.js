@@ -11,8 +11,8 @@ angular
         url: '/',
         templateUrl: 'home.html'
       })
-      .state('events', {
-        url: '/events',
+      .state('home.events', {
+        url: 'events',
         templateUrl: 'events/events_index.html',
         controller: 'EventsController as ctrl',
         resolve: {
@@ -20,16 +20,16 @@ angular
             return EventsService.byZipcode(84074);
           }
         }
-      // })
-      // .state('event', {
-      //   url: '/event/:id',
-      //   templateUrl: 'views/show_event.html',
-      //   controller: 'EventController as event',
-      //   resolve: {
-      //     story: function ($stateParams, EventsService) {
-      //       return EventsService.getEvent($stateParams.id);
-      //     }
-      //   }
+      })
+      .state('home.event', {
+        url: '/:id',
+        templateUrl: 'events/event_show_page.html',
+        controller: 'EventController as event',
+        resolve: {
+          event: function ($stateParams, EventsService) {
+            return EventsService.getEvent($stateParams.id);
+          }
+        }
       });
     $urlRouterProvider.otherwise('/');
   });

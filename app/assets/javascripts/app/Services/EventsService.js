@@ -11,10 +11,10 @@ function EventsService($http){
     });
   };
 
-  this.getEvent = function($stateParams){
+  this.getEvent = function(id){
     return $http({
       method: 'jsonp',
-      url: 'http://api.eventful.com/json/events/get?app_key=ckR7kwV6Ppwmq2sK&id=' + $stateParams.id,
+      url: 'http://api.eventful.com/json/events/get?app_key=ckR7kwV6Ppwmq2sK&id=' + id,
       params: {
         format: 'jsonp',
         callback: 'JSON_CALLBACK'
