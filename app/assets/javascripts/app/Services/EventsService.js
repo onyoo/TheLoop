@@ -10,6 +10,17 @@ function EventsService($http){
       }
     });
   };
+
+  this.getEvent = function($stateParams){
+    return $http({
+      method: 'jsonp',
+      url: 'http://api.eventful.com/json/events/get?app_key=ckR7kwV6Ppwmq2sK&id=' + $stateParams.id,
+      params: {
+        format: 'jsonp',
+        callback: 'JSON_CALLBACK'
+      }
+    });
+  };
 }
 
 angular
