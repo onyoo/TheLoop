@@ -11,7 +11,7 @@ function EventController(event, uiGmapGoogleMapApi, $scope){
     $scope.options = { scrollwheel: false };
   });
 
-}
+};
 
 
 angular
