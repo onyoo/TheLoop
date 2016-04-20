@@ -1,6 +1,6 @@
 angular
-  .module('app', ['ui.Router'])
-  .conig(function($stateProvider, $urlRouterProvider) [
+  .module('app', ['ui.router'])
+  .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
       .state('home', {
@@ -8,4 +8,4 @@ angular
         templateUrl: 'LoopApp/Templates/home.html',
         controller: 'EventsController as EventsCtrl'
       });
-  ]);
+  });

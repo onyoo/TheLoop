@@ -54,6 +54,6 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  root to: 'application#loop_home'
+  root to: 'application#home'
 
 end
