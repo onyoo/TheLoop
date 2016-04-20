@@ -15,9 +15,8 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady){
     uiGmapIsReady.promise()
     .then(function (map_instances) {
 
-        var map1 = $scope.map.control.getGMap();    // get map object through $scope.map.control getGMap() function
+        var map1 = $scope.map.control;    // get map object through $scope.map.control getGMap() function
         var map2 = map_instances[0].map;            // get map object through array object returned by uiGmapIsReady promise
-        alert('map is now ready');
       });
 
 };

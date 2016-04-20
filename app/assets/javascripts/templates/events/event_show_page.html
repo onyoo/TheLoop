@@ -12,9 +12,9 @@
 <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
 <p>{{event.data.country_abbr}}</p>
 
-<h5>Tags</h5>
-<span ng-repeat='tag in event.data.tags.tag'>
-  <span>{{tag.title}}</span>
+<h5>Categories</h5>
+<span ng-repeat='tag in event.data.categories.category'>
+  <span>{{tag.name}}</span>
 </span>
 
 <p>{{event.data.description}}</p>
