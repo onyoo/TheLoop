@@ -6,5 +6,6 @@
 //= require angular-simple-logger
 //= require angular-google-maps
 //= require angular-devise
+//= require angular-resource
 
 //= require_tree .
