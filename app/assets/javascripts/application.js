@@ -5,5 +5,6 @@
 // require lodash
 //= require angular-simple-logger
 //= require angular-google-maps
+//= require angular-devise
 
 //= require_tree .

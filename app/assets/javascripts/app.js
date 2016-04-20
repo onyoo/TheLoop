@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps'])
+  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise'])
   .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
@@ -10,6 +10,26 @@ angular
       .state('home', {
         url: '/',
         templateUrl: 'home.html'
+      })
+      .state('home.login', {
+        url: 'login',
+        templateUrl: 'auth/login.html',
+        controller: 'AuthController',
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+          Auth.currentUser().then(function(){
+            $state.go('home.events');
+          });
+        }]
+      })
+      .state('home.register', {
+        url: 'register',
+        templateUrl: 'auth/register.html',
+        controller: 'AuthController',
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+          Auth.currentUser().then(function(){
+            $state.go('home.events');
+          });
+        }]
       })
       .state('home.events', {
         url: 'events',
@@ -22,7 +42,7 @@ angular
         }
       })
       .state('home.event', {
-        url: ':id',
+        url: '/:id',
         templateUrl: 'events/event_show_page.html',
         controller: 'EventController as event',
         resolve: {
