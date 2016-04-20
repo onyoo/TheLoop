@@ -1,9 +1,13 @@
 <h2>Welcome To The Loop</h2>
 <a ui-sref='home'>Home</a>
 
-<p><input type="text" placeholder='Keyword Search' ng-model='keyword'></p>
+<p><input type="text" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
+<form ng-submit='ctrl.zipcodeSearch()'>
+  <input type="text" placeholder='Different Zipcode' ng-model='ctrl.zipcode'>
+  <input type="submit" hidden='true'>
+</form>
 
-<li id='events_list' ng-repeat="eventData in ctrl.data | filter:keyword" >
+<li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
   <event details='eventData'></event>
 </li>
 <div id='map_view'>
