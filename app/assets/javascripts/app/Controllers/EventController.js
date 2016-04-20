@@ -1,17 +1,26 @@
-function EventController(event, uiGmapGoogleMapApi, $scope){
+function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady){
   var ctrl = this;
   ctrl.data = event.data;
 
-  var latitude  = ctrl.data.latitude;
-  var longitude = ctrl.data.longitude;
-  var areaZoom  = 8;
+      $scope.map = {
+          center : {
+              latitude: ctrl.data.latitude,
+              longitude: ctrl.data.longitude
+          },
+          zoom : 11,
+          control : {}
+      };
 
-  uiGmapGoogleMapApi.then(function(maps) {
-    $scope.map     = { center: { latitude: longitude, longitude: latitude }, zoom: areaZoom };
-    $scope.options = { scrollwheel: false };
-  });
 
-}
+    uiGmapIsReady.promise()
+    .then(function (map_instances) {
+
+        var map1 = $scope.map.control.getGMap();    // get map object through $scope.map.control getGMap() function
+        var map2 = map_instances[0].map;            // get map object through array object returned by uiGmapIsReady promise
+        alert('map is now ready');
+      });
+
+};
 
 
 angular
