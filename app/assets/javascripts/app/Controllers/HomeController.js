@@ -1,4 +1,4 @@
-function HomeController($scope, uiGmapIsReady) {
+function LocalController($scope, uiGmapIsReady) {
 
   $scope.map = {
       center : {
@@ -21,4 +21,4 @@ function HomeController($scope, uiGmapIsReady) {
 
 angular
   .module('app')
-  .controller('HomeController', HomeController);
+  .controller('LocalController', LocalController);

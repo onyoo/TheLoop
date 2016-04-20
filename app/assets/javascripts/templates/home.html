@@ -1,11 +1,5 @@
 <div ng-include="'navbar/navbar.html'"></div>
-<a href="" ui-sref="home.events" ng-click='events = true' >Events</a>
-<a href="" ui-sref="home" ng-click='events = false' >Home</a>
+<a href="" ui-sref="home.events" >Events</a>
+<a href="" ui-sref="home.localView" >Home</a>
 
-<div ng-show="events">
   <ui-view></ui-view>
-</div>
-
-<div ng-show="!events">
-  <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>
-</div>

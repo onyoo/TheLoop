@@ -10,7 +10,7 @@ angular
       .state('home', {
         url: '/',
         templateUrl: 'home.html',
-        controller: 'HomeController as home'
+        abstract: true
       })
       .state('home.login', {
         url: 'login',
@@ -51,6 +51,11 @@ angular
             return EventsService.getEvent($stateParams.id);
           }
         }
+      })
+      .state('home.localView', {
+        url: 'localview',
+        templateUrl: 'events/local_view.html',
+        controller: 'LocalController as local'
       });
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/localview');
   });
