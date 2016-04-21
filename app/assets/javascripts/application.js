@@ -6,6 +6,7 @@
 //= require angular-google-maps
 //= require angular-devise
 //= require angular-resource
+//= require angular-sanitize
 // = require jquery
 //= require bootstrap-sprockets
 

@@ -1,6 +1,7 @@
 
 <h3><a ui-sref='home.event({id: event.details.id})'>{{event.details.title}}</a></h3>  <!-- should toggle location on map -->
-<p>{{event.details.description}}</p>
+<p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
+<!-- <p ng-bind-html="event.details.description | limitTo:500"></p> -->
 <p>{{event.details.start_time}} to {{event.details.stop_time}}</p>
 <p>City: {{event.details.city_name}}</p>
 <p>State: {{event.details.region_name}}</p>
