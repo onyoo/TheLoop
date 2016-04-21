@@ -17,7 +17,7 @@
   </div>
 
   <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
-    <event details='eventData'></event>
+    <api-event details='eventData'></api-event>
   </li>
   <ol id="events_list">
     <li>Markers{{markers}}</li>
