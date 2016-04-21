@@ -16,7 +16,8 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
     $scope.options = { scrollwheel: false };
   });
 
-
+  $scope.signedIn = Auth.isAuthenticated;
+  
   ctrl.addEvent = function(ourEvent){
     ctrl.event = UserEvent.create(ourEvent);
     ctrl.user = Auth.currentUser().then(function(user) {

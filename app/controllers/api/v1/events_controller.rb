@@ -10,7 +10,11 @@ module Api
         respond_with(Event.find(params[:id]))
       end
       def create
-        @event = Event.new(event_params)
+
+        @event = Event.new
+        
+        @event.assign_attributes(params)
+        
         if @event.save
           respond_to do |format|
             format.json { render :json => @event }
