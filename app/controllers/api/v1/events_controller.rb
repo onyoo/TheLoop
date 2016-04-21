@@ -13,6 +13,7 @@ module Api
         
         
         if @event = Event.find_by(title: params[:title])
+          # binding.pry 
           UserEvent.create(user_id: current_user.id, event_id: @event.id)
           respond_to do |format|
             format.json { render :json => @event }
@@ -29,6 +30,7 @@ module Api
           UserEvent.create(user_id: current_user.id, event_id: @event.id)
         end
       end
+
       def update
         @event = Event.find(params[:id])
         if @event.update(event_params)
