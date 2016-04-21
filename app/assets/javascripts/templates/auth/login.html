@@ -1,11 +1,21 @@
-<h2>Login</h2>
+<div class="container auth-page">
+  <h2 class="auth-header">Login</h2>
 
-<form action="" ng-submit="login()">
-  <label for="email">Email: </label>
-  <input type="email" placeholder="Email" ng-model="user.email"><br><br>
+  <p class="lead auth-errors"></p>
+  <form action="" ng-submit="login()">
+    <div class="row">
+      <div class="col-sm-8 auth-inputs">
+        <label for="email">Email: </label>
+        <input type="email" class="form-control" placeholder="Email" ng-model="user.email"><br>
+      </div>
+    </div>
 
-  <label for="password">Password: </label>
-  <input type="password" placeholder="Password" ng-model="user.password"><br><br>
-
-  <input type="submit">
-</form>
+  <div class="row">
+    <div class="col-sm-8 auth-inputs">
+      <label for="password">Password: </label>
+      <input type="password" class="form-control" placeholder="Password" ng-model="user.password"><br><br>
+    </div>
+  </div>
+    <input type="submit" class="btn btn-primary" value="Login">
+  </form>
+</div>

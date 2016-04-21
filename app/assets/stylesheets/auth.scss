@@ -1,0 +1,26 @@
+.auth-page {
+  text-align: center;
+  background-color: white;
+  margin-top: 60px;
+  width: 400px;
+  height: 350px;
+  box-shadow: 1px 1px 2px gray;
+  border-radius: 5px;
+}
+
+.auth-header {
+  font-weight: 200;
+  padding: 10px;
+}
+
+.auth-inputs {
+  margin-left: 65px;
+  label {
+    font-weight: 400;
+  }
+}
+
+.auth-errors {
+  color: red;
+  font-size: 1.3em;
+}
