@@ -1,0 +1,27 @@
+<div id="events-index">
+  <h2 id="events-header">Welcome To The Loop</h2><br><br>
+
+  <!-- <div class="row">
+    <div class="col-sm-7">
+      <div class="col-sm-6">
+        <p><input type="text" class="form-control" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
+      </div>
+
+      <div class="col-sm-6">
+        <form ng-submit='ctrl.zipcodeSearch()'>
+          <input type="text" class="form-control" placeholder='Different Zipcode or City' ng-model='ctrl.zipcode'>
+          <input type="submit" hidden='true'>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <li id='events_list' ng-repeat="eventData in ctrl.events" >
+    <event details='eventData'></event>
+  </li>
+  <div id='map_view'>
+
+    <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>
+
+  </div>
+</div>

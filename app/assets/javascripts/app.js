@@ -52,6 +52,11 @@ angular
           }
         }
       })
+      .state('home.myEvents', {
+        url: 'my_events',
+        templateUrl: 'events/my_events.html',
+        controller: 'UserEventsController as ctrl'
+      })
       .state('home.localView', {
         url: 'localview',
         templateUrl: 'events/local_view.html',
