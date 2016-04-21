@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+
+=======
+>>>>>>> f370c863958212a43dd64f47edca93bb4fcb7a1c
+<ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>

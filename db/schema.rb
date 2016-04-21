@@ -11,10 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420145941) do
+ActiveRecord::Schema.define(version: 20160421010141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string  "title"
+    t.text    "description"
+    t.string  "start_time"
+    t.string  "event_url"
+    t.string  "street_address"
+    t.string  "city"
+    t.string  "region"
+    t.integer "postal_code"
+    t.string  "country"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.string  "api_id"
+    t.string  "image_url"
+    t.integer "category_id"
+    t.integer "venue_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -33,5 +55,9 @@ ActiveRecord::Schema.define(version: 20160420145941) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "venues", force: :cascade do |t|
+    t.string "name"
+  end
 
 end

@@ -21,7 +21,6 @@ function EventsService($http){
       }
     });
   };
-
 }
 
 angular

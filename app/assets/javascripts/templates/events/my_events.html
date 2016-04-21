@@ -1,7 +1,7 @@
 <div id="events-index">
   <h2 id="events-header">Welcome To The Loop</h2><br><br>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-sm-7">
       <div class="col-sm-6">
         <p><input type="text" class="form-control" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
@@ -14,9 +14,9 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
+  <li id='events_list' ng-repeat="eventData in ctrl.events" >
     <event details='eventData'></event>
   </li>
   <div id='map_view'>

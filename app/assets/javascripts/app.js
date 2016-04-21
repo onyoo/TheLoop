@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise'])
+  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource'])
   .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
@@ -51,6 +51,11 @@ angular
             return EventsService.getEvent($stateParams.id);
           }
         }
+      })
+      .state('home.myEvents', {
+        url: 'my_events',
+        templateUrl: 'events/my_events.html',
+        controller: 'UserEventsController as ctrl'
       })
       .state('home.localView', {
         url: 'localview',
