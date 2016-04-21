@@ -4,6 +4,7 @@ var LocalEvent = {
     details: '='
   },
   controllerAs: 'event'
+  
 };
 
 angular

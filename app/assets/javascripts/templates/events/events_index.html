@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-
+  {{event.details}}
   <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
     <api-event details='eventData'></api-event>
   </li>
