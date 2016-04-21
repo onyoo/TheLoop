@@ -2,7 +2,7 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
   var ctrl = this;
   ctrl.data = event.data;
 
-  $scope.map = {
+  var map = {
       center : {
           latitude: ctrl.data.latitude,
           longitude: ctrl.data.longitude
@@ -11,14 +11,11 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
       control : {}
   };
 
-  uiGmapIsReady.promise()
-  .then(function (map_instances) {
+  uiGmapGoogleMapApi.then(function(maps) {
+    $scope.map     = map;
+    $scope.options = { scrollwheel: false };
+  });
 
-      var map1 = $scope.map.control;    // get map object through $scope.map.control getGMap() function
-      var map2 = map_instances[0].map;     // get map object through array object returned by uiGmapIsReady promise
-    });
-
-  ctrl.newEvent = new UserEvent;
 
   ctrl.addEvent = function(ourEvent){
     ctrl.event = UserEvent.create(ourEvent);
