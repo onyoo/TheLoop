@@ -3,11 +3,14 @@ angular
   .factory('UserEvent', UserEvent);
 
 function UserEvent($resource){
-  var UserEvent = $resource('http:localhost:3000/api/v1/users/:user_id/events/:id.json', {id: @id}, {
-    update: { method: 'PUT'}
+
+  var host = 'http://localhost:3000/api/v1/';
+
+  var UserEvent = $resource( host + 'users/:user_id/events/:id.json', {user_id: '@someId'}, {
+        query: { method: 'GET', isArray: true },
+        create: { method: 'POST' },
+        update: { method: 'PUT' },
+        delete: { method: 'DELETE' }
   });
   return UserEvent;
 }
-
-
-
