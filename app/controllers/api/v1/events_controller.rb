@@ -10,15 +10,23 @@ module Api
         respond_with(Event.find(params[:id]))
       end
       def create
+        
+        
+        if @event = Event.find_by(title: params[:title])
+          UserEvent.create(user_id: current_user.id, event_id: @event.id)
+          respond_to do |format|
+            format.json { render :json => @event }
+          end
+        else
+          @event = Event.new
+          @event.assign_attributes(params)
 
-        @event = Event.new
-        
-        @event.assign_attributes(params)
-        
         if @event.save
           respond_to do |format|
             format.json { render :json => @event }
           end
+        end
+          UserEvent.create(user_id: current_user.id, event_id: @event.id)
         end
       end
       def update

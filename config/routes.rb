@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults:{format: :json} do
     namespace :v1 do
-      resources :users do 
-        resources :events
-      end
+      resources :users 
+      resources :events
+      
     end
   end
 

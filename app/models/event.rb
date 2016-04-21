@@ -26,6 +26,6 @@ class Event < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options.merge(include: [:user, :category, :venue]))
+    super(options.merge(include: [:user_events, :category, :venue]))
   end
 end
