@@ -1,8 +1,11 @@
-function UserEventsController(UserEvent) {
+function UserEventsController(UserEvent, Auth) {
 
   var ctrl = this;
   // change our ctrl.notes = []; to query the entire Note table
-  ctrl.events = UserEvent.query();
+  ctrl.user = Auth.currentUser().then(function(user) {
+    ctrl.events = UserEvent.query({ 'user_id': user.id });
+  });
+
 };
 
 

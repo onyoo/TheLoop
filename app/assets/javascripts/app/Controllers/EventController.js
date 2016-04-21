@@ -1,4 +1,4 @@
-function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth){
+function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state){
   var ctrl = this;
   ctrl.data = event.data;
 
@@ -24,15 +24,14 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
     ctrl.event = UserEvent.create(ourEvent);
     ctrl.user = Auth.currentUser().then(function(user) {
       ctrl.event.$save({'user_id': user.id}).then(function(resp) {
-        debugger;
+        console.log('Event saved!');
+        $state.go('home.events');
+      }, function(error) {
+        console.log("There was an error saving: " + error);
       });
-    })
+    });
+  };
 
-    // ctrl.newEvent = event;
-    // ctrl.newEvent.$save(function(){
-    //   $location.path('home.events');
-    // })
-  }
 };
 
 

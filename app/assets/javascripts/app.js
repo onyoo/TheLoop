@@ -43,7 +43,7 @@ angular
         }
       })
       .state('home.event', {
-        url: ':id',
+        url: 'show/:id',
         templateUrl: 'events/event_show_page.html',
         controller: 'EventController as event',
         resolve: {
