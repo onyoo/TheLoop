@@ -15,13 +15,20 @@
       </div>
     </div>
   </div>
-  {{event.details}}
-  <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
-    <api-event details='eventData'></api-event>
-  </li>
-  <ol id="events_list">
-    <li>Markers{{markers}}</li>
-  </ol>
+
+  <p id="sort-by-links">
+    Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
+  </p>
+
+  <div class="event-details">
+    <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
+      <api-event details='eventData'></api-event>
+    </li>
+    <!-- <ol id="events_list">
+      <li>Markers{{markers}}</li>
+    </ol> -->
+  </div>
+
   <div id='map_view'>
 
     <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">

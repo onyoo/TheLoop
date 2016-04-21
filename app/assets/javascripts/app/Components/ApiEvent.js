@@ -3,6 +3,9 @@ var ApiEvent = {
   bindings: {
     details: '='
   },
+  controller: function(){
+    this.date = Date.parse(this.details.start_time);
+  },
   controllerAs: 'event'
 };
 
