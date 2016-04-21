@@ -21,6 +21,7 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
     ctrl.event = UserEvent.create(ourEvent);
     ctrl.user = Auth.currentUser().then(function(user) {
       ctrl.event.$save({'user_id': user.id}).then(function(resp) {
+        debugger;
         console.log('Event saved!');
         $state.go('home.events');
       }, function(error) {

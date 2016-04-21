@@ -19,12 +19,17 @@
   <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword" >
     <event details='eventData'></event>
   </li>
-  Markers{{markers}}
-  Models{{ctrl.data}}
+  <ol id="events_list">
+    <li>Markers{{markers}}</li>
+  </ol>
   <div id='map_view'>
 
     <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
-      <ui-gmap-markers models='markers' coords="'coords'"></ui-gmap-markers>
+      <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
+        <ui-gmap-window show='show'>
+          <div>{{coords}}</div>
+        </ui-gmap-window>
+      </ui-gmap-markers>
     </ui-gmap-google-map>
 
   </div>

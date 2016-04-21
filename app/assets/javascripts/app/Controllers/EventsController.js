@@ -23,7 +23,7 @@ function EventsController(events, EventsService, uiGmapGoogleMapApi, $scope, uiG
           latitude: ctrl.latitude,
           longitude: ctrl.longitude
       },
-      zoom : 11,
+      zoom : 9,
       control : {}
   };
 
@@ -37,11 +37,12 @@ function EventsController(events, EventsService, uiGmapGoogleMapApi, $scope, uiG
          coords: {
            latitude: ctrl.data[i].latitude,
            longitude: ctrl.data[i].longitude
-           }
+         },
+         show: true
        });
-     }
+     };
   });
-
+  $scope.show = true;
 };
 
 angular
