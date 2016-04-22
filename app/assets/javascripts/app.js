@@ -36,11 +36,6 @@ angular
         url: 'events',
         templateUrl: 'events/events_index.html',
         controller: 'EventsController as ctrl',
-        resolve: {
-          events: function (EventsService) {
-            return EventsService.byZipcode(84074);
-          }
-        }
       })
       .state('home.event', {
         url: 'show/:id',
