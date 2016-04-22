@@ -18,7 +18,6 @@ gem 'angular_rails_csrf'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
-gem 'awesome-print', as: 'ap'
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
 end
