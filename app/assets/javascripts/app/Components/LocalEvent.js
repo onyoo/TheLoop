@@ -5,7 +5,7 @@ var LocalEvent = {
   },
   controller: function(User, $state){
     this.removeEvent = function(myEvent) {
-      User.remove(myEvent, function(res){
+      User.delete({id: myEvent.id }, function(res){
         $('[data-event-id="' + res.id +'"]').text('');
       });
     };
