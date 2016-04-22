@@ -27,17 +27,15 @@
 
       <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
 
-      <p>Starts at {{event.data.start_time}}</p> <!-- to {{event.data.stop_time}} -->
+      <p>Starts at {{event.data.start_time}}</p>
 
       <p id="add-event-message"></p>
 
       <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
-
     </div>
 
     <div class="col-sm-6">
       <div id="event-show-map">
-        <!-- <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map> -->
 
         <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
           <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
