@@ -1,5 +1,16 @@
 function EventsService($http){
 
+  this.loopEvents = function(coords){
+    return $http({
+      method: 'get',
+      url: 'http://localhost:3000/api/v1/events?location=' + coords
+      // params: {
+      //   format: 'jsonp',
+      //   callback: 'JSON_CALLBACK'
+      // }
+    });
+  };
+
   this.byZipcode = function(zipcode){
     return $http({
       method: 'jsonp',

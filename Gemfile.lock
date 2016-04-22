@@ -66,6 +66,10 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.6.0)
+    geokit (1.10.0)
+    geokit-rails (2.1.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -176,6 +180,7 @@ DEPENDENCIES
   angular_rails_csrf
   bootstrap-sass (~> 3.3.6)
   devise
+  geokit-rails
   jbuilder (~> 2.0)
   jquery-rails
   pg (~> 0.15)

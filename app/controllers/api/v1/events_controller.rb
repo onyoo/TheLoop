@@ -7,9 +7,9 @@ module Api
       def index
         # respond_with(Event.all.where("postal_code = #{params[:location]}"))
         @location = Event.get_location(params[:location])
+        @events = Event.within(25, :origin => @location)
         
-
-        respond_with(Event.within(25, :origin => @location))
+        respond_with(@events.where(api_id: nil))
 
       end
 
