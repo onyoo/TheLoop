@@ -1,13 +1,30 @@
 #events-index {
-  padding: 60px;
+  padding-left: 60px;
 }
 
 #events-header {
-  margin-top: -10px;
+  margin-top: 30px;
   font-weight: 300;
   margin-left: 200px;
+  color: rgb(0, 107, 179);
 }
 
-#events_list {
-  width: 60%;
+#sort-by-link {
+  margin-top: 9px;
+}
+
+#events-list {
+  list-style-type: none;
+}
+
+#events-list-container{
+  height: 475px;
+  overflow: scroll;
+}
+.event-container {
+  margin-left: -50px;
+  padding: 5px 15px 7px 25px;
+  background-color: white;
+  box-shadow: 2px 2px 5px gray;
+  border-radius: 5px;
 }

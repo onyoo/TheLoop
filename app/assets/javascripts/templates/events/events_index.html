@@ -1,36 +1,39 @@
-<div id="events-index">
-  <h2 id="events-header">Welcome To The Loop</h2><br><br>
+<div class="row">
+  <div class="col-sm-7" id="events-index">
+    <h2 id="events-header">Welcome To The Loop</h2><br>
 
-  <div class="row">
-    <div class="col-sm-7">
-      <div class="col-sm-6">
-        <p><input type="text" class="form-control" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
-      </div>
+      <div class="row">
+        <div class="col-sm-5">
+          <p><input type="text" class="form-control" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
+        </div>
 
-      <div class="col-sm-6">
-        <form ng-submit='ctrl.zipcodeSearch()'>
-          <input type="text" class="form-control" placeholder='Different Zipcode or City' ng-model='ctrl.zipcode'>
-          <input type="submit" hidden='true'>
-        </form>
+        <div class="col-sm-5">
+          <form ng-submit='ctrl.zipcodeSearch()'>
+            <input type="text" class="form-control" placeholder='Different Zipcode or City' ng-model='ctrl.zipcode'>
+            <input type="submit" hidden='true'>
+          </form>
+        </div>
+
+        <div class="col-sm-2">
+          <p id="sort-by-link">
+            Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
+          </p>
+        </div>
+      </div><br>
+
+      <div id="events-list-container">
+        <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
+          <api-event details='eventData'></api-event>
+        </ul>
       </div>
     </div>
   </div>
 
-  <p id="sort-by-links">
-    Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
-  </p>
+  <!-- <ol id="events_list">
+    <li>Markers{{markers}}</li>
+  </ol> -->
 
-  <div class="event-details">
-    <li id='events_list' ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
-      <api-event details='eventData'></api-event>
-    </li>
-    <!-- <ol id="events_list">
-      <li>Markers{{markers}}</li>
-    </ol> -->
-  </div>
-
-  <div id='map_view'>
-
+  <div class="col-sm-5" id="map_view">
     <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
       <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
         <ui-gmap-window show='show'>
@@ -38,6 +41,5 @@
         </ui-gmap-window>
       </ui-gmap-markers>
     </ui-gmap-google-map>
-
   </div>
 </div>
