@@ -1,12 +1,12 @@
 <nav class="nav navbar-default" ng-controller="NavbarController">
   <div class="container-fluid" ng-init="newEvent=false">
     <ul class="nav navbar-nav" id="navbar-tabs">
-      <li><a ui-sref="home.localView">The Loop</a></li>
-      <li ng-hide="signedIn()"><a ui-sref="home.login" >Log In</a></li>
-      <li ng-hide="signedIn()"><a ui-sref="home.register" >Sign Up</a></li>
-      <li><a ui-sref="home.events">Events</a></li>
-      <li ng-show="signedIn()"><a ui-sref="home.myEvents" >My Events</a></li>
-      <li ng-show="signedIn()"><a href="" ng-click="newEvent=!newEvent">Create New Event</a></li>
+      <li><a ui-sref="home.localView" ui-sref-active="active">The Loop</a></li>
+      <li ng-hide="signedIn()"><a ui-sref="home.login" ui-sref-active="active">Log In</a></li>
+      <li ng-hide="signedIn()"><a ui-sref="home.register" ui-sref-active="active">Sign Up</a></li>
+      <li><a ui-sref="home.events" ui-sref-active="active">Events</a></li>
+      <li ng-show="signedIn()"><a ui-sref="home.myEvents" ui-sref-active="active">My Events</a></li>
+      <li ng-show="signedIn()"><a ng-click="newEvent=!newEvent" ui-sref-active="active">Create New Event</a></li>
       <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out</a></li>
       <div ng-show='newEvent'>
         <new-event-form></new-event-form>
