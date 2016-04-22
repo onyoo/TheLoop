@@ -18,6 +18,7 @@ gem 'angular_rails_csrf'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
+gem 'awesome-print', as: 'ap'
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
 end
@@ -34,7 +35,7 @@ gem 'pry'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'pry-byebug'
 end
 
 group :development do
