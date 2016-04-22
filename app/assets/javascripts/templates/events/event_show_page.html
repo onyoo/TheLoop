@@ -16,11 +16,13 @@
         <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:'medium'}}</p><br>
       </div>
 
-      <p ng-bind-html="event.data.description | removeWhiteSpace"></p><br>
+      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
 
-      <p>{{event.data.venue_name}}</p>
-      <p>{{event.data.address}}</p>
-      <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p><br><br>
+      <div class="event-address">
+        <p>{{event.data.venue_name}}</p>
+        <p>{{event.data.address}}</p>
+        <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
+      </div><br>
 
       <button class="btn btn-primary" id="add-event-button" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
     </div>

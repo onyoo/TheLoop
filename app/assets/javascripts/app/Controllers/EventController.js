@@ -27,7 +27,6 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 
   ctrl.addEvent = function(ourEvent){
     ctrl.event = UserEvent.create(ourEvent, function(res){
-      
       // $('#add-event-message').text('Have fun attending the ' + res.title +'!');
     });
   };
