@@ -1,5 +1,5 @@
 <div class="blackout" ng-click="closeForm()">
-  <form ng-submit="eventForm.createEvent()" class='create_event_form'>
+  <form ng-submit="eventForm.createEvent()" class='create_event_form' ng-click=" $event.stopPropagation()">
     <h2 class="auth-header">Create a New Event</h2>
     <div class="row">
       <div class="col-sm-8 auth-inputs">
