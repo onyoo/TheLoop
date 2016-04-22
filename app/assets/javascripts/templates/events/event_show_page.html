@@ -1,28 +1,44 @@
-<br><br>
-<div>
-  <img src="{{event.data.images.image.medium.url}}" alt="">
+<div class="container-fluid">
+  <div class="row" >
+    <div class="col-sm-6" id="event-show-page">
+      <div class="row">
+        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>
+
+        <div class="col-sm-4" ng-show="event.data.images.image.thumb.url">
+          <div class="event-image">
+            <img class="event-image" src="{{event.data.images.image.thumb.url}}" alt="">
+          </div>
+        </div>
+      </div><hr>
+
+      <span ng-repeat='link_item in event.data.links.link'>
+        <p><a href="{{link_item.url}}">{{link_item.description}}</a> (external link)</p>
+      </span>
+
+      <p>Venue: {{event.data.address}}</p>
+      <p>Address: {{event.data.address}}</p>
+      <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
+      <p>{{event.data.country_abbr}}</p>
+
+      <h5>Categories</h5>
+      <span ng-repeat='tag in event.data.categories.category'>
+        <span>{{tag.name}}</span>
+      </span>
+
+      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
+
+      <p>Starts at {{event.data.start_time}}</p> <!-- to {{event.data.stop_time}} -->
+
+      <p id="add-event-message"></p>
+
+      <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+
+    </div>
+
+    <div class="col-sm-6">
+      <div id="event-show-map">
+        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
 </div>
-
-<h1>{{event.data.title}}</h1>
-<span ng-repeat='link_item in event.data.links.link'>
-  <p><a href="{{link_item.url}}">{{link_item.description}}</a> (external link)</p>
-</span>
-
-<p>Address: {{event.data.address}}</p>
-<p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
-<p>{{event.data.country_abbr}}</p>
-
-<h5>Categories</h5>
-<span ng-repeat='tag in event.data.categories.category'>
-  <span>{{tag.name}}</span>
-</span>
-
-<p ng-bind-html="event.data.description | removeWhiteSpace"></p>
-
-<p>Starts at {{event.data.start_time}}</p> <!-- to {{event.data.stop_time}} -->
-
-<p id="add-event-message"></p>
-
-<button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
-
-<ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>

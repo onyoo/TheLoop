@@ -1,0 +1,20 @@
+#event-show-page {
+  background-color: white;
+  margin-top: 50px;
+  padding: 25px 25px 35px 35px;
+  margin-left: 37px;
+  height: 560px;
+  overflow: scroll;
+  box-shadow: 1px 1px 3px gray;
+}
+
+.event-header {
+  font-weight: 200;
+  color: rgb(0, 107, 179);
+}
+
+.event-image {
+  height: 130px;
+  width: 130px;
+  border-radius: 5px;
+}
