@@ -1,14 +1,21 @@
 var NewEventForm = {
   templateUrl: 'events/new_event_form.html',
+  bindings: {
+    eventBoolean: '='
+  },
   controller: function(UserEvent, $scope) {
     var ctrl = this;
+
+    $scope.closeForm = function() {
+      $scope.$emit('closeForm', false);  
+    }
+
     ctrl.createEvent = function() {
-      // ctrl.formData.categories.category = $scope.category_input;
-      UserEvent.create(ctrl.formData).$promise.then(function(resp) {
+      UserEvent.create(ctrl.formData, function(res){
         debugger;
       });
     };
-    this.message = "this is the controller"
+    ctrl.message = "this is the controller"
   },
   controllerAs: 'eventForm'
 };

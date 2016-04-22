@@ -9,7 +9,7 @@
       <li ng-show="signedIn()"><a href="" ng-click="newEvent=!newEvent">Create New Event</a></li>
       <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out</a></li>
       <div ng-show='newEvent'>
-        <new-event-form></new-event-form>
+        <new-event-form eventBoolean="newEvent"></new-event-form>
       </div>
     </ul>
   </div>
