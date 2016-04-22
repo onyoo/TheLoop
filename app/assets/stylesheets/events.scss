@@ -21,10 +21,30 @@
   height: 475px;
   overflow: scroll;
 }
+
 .event-container {
   margin-left: -50px;
   padding: 5px 15px 7px 25px;
   background-color: white;
   box-shadow: 2px 2px 5px gray;
   border-radius: 5px;
+  a {
+    font-weight: 300;
+    color: rgb(0, 107, 179);
+  }
+  a:hover {
+    color: navy;
+    text-decoration: none;
+  }
 }
+
+// .event-title {
+//   a {
+//     font-weight: 300;
+//     color: rgb(0, 107, 179);
+//   }
+//   a:hover {
+//     color: rgb(0, 0, 153);
+//     text-decoration: none;
+//   }
+// }
