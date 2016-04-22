@@ -12,4 +12,4 @@ var LoopIndexEvent = {
 
 angular
   .module('app')
-  .component('apiEvent', ApiEvent);
+  .component('loopIndexEvent', LoopIndexEvent);
