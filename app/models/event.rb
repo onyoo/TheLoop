@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :venue
 
+  include Geokit::Geocoders
+
   acts_as_mappable :default_units => :miles,
                    :default_formula => :sphere,
                    :distance_field_name => :distance,
@@ -33,6 +35,12 @@ class Event < ActiveRecord::Base
     self.longitude = event_attributes[:longitude]
     self.api_id = event_attributes[:id]
     # self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
+
+    loc=Event.geocode(event_attributes[:address] + ", " + event_attributes[:city] + ", " + event_attributes[:region_abbr] + event_attributes[:postal_code].to_s + ", " + event_attributes[:country_abbr])
+    if loc.success
+       self.latitude = loc.lat
+       self.longitude = loc.lng
+    end
 
     if (event_attributes[:categories][:category][0][:name] rescue false)
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])

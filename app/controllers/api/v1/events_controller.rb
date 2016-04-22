@@ -8,7 +8,7 @@ module Api
         # respond_with(Event.all.where("postal_code = #{params[:location]}"))
         @location = Event.get_location(params[:location])
         @events = Event.within(25, :origin => @location)
-        
+
         respond_with(@events.where(api_id: nil))
 
       end
@@ -18,7 +18,6 @@ module Api
       end
 
       def create
-
         if @event = Event.find_by(title: params[:title])
           UserEvent.create(user_id: current_user.id, event_id: @event.id)
           respond_to do |format|

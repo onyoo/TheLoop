@@ -8,7 +8,6 @@ var NewEventForm = {
     }
 
     ctrl.createEvent = function() {
-      console.log(ctrl.formData);
       UserEvent.create(ctrl.formData, function(res){
         debugger;
       });
