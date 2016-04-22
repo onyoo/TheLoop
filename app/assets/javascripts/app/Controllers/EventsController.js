@@ -13,9 +13,9 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
   };
 
   if(!!navigator.geolocation) {
+    $scope.loading = true;
     navigator.geolocation.getCurrentPosition(function(position) {
       // can use .watchPosition(); for periodic updates to coords
-
       var searchCoords = position.coords.latitude+","+position.coords.longitude +"&within=25";
       var loopCoords = position.coords.latitude+","+position.coords.longitude;
 
@@ -53,6 +53,7 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
              });
            };
         });
+        $scope.loading = false;
 
       });
 

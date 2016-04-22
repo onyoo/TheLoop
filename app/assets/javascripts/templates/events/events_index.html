@@ -22,6 +22,10 @@
       </div><br>
 
       <div id="events-list-container">
+        <div ng-show="loading">
+          <img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class='loading_img'>
+          <p>Loading Map...</p>
+        </div>
         <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword | orderBy:sort:reverse">
           <loop-index-event details='eventData'></loop-index-event>
         </ul>
@@ -32,11 +36,11 @@
     </div>
   </div>
 
-  <!-- <ol id="events_list">
-    <li>Markers{{markers}}</li>
-  </ol> -->
-
   <div class="col-sm-5" id="events-map">
+    <div ng-show="loading">
+      <img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class='loading_img'>
+      <p>Loading Map...</p>
+    </div>
     <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
       <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
         <ui-gmap-window show='show'>
