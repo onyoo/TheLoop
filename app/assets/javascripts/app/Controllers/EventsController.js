@@ -22,9 +22,9 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
       EventsService.loopEvents(searchCoords).then(function(events) {
         ctrl.loop = events.data;
       });
-        
+
      EventsService.byZipcode(searchCoords).then(function(events) {
-        
+
         ctrl.data      = events.data.events.event;
         ctrl.latitude  = events.data.events.event[0].latitude;
         ctrl.longitude = events.data.events.event[0].longitude;
