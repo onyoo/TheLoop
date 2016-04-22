@@ -4,12 +4,14 @@ function UserEventsController(User, Auth) {
     
   ctrl.user = Auth.currentUser().then(function(user) {
     ctrl.events = User.get({ 'id': user.id });
-    
-    ctrl.removeEvent = function(myEvent) {
-      User.removeEvent = User.remove(myEvent);
-    }
-    
+
   });
+
+  ctrl.removeEvent = function(myEvent) {
+      console.log('Event remove clicked');
+      debugger;
+      User.removeEvent = User.remove(myEvent);
+  };
 
 };
 
