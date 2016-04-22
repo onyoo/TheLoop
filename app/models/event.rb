@@ -4,6 +4,20 @@ class Event < ActiveRecord::Base
   belongs_to :category
   belongs_to :venue
 
+  acts_as_mappable :default_units => :miles,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :latitude,
+                   :lng_column_name => :longitude
+
+  def self.get_location(geo_string)
+    geo_array = geo_string.split(',')
+    geo_array.collect do |coord|
+      coord.to_f
+    end
+    geo_array
+  end
+
 
   def assign_attributes(event_attributes)
     self.title = event_attributes[:title]
