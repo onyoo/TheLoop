@@ -1,4 +1,4 @@
-var LocalEvent = {
+var LoopEvent = {
   templateUrl: 'events/local_event.html',
   bindings: {
     details: '='
@@ -16,4 +16,4 @@ var LocalEvent = {
 
 angular
   .module('app')
-  .component('localEvent', LocalEvent);
+  .component('loopEvent', LoopEvent);
