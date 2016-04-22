@@ -5,10 +5,10 @@
       <div class="col-sm-8 auth-inputs">
         <label for="eventForm.formData.name">Event Name</label>
         <input type="text" class="form-control" placeholder="Event Name" ng-model="eventForm.formData.title"><br>
-Change to text_area
+
         <label for="eventForm.formData.description">Description</label>
-        <input type="text" class="form-control" placeholder="Description" ng-model="eventForm.formData.description"><br>
-Event model seems to need start time to have a date as well...... <br>
+        <textarea rows="4" cols="50" class="form-control" placeholder="Description" ng-model="eventForm.formData.description"></textarea><br>
+
         <label for="eventForm.formData.start_time">Start Time</label>
         <input type="datetime-local" class="form-control" ng-model="eventForm.formData.start_time"><br>
 
@@ -31,21 +31,6 @@ Event model seems to need start time to have a date as well...... <br>
         Drop-down?
         <label for="eventForm.formData.country_abbr">Country</label>
         <input type="text" class="form-control" placeholder="Country" ng-model="eventForm.formData.country_abbr"><br>
-
-        Need calculation backend
-        latitude: decimal,
-        <label for="eventForm.formData.latitude">Latitude</label>
-        <!-- <input type="text" class="form-control" placeholder="URL" ng-model="eventForm.event_url"><br> -->
-
-        Need calculation backend
-        longitude: decimal,
-        <label for="eventForm.formData.longitude">Longitude</label>
-        <!-- <input type="text" class="form-control" placeholder="URL" ng-model="eventForm.event_url"><br> -->
-
-        Need to state it was user created (will also use this if integrate other event sources)
-        api_id: string,
-        <label for="eventForm.formData.api_id">API ID</label>
-        <!-- <input type="text" class="form-control" placeholder="URL" ng-model="eventForm.event_url"><br> -->
 
         <label for="eventForm.formData.image_url">Image URL</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url"><br>
