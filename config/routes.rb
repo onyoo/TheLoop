@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   end
 
   root to: 'application#home'
-
+  put '/api/v1/users', to: 'api/v1/users#remove'
 end
