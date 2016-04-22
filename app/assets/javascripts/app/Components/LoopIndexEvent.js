@@ -4,7 +4,9 @@ var LoopIndexEvent = {
     details: '='
   },
   controller: function(UserEvent){
-    this.date = Date.parse(this.details.start_time);
+    if(this.details.start_time){
+      this.date = Date.parse(this.details.start_time);
+    };
   },
   controllerAs: 'event'
 };
