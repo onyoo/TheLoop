@@ -50,10 +50,10 @@ angular
       .state('home.loopEvent', {
         url: 'loopShow/:id',
         templateUrl: 'events/loop_event_show_page.html',
-        controller: 'EventController as event',
+        controller: 'LoopEventController as event',
         resolve: {
           event: function ($stateParams, EventsService) {
-            return EventsService.getEvent($stateParams.id);
+            return EventsService.getLoopEvent($stateParams.id);
           }
         }
       })
