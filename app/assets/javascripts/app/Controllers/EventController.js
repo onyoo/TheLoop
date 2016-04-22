@@ -2,6 +2,8 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 
   var ctrl = this;
   ctrl.data = event.data;
+  ctrl.category = ctrl.data.categories.category[0].name.replace('&amp; ', '');
+  ctrl.date = Date.parse(ctrl.data.start_time);
   $scope.signedIn = Auth.isAuthenticated;
 
   var map = {
@@ -25,7 +27,8 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 
   ctrl.addEvent = function(ourEvent){
     ctrl.event = UserEvent.create(ourEvent, function(res){
-      $('#add-event-message').text('Have fun attending the ' + res.title +'!');
+      
+      // $('#add-event-message').text('Have fun attending the ' + res.title +'!');
     });
   };
 };
