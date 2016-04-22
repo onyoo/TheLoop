@@ -34,7 +34,9 @@ class Event < ActiveRecord::Base
     self.latitude = event_attributes[:latitude]
     self.longitude = event_attributes[:longitude]
     self.api_id = event_attributes[:id]
-    # self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
+
+    self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
+    self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
 
     loc=Event.geocode(event_attributes[:address] + ", " + event_attributes[:city] + ", " + event_attributes[:region_abbr] + event_attributes[:postal_code].to_s + ", " + event_attributes[:country_abbr])
     if loc.success
