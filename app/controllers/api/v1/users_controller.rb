@@ -8,7 +8,14 @@ module Api
       end 
 
       def remove
-        binding.pry
+        @event = Event.find_by(id: params[:id])
+        
+        current_user.events.delete(@event)
+        
+        respond_to do |format|
+            format.json { render :json => current_user }
+          end
+        
       end
 
       def show 

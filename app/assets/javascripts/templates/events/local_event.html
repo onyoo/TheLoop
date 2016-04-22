@@ -4,4 +4,4 @@
 <p>Date: <span ng-bind="event.date | date:'medium'"></span></p>
 <p>City: {{event.details.city}}</p>
 <p>State: {{event.details.region}}</p>
-<button type="submit" value="event.data" ng-controller="UserEventsController as ctrl" ng-click="ctrl.removeEvent(event.data)">Remove Event</button>
+<button type="submit" ng-click="event.removeEvent(event.details)">Remove Event</button>

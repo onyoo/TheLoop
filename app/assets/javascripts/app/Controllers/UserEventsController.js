@@ -7,11 +7,12 @@ function UserEventsController(User, Auth) {
 
   });
 
-  ctrl.removeEvent = function(myEvent) {
-      console.log('Event remove clicked');
-      debugger;
-      User.removeEvent = User.remove(myEvent);
-  };
+  // ctrl.removeEvent = function(myEvent) {
+  //     console.log(myEvent);
+  //     console.log('Event remove clicked');
+      
+  //     User.remove(myEvent);
+  // };
 
 };
 

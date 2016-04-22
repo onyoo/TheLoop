@@ -3,8 +3,17 @@ var LocalEvent = {
   bindings: {
     details: '='
   },
-  controller: function(){
-    
+  controller: function(User, $state){
+
+    this.removeEvent = function(myEvent) {
+      console.log(myEvent);
+      console.log('Event remove clicked');
+      
+      User.remove(myEvent);
+      this.details = {};
+      debugger;
+      $state.go('home.myEvents');
+  };
     this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'
