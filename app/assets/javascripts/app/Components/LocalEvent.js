@@ -3,8 +3,11 @@ var LocalEvent = {
   bindings: {
     details: '='
   },
+  controller: function(){
+    debugger;
+    this.date = Date.parse(this.details.start_time);
+  },
   controllerAs: 'event'
-  
 };
 
 angular
