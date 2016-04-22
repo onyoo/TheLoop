@@ -19,14 +19,14 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
   $scope.signedIn = Auth.isAuthenticated;
 
   ctrl.addEvent = function(ourEvent){
-  
-    ctrl.event = UserEvent.create(ourEvent).then(function(resp){
-      $state.go('home.events');
+
+    ctrl.event = UserEvent.create(ourEvent, function(res){
+      $('#add-event-message').text('Have fun attending the ' + res.title +'!');
     });
-    
+
     // ctrl.user = Auth.currentUser().then(function(user) {
     //   ctrl.event.$save().then(function(resp) {
-        
+
     //     console.log('Event saved!');
     //     $state.go('home.events');
     //   }, function(error) {
@@ -41,18 +41,3 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 angular
   .module('app')
   .controller('EventController', EventController);
-
-
-// ctrl.addEvent = function(ourEvent){
-  
-//     ctrl.event = UserEvent.create(ourEvent);
-//     ctrl.user = Auth.currentUser().then(function(user) {
-//       ctrl.event.$save({'user_id': user.id}).then(function(resp) {
-        
-//         console.log('Event saved!');
-//         $state.go('home.events');
-//       }, function(error) {
-//         console.log("There was an error saving: " + error);
-//       });
-//     });
-//   };

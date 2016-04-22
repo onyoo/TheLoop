@@ -4,16 +4,11 @@ var LocalEvent = {
     details: '='
   },
   controller: function(User, $state){
-
     this.removeEvent = function(myEvent) {
-      console.log(myEvent);
-      console.log('Event remove clicked');
-      
-      User.remove(myEvent);
-      this.details = {};
-      debugger;
-      $state.go('home.myEvents');
-  };
+      User.remove(myEvent, function(res){
+        $('[data-event-id="' + res.id +'"]').text('');
+      });
+    };
     this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'

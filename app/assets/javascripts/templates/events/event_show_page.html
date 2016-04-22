@@ -21,6 +21,8 @@
 
 <p>Starts at {{event.data.start_time}}</p> <!-- to {{event.data.stop_time}} -->
 
-<button ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+<p id="add-event-message"></p>
+
+<button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
 
 <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom"></ui-gmap-google-map>
