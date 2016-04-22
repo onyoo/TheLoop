@@ -10,7 +10,7 @@ Change to text_area
         <input type="text" class="form-control" placeholder="Description" ng-model="eventForm.formData.description"><br>
 Event model seems to need start time to have a date as well...... <br>
         <label for="eventForm.formData.start_time">Start Time</label>
-        <input type="time" class="form-control" ng-model="eventForm.start_time"><br>
+        <input type="datetime-local" class="form-control" ng-model="eventForm.formData.start_time"><br>
 
         <label for="eventForm.formData.event_url">Event or Ticketing URL</label>
         <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.formData.event_url"><br>
@@ -22,8 +22,8 @@ Event model seems to need start time to have a date as well...... <br>
         <input type="text" class="form-control" placeholder="City" ng-model="eventForm.formData.city"><br>
 
         Can we have a drop-down?? Don't want NY instead of New York..
-        <label for="eventForm.formData.region">State</label>
-        <input type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region"><br>
+        <label for="eventForm.formData.region_abbr">State</label>
+        <input type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr"><br>
 
         <label for="eventForm.formData.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.formData.postal_code"><br>
