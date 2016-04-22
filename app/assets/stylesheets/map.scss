@@ -22,18 +22,22 @@
 @media all and (min-width: 1230px) and (max-width: 1270px) {
   #your_location_map {
     width: 1260px;
+    margin-left: .5em;
+    margin-right: .5em;
   }
 }
 
 @media all and (min-width: 1200px) and (max-width: 1230px) {
   #your_location_map {
     width: 1220px;
+    margin-left: 1em;
   }
 }
 
 @media all and (min-width: 1170px) and (max-width: 1200px) {
   #your_location_map {
     width: 1180px;
+    margin-left: 1em;
   }
 }
 
@@ -43,39 +47,66 @@
   }
 }
 
-@media all and (min-width: 1150px) and (max-width: 1100px) {
+@media all and (min-width: 1050px) and (max-width: 1100px) {
   #your_location_map {
-    width: 1150px;
+    width: 1050px;
+    margin-left: 2em;
   }
 }
 
-@media all and (min-width: 1082px) and (max-width: 1090px) {
+@media all and (min-width: 1000px) and (max-width: 1050px) {
   #your_location_map {
-    width: 1082px;
+    width: 1000px;
+    margin-left: 2em;
   }
 }
-@media all and (min-width: 1040px) and (max-width: 1081px) {
+
+@media all and (min-width: 970px) and (max-width: 1000px) {
   #your_location_map {
-    width: 1040px;
+    width: 970px;
+    margin-left: 1.5em;
   }
 }
-@media all and (min-width: 900px) and (max-width: 1039px) {
+
+@media all and (min-width: 900px) and (max-width: 970px) {
   #your_location_map {
     width: 900px;
+    margin-left: 1.5em;
   }
 }
-@media all and (min-width: 700px) and (max-width: 899px) {
+@media all and (min-width: 850px) and (max-width: 900px) {
+  #your_location_map {
+    width: 850px;
+    margin-left: 1.5em;
+  }
+}
+@media all and (min-width: 800px) and (max-width: 850px) {
+  #your_location_map {
+    width: 800px;
+    margin-left: 1.5em;
+  }
+}
+@media all and (min-width: 750px) and (max-width: 800px) {
+  #your_location_map {
+    width: 750px;
+    margin-left: 1.5em;
+  }
+}
+@media all and (min-width: 700px) and (max-width: 750px) {
   #your_location_map {
     width: 700px;
+    margin-left: 1.5em;
   }
 }
-@media all and (min-width: 640px) and (max-width: 699px) {
+@media all and (min-width: 650px) and (max-width: 700px) {
   #your_location_map {
-    width: 640px;
+    width: 650px;
+    margin-left: 1.5em;
   }
 }
-@media all and (min-width: 150px) and (max-width: 640px) {
+@media all and (min-width: 150px) and (max-width: 650px) {
   #your_location_map {
     width: 500px;
+    margin-left: 1.5em;
   }
 }
