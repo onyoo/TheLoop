@@ -1,5 +1,5 @@
 <nav class="nav navbar-default" ng-controller="NavbarController">
-  <div class="container-fluid">
+  <div class="container-fluid" ng-init="newEvent=false">
     <ul class="nav navbar-nav" id="navbar-tabs">
       <li><a ui-sref="home.localView">The Loop</a></li>
       <li ng-hide="signedIn()"><a ui-sref="home.login" >Log In</a></li>
@@ -7,6 +7,10 @@
       <li><a ui-sref="home.events">Events</a></li>
       <li ng-show="signedIn()"><a ui-sref="home.myEvents" >My Events</a></li>
       <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out</a></li>
+      <li ng-show="signedIn()"><a href="" ng-click="newEvent=!newEvent">Create New Event</a></li>
+      <div ng-show='newEvent'>
+        <new-event-form></new-event-form>
+      </div>
     </ul>
   </div>
 </nav>

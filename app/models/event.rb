@@ -20,7 +20,11 @@ class Event < ActiveRecord::Base
     self.api_id = event_attributes[:id]
     # self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
 
-    self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
+    if (event_attributes[:categories][:category][0][:name] rescue false)
+      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
+    else
+      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category])
+    end
     self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
 
   end

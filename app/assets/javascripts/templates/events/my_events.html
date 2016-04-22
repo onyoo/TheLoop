@@ -16,15 +16,15 @@
     </div>
   </div> -->
 
-  <div ng-show='ctrl.events.length > 0'>
+  <div ng-show='ctrl.events.events.length > 0'>
     <li id='events_list' ng-repeat="eventData in ctrl.events.events" >
       <local-event details='eventData'></local-event>
     </li>
   </div>
-  <div>
+
+  <div ng-show='ctrl.events.events.length == 0'>
     You have no events yet. <a ui-sref='home.events'>Find events near you!</a>
   </div>
-
 
   <div id='map_view'>
 
