@@ -7,6 +7,10 @@ module Api
         respond_with(User.all.order("id DESC"))
       end 
 
+      def remove
+        binding.pry
+      end
+
       def show 
         respond_with(User.find(params[:id]))
       end
