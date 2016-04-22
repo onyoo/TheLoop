@@ -47,6 +47,16 @@ angular
           }
         }
       })
+      .state('home.loopEvent', {
+        url: 'loopShow/:id',
+        templateUrl: 'events/loop_event_show_page.html',
+        controller: 'EventController as event',
+        resolve: {
+          event: function ($stateParams, EventsService) {
+            return EventsService.getEvent($stateParams.id);
+          }
+        }
+      })
       .state('home.myEvents', {
         url: 'my_events',
         templateUrl: 'events/my_events.html',
