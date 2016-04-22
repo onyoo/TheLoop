@@ -22,9 +22,12 @@
       </div><br>
 
       <div id="events-list-container">
-        <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
-          <api-event details='eventData'></api-event>
+        <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword | orderBy:sort:reverse">
+          <loop-event details='eventData'></loop-event>
         </ul>
+       <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
+          <api-event details='eventData'></api-event>
+        </ul> 
       </div>
     </div>
   </div>
