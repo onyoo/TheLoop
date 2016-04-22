@@ -28,3 +28,27 @@
   box-shadow: 2px 2px 5px gray;
   border-radius: 5px;
 }
+
+.blackout {
+  background: -moz-linear-gradient(left,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 33%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4) 72%, rgba(0,0,0,0.2) 100%);
+  background: -webkit-linear-gradient(left,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.4) 33%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.4) 72%,rgba(0,0,0,0.2) 100%);
+  background: linear-gradient(to right,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.4) 33%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.4) 72%,rgba(0,0,0,0.2) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#33000000',GradientType=1 );
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.create_event_form {
+  background-color: white;
+  border: 1px solid black;
+  width: 80%;
+  height: 80%;
+  margin: 10% 10%;
+  overflow-y: scroll;
+  padding: 3em;
+}

@@ -25,4 +25,8 @@ function NavbarController($scope, Auth, $state, $location) {
     $scope.user = {};
     $location.path('home.login');
   });
+
+  $scope.$on('closeForm', function (event, data) {
+    $scope.newEvent = data
+  });
 };
