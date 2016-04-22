@@ -17,5 +17,65 @@
 }
 
 #your_location_map {
-  width: 1307px;
+  width: 1300px;
+}
+@media all and (min-width: 1230px) and (max-width: 1270px) {
+  #your_location_map {
+    width: 1260px;
+  }
+}
+
+@media all and (min-width: 1200px) and (max-width: 1230px) {
+  #your_location_map {
+    width: 1220px;
+  }
+}
+
+@media all and (min-width: 1170px) and (max-width: 1200px) {
+  #your_location_map {
+    width: 1180px;
+  }
+}
+
+@media all and (min-width: 1100px) and (max-width: 1170px) {
+  #your_location_map {
+    width: 1100px;
+  }
+}
+
+@media all and (min-width: 1150px) and (max-width: 1100px) {
+  #your_location_map {
+    width: 1150px;
+  }
+}
+
+@media all and (min-width: 1082px) and (max-width: 1090px) {
+  #your_location_map {
+    width: 1082px;
+  }
+}
+@media all and (min-width: 1040px) and (max-width: 1081px) {
+  #your_location_map {
+    width: 1040px;
+  }
+}
+@media all and (min-width: 900px) and (max-width: 1039px) {
+  #your_location_map {
+    width: 900px;
+  }
+}
+@media all and (min-width: 700px) and (max-width: 899px) {
+  #your_location_map {
+    width: 700px;
+  }
+}
+@media all and (min-width: 640px) and (max-width: 699px) {
+  #your_location_map {
+    width: 640px;
+  }
+}
+@media all and (min-width: 150px) and (max-width: 640px) {
+  #your_location_map {
+    width: 500px;
+  }
 }
