@@ -1,3 +1,9 @@
+.angular-google-map-container {
+  height: 655px;
+  width: 100%;
+  margin: 0px -15px;
+}
+
 #events-map {
   position: fixed;
   float: right;
@@ -9,14 +15,18 @@
   top: 0px;
 }
 
-.angular-google-map-container {
-  height: 655px;
-  width: 100%;
-  margin: 0px -15px;
-}
-
 #your-location-map {
   margin-right: -30px;
+}
+
+#event-show-map {
+  position: fixed;
+  margin-top: 58px;
+  margin-right: -15px;
+  border-radius: 5px;
+  width: 43%;
+  right: 0px;
+  top: 0px;
 }
 
 // @media all and (min-width: 1230px) and (max-width: 1270px) {
