@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       resources :events
-      resources :categories, only: [:index]
+      resources :categories, only: [:index, :show]
     end
   end
 

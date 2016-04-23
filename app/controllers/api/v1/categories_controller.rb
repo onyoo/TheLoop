@@ -5,11 +5,11 @@ module Api
       respond_to :json
 
       def index
-        respond_with(Category.all.order("id DESC"))
+        render json: Category.all.order("id DESC")
       end
 
       def show
-        respond_with(Category.find(params[:id]))
+        render json: Category.find(params[:id]), include: :events
       end
 
       def create
@@ -31,7 +31,7 @@ module Api
       end
 
       def destroy
-        respond_with Category.destroy(params[:id])
+        render json: Category.destroy(params[:id])
       end
 
     private
@@ -39,6 +39,6 @@ module Api
         params.require(:category).permit(:name)
       end
     end
-    
+
   end
 end
