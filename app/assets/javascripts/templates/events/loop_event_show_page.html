@@ -36,7 +36,7 @@
       <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
     </div>
     <div ng-show='editEvent'>
-        <edit-event-form></edit-event-form>
+        <edit-event-form event="event"></edit-event-form>
       </div>
 
     <div class="col-sm-6">
