@@ -52,7 +52,7 @@ class Event < ActiveRecord::Base
       address += (", " + event_attributes[:region_abbr])  if !event_attributes[:region_abbr].nil?
       address += (' ' + event_attributes[:postal_code].to_s)      if !event_attributes[:postal_code].nil?
       address += (", " + event_attributes[:country_abbr]) if !event_attributes[:country_abbr].nil?
-      binding.pry
+
       loc=Event.geocode(address)
 
       if loc.success
@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
          self.longitude = loc.lng
       end
     end
-
+binding.pry
     if (event_attributes[:categories][:category][0][:name] rescue false)
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
     else

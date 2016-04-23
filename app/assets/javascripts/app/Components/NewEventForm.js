@@ -8,7 +8,7 @@ var NewEventForm = {
     };
 
     ctrl.allCategories = "";
-    
+
     ctrl.categories = CategoriesService.getCategories().then(function(res){
       var categories = [];
       res.data.forEach(function(category){
@@ -19,6 +19,7 @@ var NewEventForm = {
 
     $scope.selectedCountry = [];
     ctrl.createEvent = function() {
+      debugger;
       UserEvent.create(ctrl.formData, function(res){
         $scope.$emit('closeForm', false);
       }, function(error) {
