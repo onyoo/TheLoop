@@ -31,7 +31,7 @@
       <p>Starts at {{event.data.start_time}}</p>
 
       <p id="add-event-message"></p>
-
+      <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.editEvent(event.data)">Edit Event</button>
       <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
     </div>
 
