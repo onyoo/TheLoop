@@ -5,9 +5,9 @@ function CategoriesService($http) {
       method: 'get',
       url: 'http://localhost:3000/api/v1/categories'
     });
-  }
-  
-}
+  };
+
+};
 
 angular
   .module('app')

@@ -28,9 +28,8 @@
         <label for="eventForm.formData.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.formData.postal_code"><br>
 
-        Drop-down?
         <label for="eventForm.formData.country_abbr">Country</label>
-        <input type="text" class="form-control" placeholder="Country" ng-model="eventForm.formData.country_abbr"><br>
+        <select ng-model="eventForm.formData.country_abbr" class="form-control" pvp-country-picker></select><br>
 
         <label for="eventForm.formData.image_url">Image URL</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url"><br>
