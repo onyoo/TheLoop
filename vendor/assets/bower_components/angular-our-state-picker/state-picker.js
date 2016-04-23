@@ -89,7 +89,7 @@ angular.module('statePicker',[])
         if(! tAttrs.stateProvider) {
           tAttrs.stateProvider = 'abbr';
         }
-        var ngOptions = 'state.' + tAttrs.stateProvider + ' as state.name for country in states';
+        var ngOptions = 'state.' + tAttrs.stateProvider + ' as state.name for state in states';
         tAttrs.$set('ngOptions',  ngOptions);
 
         return function postLink(scope, iElement) {

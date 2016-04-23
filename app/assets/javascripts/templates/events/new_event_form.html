@@ -59,7 +59,8 @@
           <div ng-message="required">You must provide the state</div>
         </div>
         <label for="eventForm.formData.region_abbr">State</label>
-        <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr" required="required"><br>
+        <select ng-model="eventForm.formData.region_abbr" class="form-control" required="required" state-picker-directive></select><br>
+        <!-- <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr" required="required"><br> -->
 
         <label for="eventForm.formData.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.formData.postal_code"><br>
