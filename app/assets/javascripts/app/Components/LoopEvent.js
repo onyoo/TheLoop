@@ -9,6 +9,10 @@ var LoopEvent = {
         $('[data-event-id="' + res.id +'"]').text('');
       });
     };
+
+    $scope.$on('closeForm', function (event, data) {
+      $scope.newEvent = data
+    });
     this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'

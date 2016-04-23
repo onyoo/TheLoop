@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-init="editEvent=false">
   <div class="row" >
     <div class="col-sm-6" id="event-show-page">
       <div class="row">
@@ -31,9 +31,13 @@
       <p>Starts at {{event.data.start_time}}</p>
 
       <p id="add-event-message"></p>
-      <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.editEvent(event.data)">Edit Event</button>
+
+      <a ng-click="editEvent=!editEvent">Edit Event</a>
       <button class="btn btn-primary" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
     </div>
+    <div ng-show='editEvent'>
+        <edit-event-form></edit-event-form>
+      </div>
 
     <div class="col-sm-6">
       <div id="event-show-map">

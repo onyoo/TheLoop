@@ -10,7 +10,7 @@ var EditEventForm = {
     $scope.selectedCountry = [];
 
     ctrl.event = UserEvent.get({id: $stateParams.id});
-
+    debugger;
     ctrl.editEvent = function() {
       ctrl.event.$update(function() {
         $location.path('events')
