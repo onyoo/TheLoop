@@ -3,11 +3,10 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
 
   ctrl.zipcodeSearch = function() {
 
-    // var searchCoords = position.coords.latitude+","+position.coords.longitude +"&within=25";
-    // var loopCoords = position.coords.latitude+","+position.coords.longitude;
-
     EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
       ctrl.loop = events.data;
+    }, function(error){
+      console.log(error);
     });
 
     EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
