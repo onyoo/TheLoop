@@ -7,7 +7,10 @@
 //= require angular-devise
 //= require angular-resource
 //= require angular-sanitize
+//= require angular-messages
+
 // = require jquery
 //= require bootstrap-sprockets
+//= require angular-country-picker
 
 //= require_tree .

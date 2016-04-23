@@ -45,14 +45,15 @@ class Event < ActiveRecord::Base
 
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
-    if self.latitude = nil
+
+    if self.latitude == nil
       address = event_attributes[:address]
       address += (", " + event_attributes[:city])         if !event_attributes[:city].nil?
       address += (", " + event_attributes[:region_abbr])  if !event_attributes[:region_abbr].nil?
       address += event_attributes[:postal_code].to_s      if !event_attributes[:postal_code].nil?
       address += (", " + event_attributes[:country_abbr]) if !event_attributes[:country_abbr].nil?
-
       loc=Event.geocode(address)
+
       if loc.success
          self.latitude = loc.lat
          self.longitude = loc.lng
@@ -64,7 +65,7 @@ class Event < ActiveRecord::Base
     else
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category])
     end
-    self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
+    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) unless event_attributes[:venue].nil?  
 
   end
 
