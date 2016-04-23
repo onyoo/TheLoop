@@ -20,9 +20,10 @@ module Api
       end
 
       def check
+        binding.pry
         @event = Event.find_by(api_id: params[:api_id])
-        if @event 
-          respond_with(@event)
+        if !!@event 
+          render :json => @event
         else
           render nothing: true, status: 401
         end
