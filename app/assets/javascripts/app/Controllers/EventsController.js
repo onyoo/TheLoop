@@ -2,6 +2,14 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
   var ctrl = this;
 
   ctrl.zipcodeSearch = function() {
+
+    // var searchCoords = position.coords.latitude+","+position.coords.longitude +"&within=25";
+    // var loopCoords = position.coords.latitude+","+position.coords.longitude;
+
+    EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
+      ctrl.loop = events.data;
+    });
+
     EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
       ctrl.data      = resp.data.events.event;
       ctrl.latitude  = resp.data.events.event.latitude;

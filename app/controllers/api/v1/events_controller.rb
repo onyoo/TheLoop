@@ -6,11 +6,13 @@ module Api
 
       def index
         # respond_with(Event.all.where("postal_code = #{params[:location]}"))
-        @location = Event.get_location(params[:location])
-        @events = Event.within(25, :origin => @location)
-
+        if params[:location]
+          @location = Event.get_location(params[:location])
+          @events = Event.within(25, :origin => @location)
+        elsif params[:zipcode]
+          @events = Event.find_by_zipcode(params[:zipcode])
+        end
         respond_with(@events.where(api_id: nil))
-
       end
 
       def show

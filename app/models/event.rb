@@ -20,6 +20,14 @@ class Event < ActiveRecord::Base
     geo_array
   end
 
+  def self.find_by_zipcode(zipcode)
+    location = self.geocode(zipcode)
+    if location.success
+       latitude = location.lat
+       longitude = location.lng
+    end
+    self.within(25, :origin => [latitude,longitude])
+  end
 
   def assign_attributes(event_attributes)
     self.title = event_attributes[:title]

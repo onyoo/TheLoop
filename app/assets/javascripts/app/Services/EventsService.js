@@ -4,10 +4,6 @@ function EventsService($http){
     return $http({
       method: 'get',
       url: 'http://localhost:3000/api/v1/events/' + id
-      // params: {
-      //   format: 'jsonp',
-      //   callback: 'JSON_CALLBACK'
-      // }
     });
   }
 
@@ -15,10 +11,13 @@ function EventsService($http){
     return $http({
       method: 'get',
       url: 'http://localhost:3000/api/v1/events?location=' + coords
-      // params: {
-      //   format: 'jsonp',
-      //   callback: 'JSON_CALLBACK'
-      // }
+    });
+  };
+
+  this.loopEventsZipcode = function(zip){
+    return $http({
+      method: 'get',
+      url: 'http://localhost:3000/api/v1/events?zipcode=' + zip
     });
   };
 
