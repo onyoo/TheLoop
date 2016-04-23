@@ -19,6 +19,15 @@ module Api
         respond_with(Event.find(params[:id]))
       end
 
+      def check
+        @event = Event.find_by(api_id: params[:api_id])
+        if @event 
+          respond_with(@event)
+        else
+          render nothing: true, status: 401
+        end
+      end
+
       def create
         if @event = Event.find_by(title: params[:title])
           UserEvent.create(user_id: current_user.id, event_id: @event.id)

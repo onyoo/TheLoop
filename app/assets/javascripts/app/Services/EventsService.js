@@ -7,6 +7,13 @@ function EventsService($http){
     });
   }
 
+  this.checkLoopEvent = function(api_id) {
+    return $http({
+      method: 'get',
+      url: 'http://localhost:3000/api/v1/events/' + api_id + '/check'
+    });
+  }
+
   this.loopEvents = function(coords){
     return $http({
       method: 'get',

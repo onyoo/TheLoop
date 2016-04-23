@@ -11,4 +11,6 @@ Rails.application.routes.draw do
 
   root to: 'application#home'
   put '/api/v1/users', to: 'api/v1/users#remove'
+
+  get 'api/v1/events/:api_id/check', to: 'api/v1/events#check'
 end
