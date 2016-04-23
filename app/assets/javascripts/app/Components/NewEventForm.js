@@ -1,11 +1,21 @@
 var NewEventForm = {
   templateUrl: 'events/new_event_form.html',
-  controller: function(UserEvent, $scope) {
+  controller: function(UserEvent, $scope, CategoriesService) {
     var ctrl = this;
 
     $scope.closeForm = function() {
       $scope.$emit('closeForm', false);
-    }
+    };
+
+    ctrl.allCategories = "";
+    
+    ctrl.categories = CategoriesService.getCategories().then(function(res){
+      var categories = [];
+      res.data.forEach(function(category){
+        categories.push(category.name.replace('&amp; ', ''));
+      })
+      ctrl.allCategories = categories;
+    });
 
     $scope.selectedCountry = [];
     ctrl.createEvent = function() {

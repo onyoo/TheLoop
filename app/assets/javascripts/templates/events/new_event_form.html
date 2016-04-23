@@ -1,29 +1,65 @@
 <div class="blackout" ng-click="closeForm()">
-  <form ng-submit="eventForm.createEvent()" class='create_event_form' ng-click=" $event.stopPropagation()">
+  <form name="form" ng-submit="eventForm.createEvent()" class='create_event_form' ng-click=" $event.stopPropagation()">
     <h2 class="auth-header">Create a New Event</h2>
     <div class="row">
       <div class="col-sm-8 auth-inputs">
-        <label for="eventForm.formData.name">Event Name</label>
-        <input type="text" class="form-control" placeholder="Event Name" ng-model="eventForm.formData.title"><br>
+        <div ng-messages="form.title.$error" ng-if="form.title.$touched">
+          <div ng-message="required">The event name is required</div>
+          <div ng-message="pattern">The event name must be more than 3 characters</div>
+        </div>
 
+        <label for="eventForm.formData.name">Event Name</label>
+        <input
+          name="title"
+          type="text"
+          class="form-control"
+          placeholder="Event Name"
+          pattern=".{3,}"
+          ng-model="eventForm.formData.title"
+          required="required"><br>
+
+        <div ng-messages="form.description.$error" ng-if="form.description.$touched">
+          <div ng-message="pattern">The description must be less than 2500 characters</div>
+        </div>
         <label for="eventForm.formData.description">Description</label>
-        <textarea rows="4" cols="50" class="form-control" placeholder="Description" ng-model="eventForm.formData.description"></textarea><br>
+        <textarea
+          name="description"
+          rows="4"
+          cols="50"
+          class="form-control"
+          placeholder="Description"
+          pattern="{,2500}"
+          ng-model="eventForm.formData.description"></textarea><br>
 
         <label for="eventForm.formData.start_time">Start Time</label>
         <input type="datetime-local" class="form-control" ng-model="eventForm.formData.start_time"><br>
 
-        <label for="eventForm.formData.event_url">Event or Ticketing URL</label>
+        <label for="eventForm.formData.event_url">Event or Ticketing URL (optional)</label>
         <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.formData.event_url"><br>
 
+        <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+          <div ng-message="required">You must provide a street address</div>
+        </div>
         <label for="eventForm.formData.address">Street Address</label>
-        <input type="text" class="form-control" placeholder="Address" ng-model="eventForm.formData.address"><br>
+        <input
+          name="address"
+          type="text"
+          class="form-control"
+          placeholder="Address"
+          required="required"
+          ng-model="eventForm.formData.address"><br>
 
+        <div ng-messages="form.city.$error" ng-if="form.city.$touched">
+          <div ng-message="required">You must provide the city where the event takes place</div>
+        </div>
         <label for="eventForm.formData.city">City</label>
-        <input type="text" class="form-control" placeholder="City" ng-model="eventForm.formData.city"><br>
+        <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.formData.city" required="required"><br>
 
-        Can we have a drop-down?? Don't want NY instead of New York..
+        <div ng-messages="form.state.$error" ng-if="form.state.$touched">
+          <div ng-message="required">You must provide the state</div>
+        </div>
         <label for="eventForm.formData.region_abbr">State</label>
-        <input type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr"><br>
+        <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr" required="required"><br>
 
         <label for="eventForm.formData.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.formData.postal_code"><br>
@@ -31,16 +67,20 @@
         <label for="eventForm.formData.country_abbr">Country</label>
         <select ng-model="eventForm.formData.country_abbr" class="form-control" pvp-country-picker></select><br>
 
-        <label for="eventForm.formData.image_url">Image URL</label>
+        <label for="eventForm.formData.image_url">Image URL (optional)</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url"><br>
 
-        possible drop-down case
-        category_id: integer,
+        <div ng-messages="form.category.$error" ng-if="form.category.$touched">
+          <div ng-message="required">You must provide a category</div>
+        </div>
         <label for="eventForm.formData.categories.category">Categories</label>
-        <input type="text" hidden="true" ng-model="eventForm.formData.categories.category" class="form-control" placeholder="Category"><br>
 
-        venue_id: integer
-        <label for="eventForm.formData.venue">Venue</label>
+        <select ng-model="eventForm.allCategories" name="category" class="form-control" required="required">
+          <option ng-repeat="category in eventForm.allCategories" value="{{category}}">{{category}}</option>
+        </select><br>
+        <!-- <input name="category" type="text" hidden="true" ng-model="eventForm.formData.categories.category" class="form-control" placeholder="Category" required="required"><br> -->
+
+        <label for="eventForm.formData.venue">Venue (optional)</label>
         <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue"><br>
 
       </div>
