@@ -3,7 +3,7 @@ var LoopEvent = {
   bindings: {
     details: '='
   },
-  controller: function(User, $state){
+  controller: function(User, $state, $scope){
     this.removeEvent = function(myEvent) {
       User.delete({id: myEvent.id }, function(res){
         $('[data-event-id="' + res.id +'"]').text('');
