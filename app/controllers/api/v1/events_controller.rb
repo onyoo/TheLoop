@@ -20,9 +20,9 @@ module Api
       end
 
       def check
-        
+
         @event = Event.find_by(api_id: params[:api_id])
-        if !!@event 
+        if !!@event
           render :json => @event
         else
           render nothing: true, status: 401
@@ -50,10 +50,10 @@ module Api
 
       def update
         @event = Event.find(params[:id])
-        if @event.update(event_params)
-          respond_to do |format|
-            format.json { render :json => @event }
-          end
+        if @event.assign_attributes(params)
+          render json: @event
+        else
+          render nothing: true
         end
       end
 
