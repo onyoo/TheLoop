@@ -20,7 +20,7 @@ module Api
       end
 
       def check
-        binding.pry
+        
         @event = Event.find_by(api_id: params[:api_id])
         if !!@event 
           render :json => @event
