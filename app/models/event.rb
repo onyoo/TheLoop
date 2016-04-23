@@ -65,7 +65,7 @@ class Event < ActiveRecord::Base
     else
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category])
     end
-    self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
+    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) unless event_attributes[:venue].nil?  
 
   end
 

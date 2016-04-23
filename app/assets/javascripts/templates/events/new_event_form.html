@@ -67,16 +67,20 @@
         <label for="eventForm.formData.country_abbr">Country</label>
         <select ng-model="eventForm.formData.country_abbr" class="form-control" pvp-country-picker></select><br>
 
-        <label for="eventForm.formData.image_url">Image URL</label>
+        <label for="eventForm.formData.image_url">Image URL (optional)</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url"><br>
 
-        possible drop-down case
-        category_id: integer,
+        <div ng-messages="form.category.$error" ng-if="form.category.$touched">
+          <div ng-message="required">You must provide a category</div>
+        </div>
         <label for="eventForm.formData.categories.category">Categories</label>
-        <input type="text" hidden="true" ng-model="eventForm.formData.categories.category" class="form-control" placeholder="Category"><br>
 
-        venue_id: integer
-        <label for="eventForm.formData.venue">Venue</label>
+        <select ng-model="eventForm.allCategories" name="category" class="form-control" required="required">
+          <option ng-repeat="category in eventForm.allCategories" value="{{category}}">{{category}}</option>
+        </select><br>
+        <!-- <input name="category" type="text" hidden="true" ng-model="eventForm.formData.categories.category" class="form-control" placeholder="Category" required="required"><br> -->
+
+        <label for="eventForm.formData.venue">Venue (optional)</label>
         <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue"><br>
 
       </div>
