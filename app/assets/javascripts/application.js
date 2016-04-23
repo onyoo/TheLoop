@@ -11,5 +11,6 @@
 
 // = require jquery
 //= require bootstrap-sprockets
+//= require angular-country-picker
 
 //= require_tree .
