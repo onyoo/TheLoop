@@ -49,6 +49,7 @@ module Api
       end
 
       def update
+        binding.pry
         @event = Event.find(params[:id])
         if @event.assign_attributes(params)
           render json: @event

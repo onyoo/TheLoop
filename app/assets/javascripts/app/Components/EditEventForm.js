@@ -1,5 +1,8 @@
 var EditEventForm = {
   templateUrl: 'events/edit_event_form.html',
+  bindings: {
+    event: '='
+  },
   controller: function(UserEvent, $scope, $stateParams) {
     var ctrl = this;
 
@@ -8,14 +11,23 @@ var EditEventForm = {
     }
 
     $scope.selectedCountry = [];
+    
+    // ctrl.event = UserEvent.get({id: $stateParams.id});
 
-    ctrl.event = UserEvent.get({id: $stateParams.id});
-    debugger;
     ctrl.editEvent = function() {
-      ctrl.event.$update(function() {
-        $location.path('events')
+      
+      UserEvent.update(ctrl.formData, function(res){
+        $scope.$emit('closeForm', false);
+      }, function(error) {
+        console.log(error)
+        
       });
     };
+    // ctrl.editEvent = function() {
+    //   ctrl.event.$update(function() {
+    //     $location.path('events')
+    //   });
+    // };
     ctrl.message = "this is the controller"
   },
   controllerAs: 'eventForm'
