@@ -10,7 +10,7 @@ var ApiEvent = {
       console.log("clicked show event")
       EventsService.checkLoopEvent(api_id).then(function(resp){
         
-        $state.go('home.loopEvent', {id: resp.id})
+        $state.go('home.loopEvent', {id: resp.data.id})
       }, function(error){
         console.log(api_id)
           

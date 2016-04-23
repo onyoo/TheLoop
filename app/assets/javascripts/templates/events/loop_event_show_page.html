@@ -14,7 +14,8 @@
       <span ng-repeat='link_item in event.data.links.link'>
         <p><a href="{{link_item.url}}">{{link_item.description}}</a> (external link)</p>
       </span>
-
+      
+      <p>{{event.data.users.length}} users are attending the event.</p>
       <p>Venue: {{event.data.venue.name}}</p>
       <p>Address: {{event.data.street_address}}</p>
       <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
