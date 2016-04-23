@@ -7,6 +7,7 @@ var NewEventForm = {
       $scope.$emit('closeForm', false);
     }
 
+    $scope.selectedCountry = [];
     ctrl.createEvent = function() {
       UserEvent.create(ctrl.formData, function(res){
         $scope.$emit('closeForm', false);
