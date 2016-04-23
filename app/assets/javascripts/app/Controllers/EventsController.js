@@ -6,9 +6,41 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
       ctrl.data      = resp.data.events.event;
       ctrl.latitude  = resp.data.events.event.latitude;
       ctrl.longitude = resp.data.events.event.longitude;
-      var newLatLng = new google.maps.LatLng(ctrl.latitude, ctrl.longitude);
-      marker.setPosition(newLatLng);
-      map.setCenter(newLatLng);
+
+      var map = {
+          center : {
+              latitude: ctrl.data[0].latitude,
+              longitude: ctrl.data[0].longitude
+          },
+          zoom : 10,
+          control : {}
+      };
+
+      uiGmapIsReady.promise()                     // this gets all (ready) map instances - defaults to 1 for the first map
+      .then(function(instances) {
+          $scope.map = map;        // pass the map to your function
+      });
+
+      // uiGmapGoogleMapApi.then(function(maps) {
+      //   $scope.map     = map;
+      //   $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
+      //   $scope.markers = [];
+      //   for(var i = 0; i < ctrl.data.length; i++) {
+      //      $scope.markers.push({
+      //        id: i,
+      //        coords: {
+      //          latitude: ctrl.data[i].latitude,
+      //          longitude: ctrl.data[i].longitude
+      //        },
+      //        show: true
+      //      });
+      //    };
+      // });
+
+
+      // var newLatLng = new google.maps.LatLng(ctrl.latitude, ctrl.longitude);
+      // marker.setPosition(newLatLng);
+      // map.setCenter(newLatLng);
     });
   };
 

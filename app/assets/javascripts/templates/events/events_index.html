@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-sm-5" id="events-map">
-      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
+      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">
         <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
           <ui-gmap-window show='show'>
             <div>{{coords}}</div>
