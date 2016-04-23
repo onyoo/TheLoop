@@ -3,7 +3,7 @@ angular
   .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
-        v: '3.20',
+        v: '3.23',
         libraries: 'weather,geometry,visualization'
     });
     $stateProvider

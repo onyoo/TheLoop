@@ -27,16 +27,17 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
     uiGmapIsReady.promise().then(function(map_instances) {
       $scope.map = map;
       $scope.markers = [];
-        for(var i = 0; i < ctrl.data.length; i++) {
-          $scope.markers.push({
-            id: i,
-            coords: {
-              latitude: ctrl.data[i].latitude,
-              longitude: ctrl.data[i].longitude
-            },
-          show: true
-          });
-        };
+      var events = ctrl.data.concat(ctrl.loop);
+      for(var i = 0; i < events.length; i++) {
+         $scope.markers.push({
+           id: i,
+           coords: {
+             latitude: events[i].latitude,
+             longitude: events[i].longitude
+           },
+           show: true
+         });
+       };
       });
     });
   };
@@ -71,12 +72,13 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
           $scope.map     = map;
           $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
           $scope.markers = [];
-          for(var i = 0; i < ctrl.data.length; i++) {
+          var events = ctrl.data.concat(ctrl.loop);
+          for(var i = 0; i < events.length; i++) {
              $scope.markers.push({
                id: i,
                coords: {
-                 latitude: ctrl.data[i].latitude,
-                 longitude: ctrl.data[i].longitude
+                 latitude: events[i].latitude,
+                 longitude: events[i].longitude
                },
                show: true
              });
