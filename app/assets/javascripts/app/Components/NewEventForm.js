@@ -9,7 +9,11 @@ var NewEventForm = {
 
     ctrl.createEvent = function() {
       UserEvent.create(ctrl.formData, function(res){
-        debugger;
+        if(res.status == 200){
+          $scope.$emit('closeForm', false);
+        }else{
+          debugger;
+        };
       });
     };
     ctrl.message = "this is the controller"

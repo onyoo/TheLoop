@@ -46,7 +46,13 @@ class Event < ActiveRecord::Base
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
 
-    loc=Event.geocode(event_attributes[:address] + ", " + event_attributes[:city] + ", " + event_attributes[:region_abbr] + event_attributes[:postal_code].to_s + ", " + event_attributes[:country_abbr])
+    address = event_attributes[:address]
+    address += (", " + event_attributes[:city])         if !event_attributes[:city].nil?
+    address += (", " + event_attributes[:region_abbr])  if !event_attributes[:region_abbr].nil?
+    address += event_attributes[:postal_code]           if !event_attributes[:postal_code].nil?
+    address += (", " + event_attributes[:country_abbr]) if !event_attributes[:country_abbr].nil?
+
+    loc=Event.geocode(address)
     if loc.success
        self.latitude = loc.lat
        self.longitude = loc.lng
@@ -64,4 +70,5 @@ class Event < ActiveRecord::Base
   def as_json(options = {})
     super(options.merge(include: [:user_events, :category, :venue]))
   end
+
 end

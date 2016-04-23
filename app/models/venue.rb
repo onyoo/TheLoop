@@ -5,4 +5,5 @@ class Venue < ActiveRecord::Base
   def as_json(options = {})
     super(options.merge(include: [:event]))
   end
+  
 end

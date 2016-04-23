@@ -21,11 +21,12 @@ module Api
         end
       end
 
-      private
+    private
 
       def set_event
         @event = Event.find(params[:id])
       end
     end
+
   end
 end
