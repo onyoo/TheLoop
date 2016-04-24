@@ -71,7 +71,7 @@ class Event < ActiveRecord::Base
     if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
     else
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
     end
 
   end
