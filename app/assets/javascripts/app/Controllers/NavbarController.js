@@ -12,7 +12,7 @@ function NavbarController($scope, Auth, $state, $location) {
     .then(function(user) {
       $scope.user = user;
     });
-
+    
   $scope.$on('devise:new-registration', function(e, user) {
     $scope.user = user;
   });
