@@ -47,8 +47,8 @@ class Event < ActiveRecord::Base
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
 
-    if self.latitude == nil
-      address = event_attributes[:address]
+    if self.latitude.nil?
+      address = event_attributes[:street_address]
       address += (", " + event_attributes[:city])         if !event_attributes[:city].nil?
       address += (", " + event_attributes[:region_abbr])  if !event_attributes[:region_abbr].nil?
       address += (' ' + event_attributes[:postal_code].to_s)      if !event_attributes[:postal_code].nil?
@@ -64,10 +64,11 @@ class Event < ActiveRecord::Base
     if (event_attributes[:categories][:category][0][:name] rescue false)
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
     else
-      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
+      # For creating local events
+      self.category = Category.find_or_create_by(name: event_attributes[:category])
     end
 
-    if event_attributes[:venue].is_a?(String)
+    if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
     else
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])

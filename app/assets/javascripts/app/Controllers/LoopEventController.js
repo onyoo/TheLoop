@@ -33,14 +33,11 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
     });
 
-  ctrl.attending = function(){
-    this.data.users.forEach(function(user){
-      if (Auth._currentUser.id == user.id) {
-        return true;
-      }
+  ctrl.attending = Auth.currentUser().then(function(resp){
+    return ctrl.data.users.some(function(user){
+      return resp.id == user.id;
     });
-    return false;
-  };
+  });
 
   $scope.$on('closeEditForm', function (emitEvent, data) {
     $scope.editEvent = false;
