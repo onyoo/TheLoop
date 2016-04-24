@@ -56,7 +56,6 @@
         </div>
         <label for="eventForm.formData.region_abbr">State</label>
         <select ng-model="eventForm.formData.region_abbr" class="form-control" required="required" state-picker-directive></select><br>
-        <!-- <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.formData.region_abbr" required="required"><br> -->
 
         <label for="eventForm.formData.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.formData.postal_code"><br>
@@ -71,9 +70,9 @@
           <div ng-message="required">You must provide a category</div>
         </div>
         <label for="eventForm.formData.categories.category">Categories</label>
-
-        <select name="category" class="form-control" required="required">
-          <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}" ng-model='eventForm.formData.category'>{{category}}</option>
+        
+        <select ng-model="eventForm.formData.category" class="form-control">
+          <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}">{{category}}</option>
         </select><br>
 
         <label for="eventForm.formData.venue">Venue (optional)</label>

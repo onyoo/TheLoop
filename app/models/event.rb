@@ -59,14 +59,13 @@ class Event < ActiveRecord::Base
          self.longitude = loc.lng
       end
     end
-    binding.pry 
-    self.category = Category.find_by(id: event_attributes[:category][:id])
-    # if (event_attributes[:categories][:category][0][:name] rescue false)
-    #   self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
-    # else
-    #   self.category = Category.find_or_create_by(name: event_attributes[:categories][:category])
-    # end
-    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) unless event_attributes[:venue].nil?
+    # self.category = Category.find_by(id: event_attributes[:category][:id])
+    if (event_attributes[:categories][:category][0][:name] rescue false)
+      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
+    else
+      self.category = Category.find_or_create_by(name: event_attributes[:category])
+    end
+    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) if event_attributes[:venue].present?
 
   end
 

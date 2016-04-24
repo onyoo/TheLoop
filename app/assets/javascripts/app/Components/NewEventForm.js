@@ -18,8 +18,9 @@ var NewEventForm = {
     });
 
     $scope.selectedCountry = [];
+    $scope.selectedCategory = ctrl.categories[0];
+
     ctrl.createEvent = function() {
-      debugger;
       UserEvent.create(ctrl.formData, function(res){
         $scope.$emit('closeForm', false);
       }, function(error) {
