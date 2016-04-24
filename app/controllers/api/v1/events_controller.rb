@@ -52,6 +52,7 @@ module Api
         binding.pry
         @event = Event.find(params[:id])
         if @event.assign_attributes(params)
+          @event.save
           render json: @event
         else
           render nothing: true
