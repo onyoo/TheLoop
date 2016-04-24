@@ -36,7 +36,7 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   });
 
   ctrl.attending = Auth.currentUser().then(function(resp){
-    return ctrl.data.users.some(function(user){
+    return ctrl.attending = ctrl.data.users.some(function(user){
       return resp.id == user.id;
     });
   });
