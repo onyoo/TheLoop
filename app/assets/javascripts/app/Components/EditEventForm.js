@@ -3,7 +3,7 @@ var EditEventForm = {
   bindings: {
     event: '='
   },
-  controller: function(UserEvent, $scope, $stateParams) {
+  controller: function(UserEvent, $scope, $stateParams, CategoriesService, EventsService) {
     var ctrl = this;
 
     $scope.closeForm = function() {
@@ -11,23 +11,45 @@ var EditEventForm = {
     }
 
     $scope.selectedCountry = [];
-    
-    // ctrl.event = UserEvent.get({id: $stateParams.id});
 
-    ctrl.editEvent = function() {
-      
-      UserEvent.update(ctrl.formData, function(res){
-        $scope.$emit('closeForm', false);
-      }, function(error) {
-        console.log(error)
-        
-      });
+    ctrl.allCategories = "";
+
+    ctrl.categories = CategoriesService.getCategories().then(function(res){
+      var categories = [];
+      res.data.forEach(function(category){
+        categories.push(category.name.replace('&amp; ', ''));
+      })
+      ctrl.allCategories = categories;
+    });
+    
+   
+
+    ctrl.editEvent = function() { 
+      EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
+        debugger;
+      }) 
     };
-    // ctrl.editEvent = function() {
-    //   ctrl.event.$update(function() {
-    //     $location.path('events')
-    //   });
-    // };
+      
+  //   ctrl.event.$update(function() {
+      
+  //     $state.go('events'); 
+  //   });
+  // };
+
+    
+  //   ctrl.editEvent = function() {
+  //   EventsService.getLoopEvent($stateParams.id).then(function(resp) {
+      
+  //     ctrl.entry = resp.data
+      
+  //     ctrl.entry.data = ctrl.formData;
+  //     ctrl.entry.$update(function() {
+  //     //updated in the backend
+  //     });
+  //   });
+  // };
+    
+
     ctrl.message = "this is the controller"
   },
   controllerAs: 'eventForm'

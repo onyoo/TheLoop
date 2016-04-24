@@ -76,8 +76,8 @@
         </div>
         <label for="eventForm.event.data.categories.category">Categories</label>
 
-        <select ng-model="eventForm.allCategories" name="category" class="form-control" required="required">
-          <option ng-repeat="category in eventForm.allCategories" value="{{category}}">{{category}}</option>
+        <select name="category" class="form-control" required="required">
+          <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}" ng-model='eventForm.formData.event.data.category'>{{category}}</option>
         </select><br>
         <!-- <input name="category" type="text" hidden="true" ng-model="eventForm.event.data.categories.category" class="form-control" placeholder="Category" required="required"><br> -->
 

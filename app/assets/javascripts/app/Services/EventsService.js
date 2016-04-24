@@ -14,6 +14,14 @@ function EventsService($http){
     });
   }
 
+  this.updateEvent = function(id, data) {
+    return $http({
+      method: 'put',
+      url: 'http://localhost:3000/api/v1/events/' + id,
+      data: data,
+    });
+  }
+
   this.loopEvents = function(coords){
     return $http({
       method: 'get',
