@@ -7,7 +7,7 @@ var EditEventForm = {
     var ctrl = this;
 
     $scope.closeForm = function() {
-      $scope.$emit('closeForm', false);
+      $scope.$emit('closeEditForm', false);
     }
 
     $scope.selectedCountry = [];

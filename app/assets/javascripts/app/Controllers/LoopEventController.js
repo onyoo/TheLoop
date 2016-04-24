@@ -29,11 +29,9 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
   };
 
-  ctrl.editable = function(){
-    return Auth.currentUser().then(function(resp) {
+  ctrl.editable = Auth.currentUser().then(function(resp) {
       return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
-    })
-  }
+    });
 
   ctrl.attending = function(){
     this.data.users.forEach(function(user){
@@ -43,6 +41,10 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
     return false;
   }
+
+  $scope.$on('closeEditForm', function (event, data) {
+    $scope.editEvent = false;
+  });
 };
 
 
