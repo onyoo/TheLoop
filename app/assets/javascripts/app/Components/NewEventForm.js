@@ -7,18 +7,25 @@ var NewEventForm = {
       $scope.$emit('closeForm', false);
     };
 
-    ctrl.allCategories = "";
+    ctrl.allCategories = '';
 
     ctrl.categories = CategoriesService.getCategories().then(function(res){
-      var categories = [];
-      res.data.forEach(function(category){
-        categories.push(category.name.replace('&amp; ', ''));
-      })
-      ctrl.allCategories = categories;
+      ctrl.allCategories = res.data.map(function(category){
+        return category.name.replace('&amp; ', '');
+      });
     });
 
+    // ctrl.allCategories = "";
+    //
+    // ctrl.categories = CategoriesService.getCategories().then(function(res){
+    //   var categories = [];
+    //   res.data.forEach(function(category){
+    //     categories.push(category.name.replace('&amp; ', ''));
+    //   })
+    //   ctrl.allCategories = categories;
+    // });
+
     $scope.selectedCountry = [];
-    $scope.selectedCategory = ctrl.categories[0];
 
     ctrl.currentUser = Auth.currentUser().then(function(resp) {
       ctrl.creator = resp.id;
