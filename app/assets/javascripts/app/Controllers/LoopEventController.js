@@ -30,23 +30,21 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   };
 
   ctrl.editable = Auth.currentUser().then(function(resp) {
-    return resp.id === ctrl.data.creator && ctrl.data.api_id == undefined;
-  });
+      return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+    });
 
-  ctrl.attending = Auth.currentUser().then(function(resp) {
-    ctrl.data.users.forEach(function(user){
-      if(resp.id === user.id) {
+  ctrl.attending = function(){
+    this.data.users.forEach(function(user){
+      if (Auth._currentUser.id == user.id) {
         return true;
-      }else{
-        return false;
       }
     });
-  });
+    return false;
+  }
 
   $scope.$on('closeEditForm', function (event, data) {
     $scope.editEvent = false;
   });
-
 };
 
 

@@ -70,13 +70,16 @@
           <div ng-message="required">You must provide a category</div>
         </div>
         <label for="eventForm.event.data.categories.category">Categories</label>
-
-        <select ng-model="eventForm.event.formData.category" class="form-control">
+        category: {{eventForm.event.formData.category}}
+        <select
+            ng-model="eventForm.event.formData.category"
+            class="form-control">
+            <option value="">{{eventForm.event.data.category.name}}</option>
           <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}">{{category}}</option>
         </select><br>
 
         <label for="eventForm.event.data.venue">Venue (optional)</label>
-        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.event.data.venue"><br>
+        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.event.data.venue.name"><br>
 
       </div>
     </div>

@@ -34,7 +34,8 @@
 
       <button class="btn btn-primary" ng-show="event.editable" ng-click="editEvent=!editEvent" id="add-event-button">Edit Event</button>
 
-      <button class="btn btn-primary" ng-if="signedIn()" ng-show="event.attending" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+      <button class="btn btn-primary" ng-if="signedIn()" ng-show="!event.attending()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+      <h4 ng-show="event.attending()">On The Guest List!</h4>
 
     </div>
     <div ng-show='editEvent'>
