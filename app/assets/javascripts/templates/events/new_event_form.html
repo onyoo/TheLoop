@@ -36,14 +36,14 @@
         <div ng-messages="form.address.$error" ng-if="form.address.$touched">
           <div ng-message="required">You must provide a street address</div>
         </div>
-        <label for="eventForm.formData.address">Street Address</label>
+        <label for="eventForm.formData.street_address">Street Address</label>
         <input
           name="address"
           type="text"
           class="form-control"
           placeholder="Address"
           required="required"
-          ng-model="eventForm.formData.address"><br>
+          ng-model="eventForm.formData.street_address"><br>
 
         <div ng-messages="form.city.$error" ng-if="form.city.$touched">
           <div ng-message="required">You must provide the city where the event takes place</div>

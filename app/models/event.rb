@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
     self.description = event_attributes[:description]
     self.start_time = event_attributes[:start_time]
     self.event_url = event_attributes[:url]
-    self.street_address = event_attributes[:address]
+    self.street_address = event_attributes[:street_address]
     self.city = event_attributes[:city]
     self.region = event_attributes[:region_abbr]
     self.postal_code = event_attributes[:postal_code]

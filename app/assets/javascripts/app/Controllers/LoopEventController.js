@@ -40,11 +40,17 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       }
     });
     return false;
-  }
+  };
 
-  $scope.$on('closeEditForm', function (event, data) {
+  $scope.$on('closeEditForm', function (emitEvent, data) {
     $scope.editEvent = false;
   });
+
+  $scope.$on('eventUpdated', function (emitEvent, data) {
+    ctrl.data = data.data;
+    $scope.editEvent = false;
+  });
+
 };
 
 
