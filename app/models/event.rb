@@ -30,6 +30,7 @@ class Event < ActiveRecord::Base
   end
 
   def assign_attributes(event_attributes)
+    self.creator = event_attributes[:creator]
     self.title = event_attributes[:title]
     self.description = event_attributes[:description]
     self.start_time = event_attributes[:start_time]
@@ -65,7 +66,7 @@ class Event < ActiveRecord::Base
     else
       self.category = Category.find_or_create_by(name: event_attributes[:category])
     end
-    
+
     self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) if event_attributes[:venue].present?
 
   end

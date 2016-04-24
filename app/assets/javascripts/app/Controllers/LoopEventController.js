@@ -30,7 +30,9 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   };
 
   ctrl.editable = function(){
-    return Auth._currentUser.id == this.data.creator && this.data.api_id == undefined;
+    return Auth.currentUser().then(function(resp) {
+      return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+    })
   }
 
   ctrl.attending = function(){

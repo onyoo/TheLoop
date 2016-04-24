@@ -1,6 +1,6 @@
 var NewEventForm = {
   templateUrl: 'events/new_event_form.html',
-  controller: function(UserEvent, $scope, CategoriesService, $state) {
+  controller: function(UserEvent, $scope, CategoriesService, $state, Auth) {
     var ctrl = this;
 
     $scope.closeForm = function() {
@@ -20,7 +20,14 @@ var NewEventForm = {
     $scope.selectedCountry = [];
     $scope.selectedCategory = ctrl.categories[0];
 
+    ctrl.currentUser = Auth.currentUser().then(function(resp) {
+      ctrl.creator = resp.id;
+    }, function(error) {
+      console.log(error);
+    })
+
     ctrl.createEvent = function() {
+      ctrl.formData.creator = ctrl.creator
       UserEvent.create(ctrl.formData, function(res){
         $scope.$emit('closeForm', false);
         $state.go('home.myEvents');
@@ -29,7 +36,7 @@ var NewEventForm = {
         console.log(error);
       });
     };
-    ctrl.message = "this is the controller"
+
   },
   controllerAs: 'eventForm'
 };
