@@ -26,7 +26,7 @@ var NewEventForm = {
         $state.go('home.myEvents');
         ctrl.formData = {};
       }, function(error) {
-        console.log(error)
+        console.log(error);
       });
     };
     ctrl.message = "this is the controller"

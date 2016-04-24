@@ -21,37 +21,12 @@ var EditEventForm = {
       })
       ctrl.allCategories = categories;
     });
-    
-   
 
-    ctrl.editEvent = function() { 
-      debugger;
+    ctrl.editEvent = function() {
       EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
         debugger;
-      }) 
+      })
     };
-      
-  //   ctrl.event.$update(function() {
-      
-  //     $state.go('events'); 
-  //   });
-  // };
-
-    
-  //   ctrl.editEvent = function() {
-  //   EventsService.getLoopEvent($stateParams.id).then(function(resp) {
-      
-  //     ctrl.entry = resp.data
-      
-  //     ctrl.entry.data = ctrl.formData;
-  //     ctrl.entry.$update(function() {
-  //     //updated in the backend
-  //     });
-  //   });
-  // };
-    
-
-    ctrl.message = "this is the controller"
   },
   controllerAs: 'eventForm'
 };
@@ -59,5 +34,3 @@ var EditEventForm = {
 angular
   .module('app')
   .component('editEventForm', EditEventForm);
-
-  

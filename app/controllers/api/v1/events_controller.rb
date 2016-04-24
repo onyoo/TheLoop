@@ -20,7 +20,6 @@ module Api
       end
 
       def check
-
         @event = Event.find_by(api_id: params[:api_id])
         if !!@event
           render :json => @event
@@ -50,7 +49,6 @@ module Api
       end
 
       def update
-        binding.pry
         @event = Event.find(params[:id])
         if @event.assign_attributes(params)
           @event.save
