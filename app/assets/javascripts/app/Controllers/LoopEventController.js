@@ -28,6 +28,29 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       $('#add-event-message').text('Have fun attending the ' + res.title +'!');
     });
   };
+
+  ctrl.editable = Auth.currentUser().then(function(resp) {
+      return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+    });
+
+  ctrl.attending = function(){
+    this.data.users.forEach(function(user){
+      if (Auth._currentUser.id == user.id) {
+        return true;
+      }
+    });
+    return false;
+  };
+
+  $scope.$on('closeEditForm', function (emitEvent, data) {
+    $scope.editEvent = false;
+  });
+
+  $scope.$on('eventUpdated', function (emitEvent, data) {
+    ctrl.data = data.data;
+    $scope.editEvent = false;
+  });
+
 };
 
 

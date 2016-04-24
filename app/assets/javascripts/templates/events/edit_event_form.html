@@ -7,10 +7,9 @@
           <div ng-message="required">The event name is required</div>
           <div ng-message="pattern">The event name must be more than 3 characters</div>
         </div>
-        
+
         <label for="eventForm.formData.name">Event Name</label>
         <input
-          
           name="title"
           type="text"
           class="form-control"
@@ -19,7 +18,6 @@
           ng-model="eventForm.event.data.title"
           required="required"><br>
 
-      
         <label for="eventForm.event.data.description">Description</label>
         <textarea
           name="description"
@@ -27,7 +25,6 @@
           cols="50"
           class="form-control"
           placeholder="Description"
-          
           ng-model="eventForm.event.data.description"></textarea><br>
 
         <label for="eventForm.event.data.start_time">Start Time</label>
@@ -39,14 +36,14 @@
         <div ng-messages="form.address.$error" ng-if="form.address.$touched">
           <div ng-message="required">You must provide a street address</div>
         </div>
-        <label for="eventForm.event.data.address">Street Address</label>
+        <label for="eventForm.event.data.street_address">Street Address</label>
         <input
           name="address"
           type="text"
           class="form-control"
           placeholder="Address"
           required="required"
-          ng-model="eventForm.event.data.address"><br>
+          ng-model="eventForm.event.data.street_address"><br>
 
         <div ng-messages="form.city.$error" ng-if="form.city.$touched">
           <div ng-message="required">You must provide the city where the event takes place</div>
@@ -57,14 +54,14 @@
         <div ng-messages="form.state.$error" ng-if="form.state.$touched">
           <div ng-message="required">You must provide the state</div>
         </div>
-        <label for="eventForm.event.data.region_abbr">State</label>
-        <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.event.data.region_abbr" required="required"><br>
+        <label for="eventForm.event.data.region">State</label>
+        <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.event.data.region" required="required"><br>
 
         <label for="eventForm.event.data.postal_code">Zipcode / Postal Code</label>
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.event.data.postal_code"><br>
 
         <label for="eventForm.event.data.country_abbr">Country</label>
-        <select ng-model="eventForm.event.data.country_abbr" class="form-control" pvp-country-picker></select><br>
+        <select ng-model="eventForm.event.data.country_abbr" class="form-control" pvp-country-picker="eventForm.event.data.country_abbr"></select><br>
 
         <label for="eventForm.event.data.image_url">Image URL (optional)</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.event.data.image_url"><br>
@@ -73,14 +70,16 @@
           <div ng-message="required">You must provide a category</div>
         </div>
         <label for="eventForm.event.data.categories.category">Categories</label>
-
-        <select name="category" class="form-control" required="required">
-          <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}" ng-model='eventForm.formData.event.data.category'>{{category}}</option>
+        category: {{eventForm.event.formData.category}}
+        <select
+            ng-model="eventForm.event.formData.category"
+            class="form-control">
+            <option value="">{{eventForm.event.data.category.name}}</option>
+          <option ng-repeat="category in eventForm.allCategories track by $index" value="{{category}}">{{category}}</option>
         </select><br>
-        <!-- <input name="category" type="text" hidden="true" ng-model="eventForm.event.data.categories.category" class="form-control" placeholder="Category" required="required"><br> -->
 
         <label for="eventForm.event.data.venue">Venue (optional)</label>
-        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.event.data.venue"><br>
+        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.event.data.venue.name"><br>
 
       </div>
     </div>

@@ -7,7 +7,7 @@ var EditEventForm = {
     var ctrl = this;
 
     $scope.closeForm = function() {
-      $scope.$emit('closeForm', false);
+      $scope.$emit('closeEditForm', false);
     }
 
     $scope.selectedCountry = [];
@@ -21,37 +21,13 @@ var EditEventForm = {
       })
       ctrl.allCategories = categories;
     });
-    
-   
 
-    ctrl.editEvent = function() { 
+    ctrl.editEvent = function() {
       debugger;
       EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
-        debugger;
-      }) 
+        $scope.$emit("eventUpdated", resp)
+      })
     };
-      
-  //   ctrl.event.$update(function() {
-      
-  //     $state.go('events'); 
-  //   });
-  // };
-
-    
-  //   ctrl.editEvent = function() {
-  //   EventsService.getLoopEvent($stateParams.id).then(function(resp) {
-      
-  //     ctrl.entry = resp.data
-      
-  //     ctrl.entry.data = ctrl.formData;
-  //     ctrl.entry.$update(function() {
-  //     //updated in the backend
-  //     });
-  //   });
-  // };
-    
-
-    ctrl.message = "this is the controller"
   },
   controllerAs: 'eventForm'
 };
@@ -59,5 +35,3 @@ var EditEventForm = {
 angular
   .module('app')
   .component('editEventForm', EditEventForm);
-
-  

@@ -20,7 +20,6 @@ module Api
       end
 
       def check
-
         @event = Event.find_by(api_id: params[:api_id])
         if !!@event
           render :json => @event
@@ -38,18 +37,18 @@ module Api
         else
           @event = Event.new
           @event.assign_attributes(params)
+          @event.creator = current_user.id
 
-        if @event.save
-          respond_to do |format|
-            format.json { render :json => @event }
+          if @event.save
+            respond_to do |format|
+              format.json { render :json => @event }
+            end
           end
-        end
           UserEvent.create(user_id: current_user.id, event_id: @event.id)
         end
       end
 
       def update
-        binding.pry
         @event = Event.find(params[:id])
         if @event.assign_attributes(params)
           @event.save

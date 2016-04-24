@@ -12,6 +12,7 @@
 angular.module('statePicker',[])
   .provider('stateProvider', function stateProvider() {
     var states = [
+      {"name":"","abbr":''},
       {"name":"Alabama","abbr":'AK'},
       {"name":"Alaska","abbr":'AZ'},
       {"name":"Arizona","abbr":'AR'},

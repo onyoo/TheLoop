@@ -30,11 +30,12 @@ class Event < ActiveRecord::Base
   end
 
   def assign_attributes(event_attributes)
+    self.creator = event_attributes[:creator]
     self.title = event_attributes[:title]
     self.description = event_attributes[:description]
     self.start_time = event_attributes[:start_time]
     self.event_url = event_attributes[:url]
-    self.street_address = event_attributes[:address]
+    self.street_address = event_attributes[:street_address]
     self.city = event_attributes[:city]
     self.region = event_attributes[:region_abbr]
     self.postal_code = event_attributes[:postal_code]
@@ -59,14 +60,18 @@ class Event < ActiveRecord::Base
          self.longitude = loc.lng
       end
     end
-    binding.pry 
-    self.category = Category.find_by(id: event_attributes[:category][:id])
-    # if (event_attributes[:categories][:category][0][:name] rescue false)
-    #   self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
-    # else
-    #   self.category = Category.find_or_create_by(name: event_attributes[:categories][:category])
-    # end
-    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) unless event_attributes[:venue].nil?
+
+    if (event_attributes[:categories][:category][0][:name] rescue false)
+      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
+    else
+      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
+    end
+
+    if event_attributes[:venue].is_a?(String)
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
+    else
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
+    end
 
   end
 
