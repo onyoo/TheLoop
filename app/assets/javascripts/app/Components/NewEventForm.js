@@ -1,6 +1,6 @@
 var NewEventForm = {
   templateUrl: 'events/new_event_form.html',
-  controller: function(UserEvent, $scope, CategoriesService) {
+  controller: function(UserEvent, $scope, CategoriesService, $state) {
     var ctrl = this;
 
     $scope.closeForm = function() {
@@ -23,6 +23,8 @@ var NewEventForm = {
     ctrl.createEvent = function() {
       UserEvent.create(ctrl.formData, function(res){
         $scope.$emit('closeForm', false);
+        $state.go('home.myEvents');
+        ctrl.formData = {};
       }, function(error) {
         console.log(error)
         debugger;
