@@ -25,6 +25,7 @@ var EditEventForm = {
    
 
     ctrl.editEvent = function() { 
+      debugger;
       EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
         debugger;
       }) 

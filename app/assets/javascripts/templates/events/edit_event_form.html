@@ -19,9 +19,7 @@
           ng-model="eventForm.event.data.title"
           required="required"><br>
 
-        <div ng-messages="form.description.$error" ng-if="form.description.$touched">
-          <div ng-message="pattern">The description must be less than 2500 characters</div>
-        </div>
+      
         <label for="eventForm.event.data.description">Description</label>
         <textarea
           name="description"
@@ -29,7 +27,7 @@
           cols="50"
           class="form-control"
           placeholder="Description"
-          pattern="{,2500}"
+          
           ng-model="eventForm.event.data.description"></textarea><br>
 
         <label for="eventForm.event.data.start_time">Start Time</label>
