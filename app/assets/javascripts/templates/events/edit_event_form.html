@@ -61,7 +61,7 @@
         <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.event.data.postal_code"><br>
 
         <label for="eventForm.event.data.country_abbr">Country</label>
-        <select ng-model="eventForm.event.data.country_abbr" class="form-control" pvp-country-picker></select><br>
+        <select ng-model="eventForm.event.data.country_abbr" class="form-control" pvp-country-picker="eventForm.event.data.country_abbr"></select><br>
 
         <label for="eventForm.event.data.image_url">Image URL (optional)</label>
         <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.event.data.image_url"><br>

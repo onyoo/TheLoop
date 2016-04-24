@@ -64,10 +64,14 @@ class Event < ActiveRecord::Base
     if (event_attributes[:categories][:category][0][:name] rescue false)
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
     else
-      self.category = Category.find_or_create_by(name: event_attributes[:category])
+      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
     end
 
-    self.venue = Venue.find_or_create_by(name: event_attributes[:venue]) if event_attributes[:venue].present?
+    if event_attributes[:venue].is_a?(String)
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
+    else
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
+    end
 
   end
 
