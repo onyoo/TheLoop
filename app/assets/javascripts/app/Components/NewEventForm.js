@@ -27,7 +27,6 @@ var NewEventForm = {
         ctrl.formData = {};
       }, function(error) {
         console.log(error)
-        debugger;
       });
     };
     ctrl.message = "this is the controller"

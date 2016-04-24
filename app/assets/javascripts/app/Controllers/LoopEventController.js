@@ -28,6 +28,10 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       $('#add-event-message').text('Have fun attending the ' + res.title +'!');
     });
   };
+  
+  ctrl.editable = function(){
+    return (Auth._currentUser.id == this.data.creator && this.data.api_id == nil);
+  }
 };
 
 

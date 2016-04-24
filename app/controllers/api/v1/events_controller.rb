@@ -38,6 +38,7 @@ module Api
         else
           @event = Event.new
           @event.assign_attributes(params)
+          @event.creator = current_user.id
 
           if @event.save
             respond_to do |format|
