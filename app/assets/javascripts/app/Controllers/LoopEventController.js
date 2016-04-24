@@ -29,9 +29,11 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
   };
 
-  ctrl.editable = Auth.currentUser().then(function(resp) {
-      return resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
-    });
+  ctrl.editable = '';
+
+  ctrl.canEdit = Auth.currentUser().then(function(resp) {
+    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+  });
 
   ctrl.attending = Auth.currentUser().then(function(resp){
     return ctrl.data.users.some(function(user){
