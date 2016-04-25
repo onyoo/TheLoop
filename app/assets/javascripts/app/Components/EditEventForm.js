@@ -9,25 +9,29 @@ var EditEventForm = {
     $scope.closeForm = function() {
       $scope.$emit('closeEditForm', false);
     }
-
+    ctrl.date = Date.parse(this.event.data.start_time);
     $scope.selectedCountry = [];
 
-    ctrl.allCategories = "";
+    ctrl.allCategories = '';
 
     ctrl.categories = CategoriesService.getCategories().then(function(res){
-      var categories = [];
-      res.data.forEach(function(category){
-        categories.push(category.name.replace('&amp; ', ''));
-      })
-      ctrl.allCategories = categories;
+      ctrl.allCategories = res.data.map(function(category){
+        return category.name.replace('&amp; ', '');
+      });
     });
 
     ctrl.editEvent = function() {
-      debugger;
       EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
         $scope.$emit("eventUpdated", resp)
       })
     };
+
+    // Attempting to update the event using resource
+    // ctrl.editEvent = function() {
+    //   userEvent = UserEvent.get({user_id: this.event.data.id}, function(){
+    //     debugger;
+    //   });
+    // };
   },
   controllerAs: 'eventForm'
 };

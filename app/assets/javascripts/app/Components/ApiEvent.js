@@ -7,13 +7,6 @@ var ApiEvent = {
     var ctrl = this;
     this.date = Date.parse(this.details.start_time);
 
-    // If we want to add categories to eventful API event index card
-    // ctrl.category = '';
-    // ctrl.setCategory = EventsService.getEvent(this.details.id)
-    //   .then(function(resp){
-    //     ctrl.category = resp.data.categories.category[0].name.replace('&amp; ', '');
-    //   });
-
     this.showEvent = function(api_id) {
       EventsService.checkLoopEvent(api_id).then(function(resp){
         $state.go('home.loopEvent', {id: resp.data.id})
@@ -21,6 +14,14 @@ var ApiEvent = {
         $state.go('home.event', {id: api_id})
       })
     }
+
+    // If we want to add categories to eventful API event index card
+    // ctrl.category = '';
+    // ctrl.setCategory = EventsService.getEvent(this.details.id)
+    //   .then(function(resp){
+    //     ctrl.category = resp.data.categories.category[0].name.replace('&amp; ', '');
+    //   });
+
   },
   controllerAs: 'event'
 };

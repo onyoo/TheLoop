@@ -42,7 +42,7 @@ class Event < ActiveRecord::Base
     self.country_abbr = event_attributes[:country_abbr]
     self.latitude = event_attributes[:latitude]
     self.longitude = event_attributes[:longitude]
-    self.api_id = event_attributes[:id]
+    self.api_id = event_attributes[:id] if event_attributes[:creator].nil?
 
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
