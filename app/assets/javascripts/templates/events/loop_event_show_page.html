@@ -32,6 +32,11 @@
 
       <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
 
+      
+      <div ng-repeat="comment in event.data.comments">
+        <comment comment="comment"></comment>
+      </div>
+
       <!-- <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button> -->
     </div>
 
