@@ -32,10 +32,17 @@
 
       <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
 
-      
-      <div ng-repeat="comment in event.data.comments">
-        <comment comment="comment"></comment>
+      <div>Comments:
+        <div ng-repeat="comment in event.data.comments">
+          <comment-item comment="comment"></comment-item>
+        </div>
+        <form ng-submit="event.addComment(event.data.id, event.comment, event.user.id)">
+          <input type="text" placeholder="comment" ng-model="event.comment">
+          <input type="submit" value="Add Comment">
+        </form>
       </div>
+
+
 
       <!-- <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button> -->
     </div>

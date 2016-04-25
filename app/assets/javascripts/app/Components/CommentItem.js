@@ -1,4 +1,4 @@
-var Comment = {
+var CommentItem = {
   templateUrl: 'comments/comment.html',
   bindings: {
     comment: '='
@@ -15,4 +15,4 @@ var Comment = {
 
 angular
   .module('app')
-  .component('comment', Comment);
+  .component('commentItem', CommentItem);
