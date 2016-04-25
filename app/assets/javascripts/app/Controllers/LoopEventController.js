@@ -47,9 +47,15 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   });
 
   ctrl.addEvent = function(ourEvent){
-    ctrl.event = UserEvent.create(ourEvent, function(res){
-      $state.go('home.myEvents');
-    });
+    if ( (Number.isInteger(ourEvent.id)) && (ourEvent.users.length == 0)){
+      ctrl.event = UserEvent.update({id: ourEvent.id}, ourEvent, function(res){
+        $state.go('home.myEvents');
+      });
+    }else{
+      ctrl.event = UserEvent.create(ourEvent, function(res){
+        $state.go('home.myEvents');
+      });
+    }
   };
   ctrl.editable = '';
 

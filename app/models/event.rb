@@ -33,6 +33,7 @@ class Event < ActiveRecord::Base
   end
 
   def assign_attributes(event_attributes)
+    binding.pry
     self.creator = event_attributes[:creator]
     self.title = event_attributes[:title]
     self.description = event_attributes[:description]

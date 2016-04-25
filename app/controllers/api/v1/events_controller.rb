@@ -49,13 +49,19 @@ module Api
       end
 
       def update
-        @event = Event.find(params[:event][:id][:id])
-        if @event.assign_attributes(params[:event][:id])
+        if (params[:event][:id][:id] rescue false)
+          @event = Event.find(params[:event][:id][:id])
+          @event.assign_attributes(params[:event][:id])
+        else
+          @event = Event.find(params[:event][:id])
+          @event.assign_attributes(params[:event])
+        end
+        # if @event.assign_attributes(params[:event][:id])
           @event.save
           render json: @event
-        else
-          render nothing: true
-        end
+        # else
+          # render nothing: true
+        # end
       end
 
       def destroy
