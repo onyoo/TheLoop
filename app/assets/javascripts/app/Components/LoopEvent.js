@@ -9,7 +9,6 @@ var LoopEvent = {
         $('[data-event-id="' + res.id +'"]').text('');
       });
     };
-
     this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'
