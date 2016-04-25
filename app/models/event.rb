@@ -62,16 +62,22 @@ class Event < ActiveRecord::Base
     end
 
     if (event_attributes[:categories][:category][0][:name] rescue false)
+      # For Evently event creation
       self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
-    else
-      # For creating local events
+    elsif event_attributes[:category].is_a?(String)
+      # For creating/editing local events
       self.category = Category.find_or_create_by(name: event_attributes[:category])
+    else
+      # For editing local events
+      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
     end
 
     if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
-    else
+    elsif event_attributes[:venue_name].is_a?(String)
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
+    elsif event_attributes[:venue][:name].is_a?(String)
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
     end
 
   end

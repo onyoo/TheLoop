@@ -9,7 +9,8 @@ var EditEventForm = {
     $scope.closeForm = function() {
       $scope.$emit('closeEditForm', false);
     }
-    ctrl.date = Date.parse(this.event.data.start_time);
+
+    ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
     $scope.selectedCountry = [];
 
     ctrl.allCategories = '';
@@ -21,8 +22,11 @@ var EditEventForm = {
     });
 
     ctrl.editEvent = function() {
+      debugger;
       EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
-        $scope.$emit("eventUpdated", resp)
+        debugger;
+        ctrl.event.data = resp.data;
+        $scope.$emit("eventUpdated", resp);
       })
     };
 
