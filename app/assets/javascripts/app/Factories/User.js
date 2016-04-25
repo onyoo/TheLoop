@@ -5,6 +5,7 @@ function User($resource){
 
   var User = $resource( host + '/users/:id.json', {user_id: '@userId'}, {
         query: { method: 'GET', isArray: true },
+        get: {method: 'GET'},
         create: { method: 'POST' },
         remove: { method: 'PUT' },
         update: { method: 'PUT' },

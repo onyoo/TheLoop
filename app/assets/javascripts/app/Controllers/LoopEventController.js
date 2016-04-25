@@ -1,10 +1,30 @@
-function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state){
+function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment, $http){
 
   var ctrl = this;
+  
   ctrl.data = event.data;
   ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
   ctrl.date = new Date(ctrl.data.start_time);
   $scope.signedIn = Auth.isAuthenticated;
+
+  Auth.currentUser()
+    .then(function(user) {
+      ctrl.user = user;
+      console.log(ctrl.user);
+    });
+
+  ctrl.comment = new Comment();
+
+  ctrl.addComment = function(event, comment, user) {
+    comment.event_id = event;
+    comment.user_id = user;
+    
+    comment.$save(function(result) {
+      console.log(result);
+    });
+    ctrl.comment = new Comment();
+    $state.go($state.current, {}, {reload: true});
+  };
 
   var map = {
     center : {
