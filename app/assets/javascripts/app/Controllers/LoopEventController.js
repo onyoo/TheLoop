@@ -47,7 +47,7 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   });
 
   $scope.$on('eventUpdated', function (emitEvent, data) {
-    ctrl.data = data.data;
+    ctrl.data = data;
     $scope.editEvent = false;
   });
 

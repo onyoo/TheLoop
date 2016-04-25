@@ -21,22 +21,26 @@ var EditEventForm = {
       });
     });
 
-    ctrl.editEvent = function() {
-      debugger;
-      EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
-        debugger;
-        ctrl.event.data = resp.data;
-        $scope.$emit("eventUpdated", resp);
-      })
-    };
-
-    // Attempting to update the event using resource
+// working with EventsService
     // ctrl.editEvent = function() {
-    //   userEvent = UserEvent.get({user_id: this.event.data.id}, function(){
-    //     debugger;
-    //   });
+    //   EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
+    //     ctrl.event.data = resp.data;
+    //     ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
+    //     $scope.$emit("eventUpdated", resp.data);
+    //   })
     // };
+
+// working with resource
+    ctrl.editEvent = function() {
+      console.log(ctrl.event.data.id)
+      UserEvent.update({id: ctrl.event.data}, function(resp){
+        ctrl.event.data = resp;
+        ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
+        $scope.$emit("eventUpdated", resp);
+      });
+    };
   },
+  
   controllerAs: 'eventForm'
 };
 

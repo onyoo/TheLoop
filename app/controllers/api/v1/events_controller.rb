@@ -49,8 +49,8 @@ module Api
       end
 
       def update
-        @event = Event.find(params[:id])
-        if @event.assign_attributes(params)
+        @event = Event.find(params[:event][:id][:id])
+        if @event.assign_attributes(params[:event][:id])
           @event.save
           render json: @event
         else
