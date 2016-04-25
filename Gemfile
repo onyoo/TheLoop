@@ -19,6 +19,11 @@ gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
 
+gem 'rspec-core'
+gem 'rspec-rails'
+gem 'spring'
+gem 'capybara'
+
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
 end
