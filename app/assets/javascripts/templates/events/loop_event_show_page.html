@@ -37,7 +37,7 @@
           <comment-item comment="comment"></comment-item>
         </div>
         <form ng-submit="event.addComment(event.data.id, event.comment, event.user.id)">
-          <input type="text" placeholder="comment" ng-model="event.comment">
+          <input type="text" placeholder="comment" ng-model="event.comment.content">
           <input type="submit" value="Add Comment">
         </form>
       </div>
@@ -47,9 +47,9 @@
       <!-- <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button> -->
     </div>
 
-    <div ng-show='editEvent'>
+    <!-- <div ng-show='editEvent'>
       <edit-event-form event="event"></edit-event-form>
-    </div>
+    </div> -->
 
     <div class="col-sm-6">
       <div id="event-show-map">

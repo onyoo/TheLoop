@@ -8,7 +8,7 @@ module Api
       respond_to :json
 
       def index
-        @event = Event.find(params[:event_id)
+        @event = Event.find(params[:event_id])
         @comments = event.comments
         respond_with @event, @comments
       end
@@ -20,15 +20,16 @@ module Api
       end
 
       def create
-        @event = Event.find(params[:hike_id])
+        
+        @event = Event.find(params[:event_id])
         @comment = @event.comments.create(comment_params)
-        respond_with @event, @comment
+        render :json => @event
       end
 
       
 
       def destroy
-        @event = Event.find(params[:hike_id])
+        @event = Event.find(params[:event_id])
         @comment = @event.comments.find(params[:id])
         respond_with @comment.destroy
       end

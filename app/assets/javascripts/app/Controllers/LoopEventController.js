@@ -1,6 +1,7 @@
-function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment){
+function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment, $http){
 
   var ctrl = this;
+  
   ctrl.data = event.data;
   ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
   ctrl.date = new Date(ctrl.data.start_time);
@@ -12,12 +13,12 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       console.log(ctrl.user);
     });
 
-  ctrl.comment = Comment.new();
+  ctrl.comment = new Comment();
 
   ctrl.addComment = function(event, comment, user) {
     comment.event_id = event;
     comment.user_id = user;
-    debugger;
+    
     comment.$save(function(result) {
       console.log(result);
     });
