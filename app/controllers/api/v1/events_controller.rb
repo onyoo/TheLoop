@@ -35,10 +35,11 @@ module Api
             format.json { render :json => @event }
           end
         else
+          binding.pry
           @event = Event.new()
           @event.assign_attributes(params[:event])
           @event.creator = current_user.id if @event.api_id.nil?
-          
+
           if @event.save
             respond_to do |format|
               format.json { render :json => @event }
