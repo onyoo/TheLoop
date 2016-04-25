@@ -3,6 +3,7 @@
     <div ng-hide="loading">
       <h2 id="events-header">Welcome To The Loop</h2><br>
 
+        <!-- Search inputs -->
         <div class="row">
           <div class="col-sm-5">
             <p><input type="text" class="form-control" placeholder='Keyword Search' ng-model='ctrl.keyword'></p>
@@ -15,6 +16,7 @@
             </form>
           </div>
 
+          <!-- Sort by Date -->
           <div class="col-sm-2">
             <p id="sort-by-link">
               Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
@@ -22,21 +24,27 @@
           </div>
         </div><br>
 
+        <!-- Display events -->
         <div id="events-list-container">
-          <div ng-show="loading" id="loading-gif">
-            <img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class='loading_img'>
-            <p>Loading Map...</p>
-          </div>
-          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword | orderBy:sort:reverse">
+          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">
             <loop-index-event details='eventData'></loop-index-event>
           </ul>
-         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
+         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">
             <api-event details='eventData'></api-event>
           </ul>
         </div>
+
+        <!-- Search events by categories -->
+        <!-- <div class="row">
+          <div class="col-sm-3">
+            <select ng-model="ctrl.data.categories" ng-options="category for category in ctrl.allCategories" class="form-control">
+            </select><br>
+          </div>
+        </div><br> -->
       </div>
     </div>
 
+    <!-- Map with event location markers -->
     <div class="col-sm-5" id="events-map">
       <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">
         <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
@@ -48,6 +56,7 @@
     </div>
   </div>
 
+  <!-- Loading gif -->
   <div ng-show="loading" id="loading-gif">
     <img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class='loading_img'>
     <p id="loading-map-message">Loading Map...</p>

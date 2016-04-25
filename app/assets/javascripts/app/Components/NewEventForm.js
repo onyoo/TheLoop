@@ -15,16 +15,6 @@ var NewEventForm = {
       });
     });
 
-    // ctrl.allCategories = "";
-    //
-    // ctrl.categories = CategoriesService.getCategories().then(function(res){
-    //   var categories = [];
-    //   res.data.forEach(function(category){
-    //     categories.push(category.name.replace('&amp; ', ''));
-    //   })
-    //   ctrl.allCategories = categories;
-    // });
-
     $scope.selectedCountry = [];
 
     ctrl.currentUser = Auth.currentUser().then(function(resp) {

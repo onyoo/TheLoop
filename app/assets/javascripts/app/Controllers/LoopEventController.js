@@ -2,6 +2,8 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 
   var ctrl = this;
   ctrl.data = event.data;
+  ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
+  ctrl.date = new Date(ctrl.data.start_time);
   $scope.signedIn = Auth.isAuthenticated;
 
   var map = {
@@ -28,7 +30,6 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       $state.go('home.myEvents');
     });
   };
-
   ctrl.editable = '';
 
   ctrl.canEdit = Auth.currentUser().then(function(resp) {

@@ -1,4 +1,4 @@
-function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady){
+function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady, CategoriesService){
   var ctrl = this;
 
   ctrl.zipcodeSearch = function() {
@@ -93,6 +93,14 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
     document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
   }
 
+  // Filter by category
+  // ctrl.allCategories = '';
+  //
+  // ctrl.categories = CategoriesService.getCategories().then(function(res){
+  //   ctrl.allCategories = res.data.map(function(category){
+  //     return category.name.replace('&amp; ', '');
+  //   });
+  // });
 };
 
 angular

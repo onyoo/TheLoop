@@ -31,7 +31,6 @@ function LocalController($scope, uiGmapIsReady) {
       console.log('Sorry, your browser does not support geolocation.')
       document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
   }
-
 };
 
 angular

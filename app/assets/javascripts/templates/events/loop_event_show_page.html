@@ -12,26 +12,25 @@
       </div><hr>
 
       <div class="row event-headers">
-        <p class="col-sm-8">{{event.data.category.name}}</p>
-        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.data.start_time | date:'medium'}}</p><br>
+        <p class="col-sm-8">{{event.category}}</p>
+        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:'medium'}}</p><br>
       </div>
 
       <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
 
       <div class="event-address">
-        <p>{{event.data.venue_name}}</p>
-        <p>{{event.data.address}}</p>
-        <p>{{event.data.city}}, {{event.data.region}} {{event.data.postal_code}}</p>
+        <strong></strong>
+        <p>{{event.data.venue.name}}</p>
+        <p>{{event.data.street_address}}</p>
+        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>
       </div><br>
 
-      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
-
       <p>Users attending the event: {{event.data.users.length}}</p>
-      <h5 ng-show="event.attending">On The Guest List!</h5>
+      <p ng-show="event.attending"><strong>On The Guest List!</strong></p>
 
-      <button class="btn btn-primary" ng-show="event.editable" ng-click="editEvent=!editEvent" id="add-event-button">Edit Event</button>
+      <button class="btn btn-primary" id="attend-event-button" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button><br>
 
-      <button class="btn btn-primary" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+      <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
 
     </div>
     <div ng-show='editEvent'>
