@@ -47,6 +47,37 @@ class Event < ActiveRecord::Base
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
 
+
+    set_location(event_attributes)
+    set_category(event_attributes)
+    set_venue(event_attributes)
+
+  end
+
+  def set_category(event_attributes)
+    if (event_attributes[:categories][:category][0][:name] rescue false)
+      # For Evently event creation
+      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
+    elsif event_attributes[:category].is_a?(String)
+      # For creating/editing local events
+      self.category = Category.find_or_create_by(name: event_attributes[:category])
+    else
+      # For editing local events
+      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
+    end
+  end
+
+  def set_venue(event_attributes)
+    if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
+    elsif event_attributes[:venue_name].is_a?(String)
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
+    elsif event_attributes[:venue][:name].is_a?(String)
+      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
+    end
+  end
+
+  def set_location(event_attributes)
     if self.latitude.nil?
       address = event_attributes[:street_address]
       address += (", " + event_attributes[:city])         if !event_attributes[:city].nil?
@@ -60,26 +91,6 @@ class Event < ActiveRecord::Base
          self.longitude = loc.lng
       end
     end
-
-    if (event_attributes[:categories][:category][0][:name] rescue false)
-      # For Evently event creation
-      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
-    elsif event_attributes[:category].is_a?(String)
-      # For creating/editing local events
-      self.category = Category.find_or_create_by(name: event_attributes[:category])
-    else
-      # For editing local events
-      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
-    end
-
-    if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
-    elsif event_attributes[:venue_name].is_a?(String)
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
-    elsif event_attributes[:venue][:name].is_a?(String)
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
-    end
-
   end
 
   def as_json(options = {})

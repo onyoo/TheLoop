@@ -25,7 +25,7 @@ var NewEventForm = {
 
     ctrl.createEvent = function() {
       ctrl.formData.creator = ctrl.creator
-      UserEvent.create(ctrl.formData, function(res){
+      UserEvent.create({event: ctrl.formData}, function(res){
         $scope.$emit('closeForm', false);
         $state.go('home.myEvents');
         ctrl.formData = {};

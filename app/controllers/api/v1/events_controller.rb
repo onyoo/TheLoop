@@ -29,14 +29,14 @@ module Api
       end
 
       def create
-        if @event = Event.find_by(title: params[:title])
+        if @event = Event.find_by(title: params[:event][:title])
           UserEvent.create(user_id: current_user.id, event_id: @event.id)
           respond_to do |format|
             format.json { render :json => @event }
           end
         else
-          @event = Event.new
-          @event.assign_attributes(params)
+          @event = Event.new()
+          @event.assign_attributes(params[:event])
           @event.creator = current_user.id
 
           if @event.save
