@@ -5,14 +5,14 @@ function EventsService($http){
       method: 'get',
       url: 'http://localhost:3000/api/v1/events/' + id
     });
-  }
+  };
 
   this.checkLoopEvent = function(api_id) {
     return $http({
       method: 'get',
       url: 'http://localhost:3000/api/v1/events/' + api_id + '/check'
     });
-  }
+  };
 
   this.updateEvent = function(id, data) {
     return $http({
@@ -20,7 +20,7 @@ function EventsService($http){
       url: 'http://localhost:3000/api/v1/events/' + id,
       data: data
     });
-  }
+  };
 
   this.loopEvents = function(coords){
     return $http({

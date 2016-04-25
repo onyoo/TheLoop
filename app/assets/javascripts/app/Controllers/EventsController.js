@@ -89,18 +89,10 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
 
     });
   } else {
-    console.log('Sorry, your browser does not support geolocation.')
+    console.log('Sorry, your browser does not support geolocation.');
     document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
-  }
+  };
 
-  // Filter by category
-  // ctrl.allCategories = '';
-  //
-  // ctrl.categories = CategoriesService.getCategories().then(function(res){
-  //   ctrl.allCategories = res.data.map(function(category){
-  //     return category.name.replace('&amp; ', '');
-  //   });
-  // });
 };
 
 angular

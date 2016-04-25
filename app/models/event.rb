@@ -88,10 +88,10 @@ class Event < ActiveRecord::Base
   def set_location(event_attributes)
     if self.latitude.nil?
       address = event_attributes[:street_address]
-      address += (", " + event_attributes[:city])         if !event_attributes[:city].nil?
-      address += (", " + event_attributes[:region_abbr])  if !event_attributes[:region_abbr].nil?
-      address += (' ' + event_attributes[:postal_code].to_s)      if !event_attributes[:postal_code].nil?
-      address += (", " + event_attributes[:country_abbr]) if !event_attributes[:country_abbr].nil?
+      address += (", " + event_attributes[:city])             if !event_attributes[:city].nil?
+      address += (", " + event_attributes[:region_abbr])      if !event_attributes[:region_abbr].nil?
+      address += (' ' + event_attributes[:postal_code].to_s)  if !event_attributes[:postal_code].nil?
+      address += (", " + event_attributes[:country_abbr])     if !event_attributes[:country_abbr].nil?
       loc=Event.geocode(address)
 
       if loc.success

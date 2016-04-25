@@ -55,7 +55,7 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
       ctrl.event = UserEvent.create(ourEvent, function(res){
         $state.go('home.myEvents');
       });
-    }
+    };
   };
   ctrl.editable = '';
 

@@ -21,18 +21,7 @@ var EditEventForm = {
       });
     });
 
-// working with EventsService
-    // ctrl.editEvent = function() {
-    //   EventsService.updateEvent($stateParams.id, ctrl.event.data).then(function(resp) {
-    //     ctrl.event.data = resp.data;
-    //     ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
-    //     $scope.$emit("eventUpdated", resp.data);
-    //   })
-    // };
-
-// working with resource
     ctrl.editEvent = function() {
-      console.log(ctrl.event.data.id)
       UserEvent.update({id: ctrl.event.data}, function(resp){
         ctrl.event.data = resp;
         ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
@@ -40,7 +29,7 @@ var EditEventForm = {
       });
     };
   },
-  
+
   controllerAs: 'eventForm'
 };
 
