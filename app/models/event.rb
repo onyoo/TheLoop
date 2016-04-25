@@ -47,9 +47,14 @@ class Event < ActiveRecord::Base
     self.longitude = event_attributes[:longitude] if !event_attributes[:longitude].nil?
     self.api_id = event_attributes[:id] if event_attributes[:creator].nil?
 
-    self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
+    if event_attributes[:images]
+      if (event_attributes[:images][:image][:medium][:url] rescue false)
+        self.image_url = event_attributes[:images][:image][:medium][:url]
+      else
+        self.image_url = event_attributes[:images][:image][0][:medium][:url]
+      end
+    end
     self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
-
 
     set_location(event_attributes)
     set_category(event_attributes)

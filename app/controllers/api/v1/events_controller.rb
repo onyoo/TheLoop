@@ -37,8 +37,8 @@ module Api
         else
           @event = Event.new()
           @event.assign_attributes(params[:event])
-          @event.creator = current_user.id
-
+          @event.creator = current_user.id if @event.api_id.nil?
+          
           if @event.save
             respond_to do |format|
               format.json { render :json => @event }
@@ -55,6 +55,7 @@ module Api
         else
           @event = Event.find(params[:event][:id])
           @event.assign_attributes(params[:event])
+          @event.users << current_user
         end
         # if @event.assign_attributes(params[:event][:id])
           @event.save
