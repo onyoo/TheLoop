@@ -22,10 +22,9 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     comment.user_id = user;
 
     comment.$save(function(result) {
-      console.log(result);
+      ctrl.data.comments.push(result);
     });
     ctrl.comment = new Comment();
-    $state.go($state.current, {}, {reload: true});
   };
 
   var map = {

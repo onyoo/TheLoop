@@ -20,13 +20,12 @@ module Api
       end
 
       def create
-        
         @event = Event.find(params[:event_id])
         @comment = @event.comments.create(comment_params)
-        render :json => @event
+        render :json => @comment
       end
 
-      
+
 
       def destroy
         @event = Event.find(params[:event_id])
