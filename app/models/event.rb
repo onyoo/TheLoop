@@ -33,19 +33,18 @@ class Event < ActiveRecord::Base
   end
 
   def assign_attributes(event_attributes)
-    binding.pry
-    self.creator = event_attributes[:creator]
-    self.title = event_attributes[:title]
-    self.description = event_attributes[:description]
-    self.start_time = event_attributes[:start_time]
-    self.event_url = event_attributes[:url]
-    self.street_address = event_attributes[:street_address]
-    self.city = event_attributes[:city]
-    self.region_abbr = event_attributes[:region_abbr]
-    self.postal_code = event_attributes[:postal_code]
-    self.country_abbr = event_attributes[:country_abbr]
-    self.latitude = event_attributes[:latitude]
-    self.longitude = event_attributes[:longitude]
+    self.creator = event_attributes[:creator] if !event_attributes[:creator].nil?
+    self.title = event_attributes[:title] if !event_attributes[:title].nil?
+    self.description = event_attributes[:description] if !event_attributes[:description].nil?
+    self.start_time = event_attributes[:start_time] if !event_attributes[:start_time].nil?
+    self.event_url = event_attributes[:url] if !event_attributes[:url].nil?
+    self.street_address = event_attributes[:street_address] if !event_attributes[:street_address].nil?
+    self.city = event_attributes[:city] if !event_attributes[:city].nil?
+    self.region_abbr = event_attributes[:region_abbr] if !event_attributes[:region_abbr].nil?
+    self.postal_code = event_attributes[:postal_code] if !event_attributes[:postal_code].nil?
+    self.country_abbr = event_attributes[:country_abbr] if !event_attributes[:country_abbr].nil?
+    self.latitude = event_attributes[:latitude] if !event_attributes[:latitude].nil?
+    self.longitude = event_attributes[:longitude] if !event_attributes[:longitude].nil?
     self.api_id = event_attributes[:id] if event_attributes[:creator].nil?
 
     self.image_url = event_attributes[:images][:image][:medium][:url] if event_attributes[:images]
@@ -67,7 +66,7 @@ class Event < ActiveRecord::Base
       self.category = Category.find_or_create_by(name: event_attributes[:category])
     else
       # For editing local events
-      self.category = Category.find_or_create_by(name: event_attributes[:category][:name])
+      self.category = Category.find_or_create_by(name: event_attributes[:category][:name]) if !event_attributes[:category].nil?
     end
   end
 
@@ -76,7 +75,7 @@ class Event < ActiveRecord::Base
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
     elsif event_attributes[:venue_name].is_a?(String)
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
-    elsif event_attributes[:venue][:name].is_a?(String)
+    elsif (event_attributes[:venue][:name].is_a?(String) rescue false)
       self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
     end
   end
