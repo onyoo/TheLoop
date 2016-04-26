@@ -40,9 +40,10 @@ class Event < ActiveRecord::Base
   end
 
   def create_relations(params, current_user)
+    self.street_address = params[:event][:address] if params[:event][:address]
     self.venue = Venue.find_or_create_by(name: params[:event][:venue_name])
     self.creator = current_user.id if self.api_id.nil?
-    self.category = Category.find_or_create_by(name: params[:event][:category][:name])
+    self.category = Category.find_or_create_by(name: params[:event][:category][:name]) if !params[:event][:category].nil?
     self.set_location
     self.users << current_user
     save

@@ -29,7 +29,7 @@ module Api
 
       def create
         if event = Event.find_by(title: params[:event][:title])
-          event.users << current_user
+          event.users << current_user if !event.users.detect{ |user| user.id == current_user.id}
           respond_to do |format|
             format.json { render :json => event }
           end
@@ -56,7 +56,7 @@ module Api
 
     private
       def event_params
-        params.require(:event).permit(:id, :api_id, :category_id, :creator, :title, :description, :start_time, :event_url, :street_address, :city, :region, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
+        params.require(:event).permit(:api_id, :category_id, :creator, :title, :description, :start_time, :event_url, :street_address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
       end
     end
   end
