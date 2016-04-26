@@ -71,11 +71,11 @@
         </div>
         <label for="eventForm.formData.categories.category">Categories</label>
 
-        <select ng-model="eventForm.formData.category" ng-options="category for category in eventForm.allCategories" class="form-control" name="category">
+        <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">
         </select><br>
 
-        <label for="eventForm.formData.venue">Venue (optional)</label>
-        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue"><br>
+        <label for="eventForm.formData.venue_name">Venue (optional)</label>
+        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue_name"><br>
 
       </div>
     </div>

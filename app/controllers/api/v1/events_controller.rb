@@ -5,7 +5,6 @@ module Api
       respond_to :json
 
       def index
-        # respond_with(Event.all.where("postal_code = #{params[:location]}"))
         if params[:location]
           location = Event.get_location(params[:location])
           events = Event.within(25, :origin => location)
@@ -30,43 +29,25 @@ module Api
 
       def create
         if event = Event.find_by(title: params[:event][:title])
-          UserEvent.create(user_id: current_user.id, event_id: event.id)
+          event.users << current_user
           respond_to do |format|
             format.json { render :json => event }
           end
         else
-          event = Event.create_loop_event(event_params)
-          event.creator = current_user.id if event.api_id.nil?
+          event = Event.create(event_params)
+          event.create_relations(params, current_user)
 
-          if event.save
-            respond_to do |format|
-              format.json { render :json => event }
-            end
+          respond_to do |format|
+            format.json { render :json => event }
           end
-          UserEvent.create(user_id: current_user.id, event_id: event.id)
         end
       end
 
       def update
-        if (params[:event] rescue false)
-          # Editing loop events
-          event = Event.find(params[:id])
-          event.update(event_params)
-          event.venue = Venue.find_or_create_by(name: params[:venue][:name])
-          event.save
-        else
-          # hits for adding to my_events ---may want to refactor
-          binding.pry
-          event = Event.find(params[:event][:id])
-          event.assign_attributes(params[:event])         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ this could be loop event or evently event
-          event.users << current_user
-        end
-        # if @event.assign_attributes(params[:event][:id])
-          event.save
-          render json: event
-        # else
-          # render nothing: true
-        # end
+        event = Event.find(params[:id])
+        event.update(event_params)
+        event.update_relations(params, current_user)
+        render json: event
       end
 
       def destroy
@@ -75,7 +56,7 @@ module Api
 
     private
       def event_params
-        params.require(:event).permit(:title, :description, :start_time, :event_url, :street_address, :city, :region, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
+        params.require(:event).permit(:id, :api_id, :category_id, :creator, :title, :description, :start_time, :event_url, :street_address, :city, :region, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
       end
     end
   end
