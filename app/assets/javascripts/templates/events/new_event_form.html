@@ -54,6 +54,7 @@
           <label for="eventForm.formData.venue">Venue (optional)</label>
           <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue">
 
+
           <label for="eventForm.formData.street_address">Street Address</label>
           <input
             name="address"
@@ -66,6 +67,9 @@
           <div ng-messages="form.address.$error" ng-if="form.address.$touched">
             <div ng-message="required" class="error-message">You must provide a street address</div>
           </div>
+
+        <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">
+        </select><br>
 
           <div class="row">
             <div class="col-sm-5">

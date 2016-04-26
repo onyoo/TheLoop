@@ -32,66 +32,34 @@ class Event < ActiveRecord::Base
     self.within(25, :origin => [latitude,longitude])
   end
 
-  def assign_attributes(event_attributes)
-    self.creator = event_attributes[:creator] if !event_attributes[:creator].nil?
-    self.title = event_attributes[:title] if !event_attributes[:title].nil?
-    self.description = event_attributes[:description] if !event_attributes[:description].nil?
-    self.start_time = event_attributes[:start_time] if !event_attributes[:start_time].nil?
-    self.event_url = event_attributes[:url] if !event_attributes[:url].nil?
-    self.street_address = event_attributes[:street_address] if !event_attributes[:street_address].nil?
-    self.city = event_attributes[:city] if !event_attributes[:city].nil?
-    self.region_abbr = event_attributes[:region_abbr] if !event_attributes[:region_abbr].nil?
-    self.postal_code = event_attributes[:postal_code] if !event_attributes[:postal_code].nil?
-    self.country_abbr = event_attributes[:country_abbr] if !event_attributes[:country_abbr].nil?
-    self.latitude = event_attributes[:latitude] if !event_attributes[:latitude].nil?
-    self.longitude = event_attributes[:longitude] if !event_attributes[:longitude].nil?
-    self.api_id = event_attributes[:id] if event_attributes[:creator].nil?
-
-    if event_attributes[:images]
-      if (event_attributes[:images][:image][:medium][:url] rescue false)
-        self.image_url = event_attributes[:images][:image][:medium][:url]
-      else
-        self.image_url = event_attributes[:images][:image][0][:medium][:url]
-      end
-    end
-    self.image_url = event_attributes[:image_url] if event_attributes[:image_url]
-
-    set_location(event_attributes)
-    set_category(event_attributes)
-    set_venue(event_attributes)
-
+  def update_relations(params, current_user)
+    self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
+    self.category = Category.find(params[:event][:category_id])
+    self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
+    save
   end
 
-  def set_category(event_attributes)
-    if (event_attributes[:categories][:category][0][:name] rescue false)
-      # For Evently event creation
-      self.category = Category.find_or_create_by(name: event_attributes[:categories][:category][0][:name])
-    elsif event_attributes[:category].is_a?(String)
-      # For creating/editing local events
-      self.category = Category.find_or_create_by(name: event_attributes[:category])
-    else
-      # For editing local events
-      self.category = Category.find_or_create_by(name: event_attributes[:category][:name]) if !event_attributes[:category].nil?
+  def create_relations(params, current_user)
+    self.street_address = params[:event][:address] if params[:event][:address]
+    self.venue = Venue.find_or_create_by(name: params[:event][:venue_name])
+    if (!params[:event][:id].nil?) && (params[:event][:id].to_i == 0) && (params[:event][:id].length != 1)
+      self.api_id = params[:event][:id]
     end
+    self.creator = current_user.id if self.api_id.nil?
+    self.category = Category.find_or_create_by(name: params[:event][:category][:name]) if !params[:event][:category].nil?
+    self.set_location
+    self.users << current_user
+    save
   end
 
-  def set_venue(event_attributes)
-    if event_attributes[:venue].is_a?(String) && event_attributes[:venue].present?
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue])
-    elsif event_attributes[:venue_name].is_a?(String)
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue_name])
-    elsif (event_attributes[:venue][:name].is_a?(String) rescue false)
-      self.venue = Venue.find_or_create_by(name: event_attributes[:venue][:name])
-    end
-  end
+  def set_location
+    address = self[:street_address]
+    address += (", " + self[:city])             if !self[:city].nil?
+    address += (", " + self[:region_abbr])      if !self[:region_abbr].nil?
+    address += (' ' + self[:postal_code].to_s)  if !self[:postal_code].nil?
+    address += (", " + self[:country_abbr])     if !self[:country_abbr].nil?
 
-  def set_location(event_attributes)
     if self.latitude.nil?
-      address = event_attributes[:street_address]
-      address += (", " + event_attributes[:city])             if !event_attributes[:city].nil?
-      address += (", " + event_attributes[:region_abbr])      if !event_attributes[:region_abbr].nil?
-      address += (' ' + event_attributes[:postal_code].to_s)  if !event_attributes[:postal_code].nil?
-      address += (", " + event_attributes[:country_abbr])     if !event_attributes[:country_abbr].nil?
       loc=Event.geocode(address)
 
       if loc.success
