@@ -34,6 +34,7 @@ class Event < ActiveRecord::Base
 
   def update_relations(params, current_user)
     self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
+    self.category = Category.find(params[:event][:category_id])
     self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
     save
   end
