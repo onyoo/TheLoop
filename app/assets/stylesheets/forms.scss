@@ -1,0 +1,61 @@
+.blackout {
+  background: -moz-linear-gradient(left,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 33%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4) 72%, rgba(0,0,0,0.2) 100%);
+  background: -webkit-linear-gradient(left,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.4) 33%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.4) 72%,rgba(0,0,0,0.2) 100%);
+  background: linear-gradient(to right,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.4) 33%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.4) 72%,rgba(0,0,0,0.2) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#33000000',GradientType=1 );
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.event-form {
+  background-color: white;
+  border-radius: 7px;
+  width: 70%;
+  height: 84%;
+  margin: 5% 15%;
+  overflow-y: scroll;
+  padding: 2em;
+  z-index: 5;
+  font-weight: 300;
+  label {
+    font-size: .8em;
+    font-weight: 200;
+  }
+  input {
+    margin-bottom: 10px;
+  }
+  select {
+    margin-bottom: 10px;
+  }
+  textarea {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    margin-right: 3px;
+  }
+}
+
+.form-buttons {
+  // margin-left: 630px;
+  text-align: center;
+}
+
+.form-header {
+  margin-top: -10px;
+  padding-bottom: 4px;
+  font-weight: 300;
+  border-bottom: 1px solid lightgray;
+}
+
+.error-message {
+  color: red;
+  font-size: .7em;
+  margin-top: -6px;
+  margin-bottom: 3px;
+}
