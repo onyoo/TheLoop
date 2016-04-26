@@ -32,6 +32,10 @@ class Event < ActiveRecord::Base
     self.within(25, :origin => [latitude,longitude])
   end
 
+  def self.create_loop_event(event_params)
+    event = Event.create(event_params)
+  end
+
   def assign_attributes(event_attributes)
     self.creator = event_attributes[:creator] if !event_attributes[:creator].nil?
     self.title = event_attributes[:title] if !event_attributes[:title].nil?

@@ -35,8 +35,7 @@ module Api
             format.json { render :json => @event }
           end
         else
-          @event = Event.new()
-          @event.assign_attributes(params[:event])
+          @event = Event.create_loop_event(event_params)
           @event.creator = current_user.id if @event.api_id.nil?
 
           if @event.save
@@ -51,14 +50,13 @@ module Api
       def update
         if (params[:event][:id][:id] rescue false)
           # Editing loop events
-          binding.pry
           @event = Event.find(params[:event][:id][:id])
-          @event.assign_attributes(params[:event][:id])
+          @event.assign_attributes(params[:event][:id])    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ to edit loop event
         else
-          binding.pry
           # hits for adding to my_events ---may want to refactor
           @event = Event.find(params[:event][:id])
-          @event.assign_attributes(params[:event])
+          binding.pry
+          @event.assign_attributes(params[:event])         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ this could be loop event or evently event
           @event.users << current_user
         end
         # if @event.assign_attributes(params[:event][:id])
@@ -75,7 +73,7 @@ module Api
 
     private
       def event_params
-        params.require(:event).permit(:title, :description, :start_time, :city, :region, :postal_code, :country, :latitude, :longitude, :venue_id)
+        params.require(:event).permit(:title, :description, :start_time, :event_url, :street_address, :city, :region, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
       end
     end
   end
