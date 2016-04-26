@@ -50,7 +50,8 @@ module Api
 
       def update
         if (params[:event][:id][:id] rescue false)
-          #
+          # Editing loop events
+          binding.pry
           @event = Event.find(params[:event][:id][:id])
           @event.assign_attributes(params[:event][:id])
         else

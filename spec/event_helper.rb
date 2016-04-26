@@ -135,3 +135,28 @@ def new_loop_event_params
    :venue=>"Trump Tower",
    :creator=>1}
 end
+
+def edited_loop_event_params
+  {:id=>27,
+   :title=>"Lounging @ Trump Tower",
+   :description=>"We will do nothing all day. That seems to be what happens in this place.",
+   :start_time=>"2040-01-01T01:00:00.000Z",
+   :event_url=>nil,
+   :street_address=>"725 5th Ave",
+   :city=>"New York",
+   :region_abbr=>"NY",
+   :postal_code=>10022,
+   :country_abbr=>"US",
+   :latitude=>"40.7624283",
+   :longitude=>"-73.973794",
+   :api_id=>nil,
+   :image_url=>"https://upload.wikimedia.org/wikipedia/commons/d/d9/TrumpTower.JPG",
+   :category_id=>2,
+   :venue_id=>20,
+   :creator=>1,
+   :user_events=>[{:id=>29, :user_id=>1, :event_id=>27, :created_at=>"2016-04-26T11:31:35.675Z", :updated_at=>"2016-04-26T11:31:35.675Z"}],
+   :category=>"Performing Arts",
+   :venue=>{:id=>20, :name=>"Trump Towers"},
+   :users=>[{:id=>1, :email=>"rob@gmail.com", :created_at=>"2016-04-24T22:39:07.093Z", :updated_at=>"2016-04-24T22:39:07.097Z"}],
+   :comments=>nil}
+end
