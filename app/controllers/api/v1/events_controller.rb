@@ -35,7 +35,6 @@ module Api
             format.json { render :json => @event }
           end
         else
-          binding.pry
           @event = Event.new()
           @event.assign_attributes(params[:event])
           @event.creator = current_user.id if @event.api_id.nil?
@@ -51,9 +50,12 @@ module Api
 
       def update
         if (params[:event][:id][:id] rescue false)
+          #
           @event = Event.find(params[:event][:id][:id])
           @event.assign_attributes(params[:event][:id])
         else
+          binding.pry
+          # hits for adding to my_events ---may want to refactor
           @event = Event.find(params[:event][:id])
           @event.assign_attributes(params[:event])
           @event.users << current_user
