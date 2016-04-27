@@ -40,7 +40,7 @@
 
           <label for="eventForm.formData.categories.category">Categories</label>
 
-          <select ng-model="eventForm.formData.category" ng-options="category for category in eventForm.allCategories | orderBy:category " class="form-control" name="category">
+          <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories | orderBy:'name'" class="form-control" name="category">
           </select>
 
           <div ng-messages="form.category.$error" ng-if="form.category.$touched">
@@ -67,10 +67,7 @@
           <div ng-messages="form.address.$error" ng-if="form.address.$touched">
             <div ng-message="required" class="error-message">You must provide a street address</div>
           </div>
-
-        <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">
-        </select><br>
-
+          
           <div class="row">
             <div class="col-sm-5">
               <label for="eventForm.formData.city">City</label>

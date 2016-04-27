@@ -9,7 +9,7 @@ module Api
       end
 
       def show
-        respond_with(Venue.find(params[:id]))
+        render json: Venue.find(params[:id])
       end
 
       def create
@@ -39,6 +39,6 @@ module Api
         params.require(:venue).permit(:name)
       end
     end
-    
+
   end
 end

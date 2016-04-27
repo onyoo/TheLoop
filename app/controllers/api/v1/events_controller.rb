@@ -5,13 +5,18 @@ module Api
       respond_to :json
 
       def index
-        if params[:location]
-          location = Event.get_location(params[:location])
-          events = Event.within(25, :origin => location)
-        elsif params[:zipcode]
-          events = Event.find_by_zipcode(params[:zipcode])
+        if params[:user_id].present?
+          @events = User.find(params[:user_id]).events
+          respond_with(@events)
+        else
+          if params[:location]
+            location = Event.get_location(params[:location])
+            events = Event.within(25, :origin => location)
+          elsif params[:zipcode]
+            events = Event.find_by_zipcode(params[:zipcode])
+          end
+          respond_with(events.where(api_id: nil))
         end
-        respond_with(events.where(api_id: nil))
       end
 
       def show
@@ -29,14 +34,22 @@ module Api
 
       def create
         if event = Event.find_by(title: params[:event][:title])
-          event.users << current_user if !event.users.detect{ |user| user.id == current_user.id}
-          respond_to do |format|
-            format.json { render :json => event }
-          end
+          binding.pry
+          # if !event.users.detect{ |user| user.id == current_user.id}
+          #   event.users << current_user
+          # end
         else
-          event = Event.create(event_params)
-          event.create_relations(params, current_user)
+          event = Event.new(event_params)
+          event.update(api_id: params[:event][:id])
+          event.set_location
+          # event.users << current_user
+          # event = Event.create(event_params)
+          # event.create_relations(params, current_user)
+          # binding.pry
+        end
 
+        if event.save
+          current_user.user_events.create(event_id: event.id)
           respond_to do |format|
             format.json { render :json => event }
           end
@@ -55,9 +68,17 @@ module Api
       end
 
     private
+      # def event_params
+      #   params.require(:event).permit(:id, :api_id, :category, :creator, :title, :description, :start_time, :event_url, :url, :street_address, :address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_name, :categories => [:category, :name])
+      # end
+
       def event_params
-        params.require(:event).permit(:api_id, :category_id, :creator, :title, :description, :start_time, :event_url, :street_address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_id)
+        params.require(:event).permit(:category, :creator, :title, :description, :start_time, :event_url, :url, :street_address, :address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :category, :venue, :venue_name).tap do |whitelisted|
+          whitelisted[:categories] = params[:event][:categories]
+          whitelisted[:images] = params[:event][:images]
+        end
       end
+      # {"category"=>[{"name"=>"Concerts &amp; Tour Dates", "id"=>"music"}]}
     end
   end
 end
