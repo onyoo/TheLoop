@@ -44,8 +44,8 @@ angular
         resolve: {
           event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
             return EventsService.getEvent($stateParams.id);
-          }
-        }]
+          }]
+        }
       })
       .state('home.loopEvent', {
         url: 'loopShow/:id',
@@ -54,8 +54,8 @@ angular
         resolve: {
           event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
             return EventsService.getLoopEvent($stateParams.id);
-          }
-        }]
+          }]
+        }
       })
       .state('home.myEvents', {
         url: 'my_events',
