@@ -1,7 +1,7 @@
   function CategoriesService($http) {
 
   this.getCategories = function() {
-    return $http.get('/api/v1/categories');
+    return $http.get('https://localhost:3000/api/v1/categories');
   };
 
 };
