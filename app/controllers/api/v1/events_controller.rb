@@ -34,6 +34,7 @@ module Api
             format.json { render :json => event }
           end
         else
+          
           event = Event.create(event_params)
           event.create_relations(params, current_user)
 

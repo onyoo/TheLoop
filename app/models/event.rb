@@ -15,6 +15,14 @@ class Event < ActiveRecord::Base
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
+  def venue=(venue_name)
+    
+    Venue.find_or_create_by(name: venue_name)
+  end
+
+  
+
+
   def self.get_location(geo_string)
     geo_array = geo_string.split(',')
     geo_array.collect do |coord|
