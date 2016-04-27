@@ -1,7 +1,7 @@
   
 function User($resource){
 
-  var host = 'https://localhost:3000/api/v1/';
+  var host = '/api/v1/';
 
   var User = $resource( host + '/users/:id.json', {user_id: '@userId'}, {
         query: { method: 'GET', isArray: true },

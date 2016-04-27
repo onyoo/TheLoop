@@ -1,7 +1,7 @@
 
 function UserEvent($resource){
 
-  var host = 'https://localhost:3000/api/v1/';
+  var host = '/api/v1/';
 
   var UserEvent = $resource( host + 'events/:id.json',{id: '@id'},{
         query: { method: 'GET', isArray: true },

@@ -68689,7 +68689,7 @@ angular
 
 function Comment($resource) {
 
-  var Comment = $resource('https://localhost:3000/api/v1/events/:event_id/comments', {event_id: '@event_id'}, {
+  var Comment = $resource('/api/v1/events/:event_id/comments', {event_id: '@event_id'}, {
     save: {method: 'POST'},
     update: { method: 'PUT' },
     delete: { method: 'DELETE' }
@@ -68705,7 +68705,7 @@ angular
   
 function User($resource){
 
-  var host = 'https://localhost:3000/api/v1/';
+  var host = '/api/v1/';
 
   var User = $resource( host + '/users/:id.json', {user_id: '@userId'}, {
         query: { method: 'GET', isArray: true },
@@ -68724,7 +68724,7 @@ angular
 
 function UserEvent($resource){
 
-  var host = 'https://localhost:3000/api/v1/';
+  var host = '/api/v1/';
 
   var UserEvent = $resource( host + 'events/:id.json',{id: '@id'},{
         query: { method: 'GET', isArray: true },
