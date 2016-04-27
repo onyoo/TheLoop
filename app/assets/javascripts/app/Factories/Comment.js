@@ -14,4 +14,4 @@ function Comment($resource) {
 
 angular
   .module('app')
-  .factory('Comment', Comment);
+  .factory('Comment', ['$resource', Comment]);

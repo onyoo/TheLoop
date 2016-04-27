@@ -8,4 +8,4 @@ function CategoriesService($http) {
 
 angular
   .module('app')
-  .service('CategoriesService', CategoriesService);
+  .service('CategoriesService', ['$http', CategoriesService]);

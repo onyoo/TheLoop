@@ -14,4 +14,4 @@ function UserEvent($resource){
 
 angular
   .module('app')
-  .factory('UserEvent', UserEvent);
+  .factory('UserEvent', ['$resource', UserEvent]);

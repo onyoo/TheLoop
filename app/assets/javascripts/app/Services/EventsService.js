@@ -61,4 +61,4 @@ function EventsService($http){
 
 angular
   .module('app')
-  .service('EventsService', EventsService);
+  .service('EventsService', ['$http', EventsService]);

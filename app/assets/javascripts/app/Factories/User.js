@@ -16,4 +16,4 @@ function User($resource){
 
 angular
 .module('app')
-.factory('User', User);
+.factory('User', ['$resource', User]);
