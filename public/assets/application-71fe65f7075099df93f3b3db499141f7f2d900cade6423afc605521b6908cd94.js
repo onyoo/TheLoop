@@ -68785,21 +68785,21 @@ function EventsService($http){
   this.getLoopEvent = function(id) {
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events/' + id
+      url: '/api/v1/events/' + id
     });
   };
 
   this.checkLoopEvent = function(api_id) {
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events/' + api_id + '/check'
+      url: '/api/v1/events/' + api_id + '/check'
     });
   };
 
   this.updateEvent = function(id, data) {
     return $http({
       method: 'put',
-      url: 'https://localhost:3000/api/v1/events/' + id,
+      url: '/api/v1/events/' + id,
       data: data
     });
   };
@@ -68807,14 +68807,14 @@ function EventsService($http){
   this.loopEvents = function(coords){
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events?location=' + coords
+      url: '/api/v1/events?location=' + coords
     });
   };
 
   this.loopEventsZipcode = function(zip){
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events?zipcode=' + zip
+      url: '/api/v1/events?zipcode=' + zip
     });
   };
 
@@ -68897,7 +68897,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/events_index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n          <ui-gmap-window show=\'show\'>\n            <div>{{coords}}</div>\n          </ui-gmap-window>\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="http://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
+  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n          <ui-gmap-window show=\'show\'>\n            <div>{{coords}}</div>\n          </ui-gmap-window>\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template

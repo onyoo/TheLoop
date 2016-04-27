@@ -3,21 +3,21 @@ function EventsService($http){
   this.getLoopEvent = function(id) {
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events/' + id
+      url: '/api/v1/events/' + id
     });
   };
 
   this.checkLoopEvent = function(api_id) {
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events/' + api_id + '/check'
+      url: '/api/v1/events/' + api_id + '/check'
     });
   };
 
   this.updateEvent = function(id, data) {
     return $http({
       method: 'put',
-      url: 'https://localhost:3000/api/v1/events/' + id,
+      url: '/api/v1/events/' + id,
       data: data
     });
   };
@@ -25,14 +25,14 @@ function EventsService($http){
   this.loopEvents = function(coords){
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events?location=' + coords
+      url: '/api/v1/events?location=' + coords
     });
   };
 
   this.loopEventsZipcode = function(zip){
     return $http({
       method: 'get',
-      url: 'https://localhost:3000/api/v1/events?zipcode=' + zip
+      url: '/api/v1/events?zipcode=' + zip
     });
   };
 
