@@ -22,4 +22,4 @@ function AuthController($scope, $state, $location, Auth){
 
 angular
   .module('app')
-  .controller('AuthController', AuthController);
+  .controller('AuthController', ['$scope', '$state', '$location', 'Auth', AuthController]);

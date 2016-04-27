@@ -81,4 +81,4 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 };
 angular
   .module('app')
-  .controller('LoopEventController', LoopEventController);
+  .controller('LoopEventController', ['event', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'UserEvent', 'Auth', '$state', 'Comment', '$http', LoopEventController]);

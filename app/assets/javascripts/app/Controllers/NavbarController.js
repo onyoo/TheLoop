@@ -1,6 +1,6 @@
 angular
 .module('app')
-.controller('NavbarController', NavbarController);
+.controller('NavbarController', ['$scope', 'Auth', '$state', '$location', NavbarController]);
 
 function NavbarController($scope, Auth, $state, $location) {
 

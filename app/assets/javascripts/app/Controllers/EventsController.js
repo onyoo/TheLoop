@@ -97,4 +97,4 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
 
 angular
   .module('app')
-  .controller('EventsController', EventsController);
+  .controller('EventsController', ['EventsService', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'CategoriesService', EventsController]);

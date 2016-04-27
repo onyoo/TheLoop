@@ -11,4 +11,4 @@ function UserEventsController(User, Auth) {
 
 angular
 .module('app')
-.controller('UserEventsController', UserEventsController);
+.controller('UserEventsController', ['User', 'Auth', UserEventsController]);
