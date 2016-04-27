@@ -6,6 +6,8 @@ var EditEventForm = {
   controller: function(UserEvent, $scope, $stateParams, CategoriesService, EventsService) {
     var ctrl = this;
 
+    ctrl.$inject = ['UserEvent', '$scope', '$stateParams', 'CategoriesService', 'EventsService'];
+
     $scope.closeForm = function() {
       $scope.$emit('closeEditForm', false);
     }

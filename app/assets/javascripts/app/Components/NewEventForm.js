@@ -3,6 +3,8 @@ var NewEventForm = {
   controller: function(UserEvent, $scope, CategoriesService, $state, Auth) {
     var ctrl = this;
 
+    ctrl.$inject = ['UserEvent', '$scope', 'CategoriesService', '$state', 'Auth'];
+
     $scope.closeForm = function() {
       $scope.$emit('closeForm', false);
     };

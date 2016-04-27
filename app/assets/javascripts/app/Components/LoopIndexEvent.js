@@ -4,6 +4,7 @@ var LoopIndexEvent = {
     details: '='
   },
   controller: function(UserEvent){
+    this.$inject = ['UserEvent'];
     if(this.details.start_time){
       this.date = Date.parse(this.details.start_time);
     };

@@ -4,6 +4,7 @@ var LoopEvent = {
     details: '='
   },
   controller: function(User, $state, $scope){
+    this.$inject = ['User', '$state', '$scope'];
     this.removeEvent = function(myEvent) {
       User.delete({id: myEvent.id }, function(res){
         $('[data-event-id="' + res.id +'"]').text('');
