@@ -1,0 +1,21 @@
+<div class="container auth-page">
+  <h2 class="auth-header">Register</h2>
+
+  <p class="lead auth-errors"></p>
+  <form action="" ng-submit="register()">
+    <div class="row">
+      <div class="col-sm-8 auth-inputs">
+        <label for="email">Email: </label>
+        <input type="email" class="form-control" placeholder="Email" ng-model="user.email"><br>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 auth-inputs">
+        <label for="password">Password: </label>
+        <input type="password" class="form-control" placeholder="Password" ng-model="user.password"><br><br>
+      </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Register">
+  </form>
+</div>

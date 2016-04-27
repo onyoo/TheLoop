@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6" id="event-show-page">
+      <div class="row">
+        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>
+
+        <div class="col-sm-4" ng-show="event.data.images.image.thumb.url">
+          <div class="event-image">
+            <img class="event-image" ng-show="{{event.data.images.image.thumb.url.length > 0}}" src="{{event.data.images.image.thumb.url}}">
+          </div>
+        </div><br>
+      </div><hr>
+
+      <div class="row event-headers">
+        <p class="col-sm-8" ng-model="event.category">{{event.category}}</p>
+        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:'medium'}}</p><br>
+      </div>
+
+      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
+
+      <div class="event-address">
+        <p>{{event.data.venue_name}}</p>
+        <p>{{event.data.address}}</p>
+        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>
+      </div><br>
+
+      <button class="btn btn-primary" id="attend-event-button" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+    </div>
+
+    <div class="col-sm-6">
+      <div id="event-show-map">
+        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
+          <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
+            <ui-gmap-window show='show'>
+              <div>{{coords}}</div>
+            </ui-gmap-window>
+          </ui-gmap-markers>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
+</div>

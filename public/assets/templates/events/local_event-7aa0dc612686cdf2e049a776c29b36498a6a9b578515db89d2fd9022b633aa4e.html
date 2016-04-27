@@ -1,0 +1,8 @@
+<div data-event-id="{{event.details.id}}">
+  <h3><a ui-sref='home.loopEvent({id: event.details.id})'>{{event.details.title}}</a></h3>
+  <p ng-bind-html="event.details.description | removeWhiteSpace"></p>
+  <p>Date: <span ng-bind="event.date | date:'medium'"></span></p>
+  <p>City: {{event.details.city}}</p>
+  <p>State: {{event.details.region}}</p>
+  <button type="submit" class="btn btn-danger" ng-click="event.removeEvent(event.details)">Remove Event</button>
+</div>

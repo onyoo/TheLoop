@@ -21,11 +21,6 @@ describe Event do
       expect(@event.venue_id).to be_a(Integer)
     end
 
-    # it "can assign params from an existing event" do
-    #   params = loop_params_from_evently
-    #   expect(@event.assign_attributes(params)).to be_valid
-    # end
-
     it "can assign params to create a new loop event" do
       expect(@event.assign_attributes(new_loop_event_params)).to be_valid
     end

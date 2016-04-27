@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+
 gem 'ngannotate-rails'
 
 gem 'geokit-rails'
@@ -23,7 +24,6 @@ gem 'jquery-rails'
 
 gem 'rspec-core'
 gem 'rspec-rails'
-gem 'spring'
 gem 'capybara'
 
 

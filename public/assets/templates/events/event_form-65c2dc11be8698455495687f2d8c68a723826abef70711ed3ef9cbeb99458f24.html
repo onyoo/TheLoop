@@ -1,0 +1,126 @@
+<div ng-controller="UserEventsController as ctrl">
+  <div class="modal fade" id="create-event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Create a New Event</h4>
+        </div>
+        <div class="modal-body">
+
+          <form name="form" ng-submit="ctrl.createEvent()" class='create_event_form' ng-click="$event.stopPropagation()">
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="col-sm-9 auth-inputs">
+                  <label for="ctrl.formData.title">Event Name</label>
+                  <input
+                    name="title"
+                    type="text"
+                    class="form-control"
+                    placeholder="Event Name"
+                    pattern=".{3,}"
+                    ng-model="ctrl.formData.title"
+                    required="required"
+                    ><br>
+
+                  <div ng-messages="form.title.$error" ng-if="form.title.$touched">
+                    <div ng-message="required">An event name is required</div>
+                    <div ng-message="pattern">The event name must be more than 3 characters</div>
+                  </div>
+
+                  <label for="ctrl.formData.start_time">Start Time</label>
+                  <input type="datetime-local" name="date" class="form-control" ng-model="ctrl.formData.start_time"><br>
+
+                  <div ng-messages="form.date.$error" ng-if="form.date.$touched">
+                    <div ng-message="required">An event date is required</div>
+                  </div>
+
+                  <label for="ctrl.formData.description">Description</label>
+                  <textarea
+                    name="description"
+                    rows="4"
+                    cols="50"
+                    class="form-control"
+                    placeholder="Description"
+                    ng-model="ctrl.formData.description"></textarea><br>
+
+                  <label for="ctrl.formData.categories.category">Categories</label>
+
+                  <select ng-model="ctrl.formData.category" ng-options="category for category in ctrl.allCategories" class="form-control" name="category">
+                  </select><br>
+
+                  <div ng-messages="form.category.$error" ng-if="form.category.$touched">
+                    <div ng-message="required">You must provide a category</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <label for="ctrl.formData.venue">Venue (optional)</label>
+                <input type="text" class="form-control" placeholder="Venue Name" ng-model="ctrl.formData.venue"><br>
+
+                <label for="ctrl.formData.street_address">Street Address</label>
+                <input
+                  name="address"
+                  type="text"
+                  class="form-control"
+                  placeholder="Address"
+                  required="required"
+                  ng-model="ctrl.formData.street_address"><br>
+
+                <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+                  <div ng-message="required">You must provide a street address</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-5">
+                    <label for="ctrl.formData.city">City</label>
+                    <input name="city" type="text" class="form-control" placeholder="City" ng-model="ctrl.formData.city" required="required"><br>
+
+                    <div ng-messages="form.city.$error" ng-if="form.city.$touched">
+                      <div ng-message="required">You must provide the city where the event takes place</div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <label for="ctrl.formData.region_abbr">State</label>
+                    <select ng-model="ctrl.formData.region_abbr" class="form-control" required="required" state-picker-directive></select><br>
+
+                    <div ng-messages="form.state.$error" ng-if="form.state.$touched">
+                      <div ng-message="required">You must provide the state</div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <label for="ctrl.formData.postal_code">Zipcode</label>
+                    <input type="number" class="form-control" placeholder="Zipcode" ng-model="ctrl.formData.postal_code"><br>
+                  </div>
+                </div>
+
+                <label for="ctrl.formData.country_abbr">Country</label>
+                <select ng-model="ctrl.formData.country_abbr" class="form-control" pvp-country-picker></select><br>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label for="ctrl.formData.image_url">Image URL (optional)</label>
+                    <input type="text" class="form-control" placeholder="Image URL" ng-model="ctrl.formData.image_url"><br>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="ctrl.formData.event_url">Event or Ticketing URL (optional)</label>
+                    <input type="url" class="form-control" placeholder="URL" ng-model="ctrl.formData.event_url"><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Create Event</button>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
