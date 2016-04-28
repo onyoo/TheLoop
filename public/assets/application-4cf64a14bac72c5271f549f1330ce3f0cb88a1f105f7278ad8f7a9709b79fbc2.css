@@ -8887,13 +8887,18 @@ body {
 }
 
 /* line 41, /Users/tuckerbohman/Development/code/TheLoop/app/assets/stylesheets/events.scss */
+.active-marker {
+  border: 2px solid #006BB3;
+}
+
+/* line 45, /Users/tuckerbohman/Development/code/TheLoop/app/assets/stylesheets/events.scss */
 #loading-gif {
   margin: auto;
   height: 850px;
   width: 550px;
 }
 
-/* line 47, /Users/tuckerbohman/Development/code/TheLoop/app/assets/stylesheets/events.scss */
+/* line 51, /Users/tuckerbohman/Development/code/TheLoop/app/assets/stylesheets/events.scss */
 #loading-map-message {
   text-align: center;
   padding: 10px;

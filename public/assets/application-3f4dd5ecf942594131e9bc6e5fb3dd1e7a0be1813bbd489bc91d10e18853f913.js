@@ -68417,8 +68417,23 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 angular
   .module('app')
   .controller('EventController', ['event', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'UserEvent', 'Auth', '$state', EventController]);
-function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady, CategoriesService){
+function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady, CategoriesService, $location, $anchorScroll){
   var ctrl = this;
+
+  $scope.markerClick = function(map, event, marker) {
+    var newHash = 'anchor' + marker.id;
+    if ($location.hash() !== newHash) {
+        // set the $location.hash to `newHash` and
+        // $anchorScroll will automatically scroll to it
+        $location.hash(newHash);
+        $('li.active-marker').removeClass('active-marker')
+        $('#' + newHash).addClass('active-marker');
+      } else {
+        // call $anchorScroll() explicitly,
+        // since $location.hash hasn't changed
+        $anchorScroll();
+      }
+  }
 
   ctrl.zipcodeSearch = function() {
 
@@ -68493,7 +68508,7 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
           var events = ctrl.data.concat(ctrl.loop);
           for(var i = 0; i < events.length; i++) {
              $scope.markers.push({
-               id: i,
+               id: events[i].id,
                coords: {
                  latitude: events[i].latitude,
                  longitude: events[i].longitude
@@ -68501,6 +68516,7 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
                show: true
              });
            };
+           debugger;
         });
         $scope.loading = false;
 
@@ -68516,7 +68532,7 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
 
 angular
   .module('app')
-  .controller('EventsController', ['EventsService', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'CategoriesService', EventsController]);
+  .controller('EventsController', ['EventsService', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'CategoriesService', '$location', '$anchorScroll', EventsController]);
 function LocalController($scope, uiGmapIsReady) {
 
   $scope.map = {
@@ -68869,7 +68885,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/api_event.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/api_event.html", '<li class="event-container">\n  <h3 class="event-title"><a ng-click="event.showEvent(event.details.id)">{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue_name}}</a></p>\n  <p>{{event.details.city_name}}, {{event.details.region_name}}</p>\n</li>')
+  $templateCache.put("events/api_event.html", '<li class="event-container" id="anchor{{event.details.id}}">\n  <h3 class="event-title"><a ng-click="event.showEvent(event.details.id)">{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue_name}}</a></p>\n  <p>{{event.details.city_name}}, {{event.details.region_name}}</p>\n</li>')
 }]);
 
 // Angular Rails Template
@@ -68897,7 +68913,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/events_index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n          <ui-gmap-window show=\'show\'>\n            <div>{{coords}}</div>\n          </ui-gmap-window>\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
+  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" click="markerClick" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n          <!-- <ui-gmap-window show=\'show\'>\n            <div>{{coords}}</div>\n          </ui-gmap-window> -->\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -68925,7 +68941,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/loop_index_event.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/loop_index_event.html", '<li class="event-container">\n  <h3 class="event-title"><a ui-sref=\'home.loopEvent({id: event.details.id})\'>{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue.name}}</a></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>{{event.details.city}}, {{event.details.region}}</p>\n</li>')
+  $templateCache.put("events/loop_index_event.html", '<li class="event-container" id="anchor{{event.details.id}}">\n  <h3 class="event-title"><a ui-sref=\'home.loopEvent({id: event.details.id})\'>{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue.name}}</a></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>{{event.details.city}}, {{event.details.region}}</p>\n</li>')
 }]);
 
 // Angular Rails Template

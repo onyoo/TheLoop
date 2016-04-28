@@ -1,4 +1,4 @@
-<li class="event-container">
+<li class="event-container" id="anchor{{event.details.id}}">
   <h3 class="event-title"><a ui-sref='home.loopEvent({id: event.details.id})'>{{event.details.title}}</a></h3>
   <p>Date: <span ng-bind="event.date | date:'medium'"></span></p>
   <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue.name}}</a></p>
