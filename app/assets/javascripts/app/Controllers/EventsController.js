@@ -4,17 +4,13 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
   $scope.markerClick = function(map, event, marker) {
     var newHash = 'anchor' + marker.id;
     if ($location.hash() !== newHash) {
-        // set the $location.hash to `newHash` and
-        // $anchorScroll will automatically scroll to it
         $location.hash(newHash);
         $('li.active-marker').removeClass('active-marker')
         $('#' + newHash).addClass('active-marker');
       } else {
-        // call $anchorScroll() explicitly,
-        // since $location.hash hasn't changed
         $anchorScroll();
-      }
-  }
+      };
+  };
 
   ctrl.zipcodeSearch = function() {
 
@@ -97,7 +93,6 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
                show: true
              });
            };
-           debugger;
         });
         $scope.loading = false;
 
