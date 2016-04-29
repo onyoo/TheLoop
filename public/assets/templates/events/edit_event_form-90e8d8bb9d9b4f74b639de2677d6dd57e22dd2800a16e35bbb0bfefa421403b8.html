@@ -1,0 +1,113 @@
+<div class="blackout" ng-click="closeForm()">
+  <form name="form" ng-submit="eventForm.editEvent()" ng-click=" $event.stopPropagation()" id='edit-event-form' ng-click="$event.stopPropagation()">
+    <h3 class="form-header">Edit Your Event</h3>
+
+    <div class="row">
+
+      <div class="col-sm-5">
+        <div class="col-sm-12">
+          <label for="eventForm.event.data.title">Event Name</label>
+          <input
+            name="title"
+            type="text"
+            class="form-control"
+            placeholder="Event Name"
+            pattern=".{3,}"
+            ng-model="eventForm.event.data.title"
+            required="required">
+
+          <div ng-messages="form.title.$error" ng-if="form.title.$touched">
+            <div ng-message="required" class="error-message">An event name is required</div>
+            <div ng-message="pattern" class="error-message">The event name must be more than 3 characters</div>
+          </div>
+
+          <label for="eventForm.event.data.start_time">Start Time</label>
+          <input type="datetime-local" name="date" class="form-control" ng-model="eventForm.event.data.start_time" required="required">
+
+          <div ng-messages="form.date.$error" ng-if="form.date.$touched">
+            <div ng-message="required" class="error-message">An event date is required</div>
+          </div>
+
+          <label for="eventForm.event.data.description">Description</label>
+          <textarea
+            name="description"
+            rows="5"
+            cols="50"
+            class="form-control"
+            placeholder="Description"
+            ng-model="eventForm.event.data.description"></textarea>
+
+          <label for="eventForm.event.data.categories">Categories</label>
+
+          <select ng-model="eventForm.event.data.categories" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
+          </select>
+
+          <div ng-messages="form.category.$error" ng-if="form.category.$touched">
+            <div ng-message="required" class="error-message">You must provide a category</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-7">
+        <div class="col-sm-12">
+          <label for="eventForm.event.data.venue_name">Venue</label>
+          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.event.data.venue_name">
+
+          <label for="eventForm.event.data.street_address">Street Address</label>
+          <input
+            name="address"
+            type="text"
+            class="form-control"
+            placeholder="Address"
+            required="required"
+            ng-model="eventForm.event.data.street_address">
+
+          <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+            <div ng-message="required" class="error-message">You must provide a street address</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-5">
+              <label for="eventForm.event.data.city">City</label>
+              <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.event.data.city" required="required">
+
+              <div ng-messages="form.city.$error" ng-if="form.city.$touched">
+                <div ng-message="required" class="error-message">You must provide the city</div>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="eventForm.event.data.region_abbr">State</label>
+              <select ng-model="eventForm.event.data.region_abbr" name="state" class="form-control" state-picker-directive></select>
+            </div>
+
+            <div class="col-sm-3">
+              <label for="eventForm.event.data.postal_code">Zipcode</label>
+              <input type="number" class="form-control" placeholder="Zipcode" ng-model="eventForm.event.data.postal_code">
+            </div>
+          </div>
+
+          <label for="eventForm.event.data.country_abbr">Country</label>
+          <select ng-model="eventForm.event.data.country_abbr" class="form-control country-input" pvp-country-picker></select>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="eventForm.event.data.image_url">Image URL (optional)</label>
+              <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.event.data.image_url">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="eventForm.event.data.event_url">Event URL (optional)</label>
+              <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.event.data.event_url">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br><hr>
+
+    <div class="form-buttons">
+      <button type="submit" ng-click="closeForm()" class="btn btn-default">Close</button>
+      <button type="submit" value="Create Event" class="btn btn-primary">Edit Event</button>
+    </div>
+  </form>
+</div>

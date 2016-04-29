@@ -68204,14 +68204,6 @@ var ApiEvent = {
         $state.go('home.event', {id: api_id})
       })
     }
-
-    // If we want to add categories to eventful API event index card
-    // ctrl.category = '';
-    // ctrl.setCategory = EventsService.getEvent(this.details.id)
-    //   .then(function(resp){
-    //     ctrl.category = resp.data.categories.category[0].name.replace('&amp; ', '');
-    //   });
-
   },
   controllerAs: 'event'
 };
@@ -68236,35 +68228,40 @@ var EditEventForm = {
     event: '='
   },
   controller: function(UserEvent, $scope, $stateParams, CategoriesService, EventsService) {
-    var ctrl = this;
 
+    var ctrl = this;
     ctrl.$inject = ['UserEvent', '$scope', '$stateParams', 'CategoriesService', 'EventsService'];
+
+    $scope.selectedCountry = [];
 
     $scope.closeForm = function() {
       $scope.$emit('closeEditForm', false);
     }
 
     ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
-    $scope.selectedCountry = [];
+    ctrl.event.data.categories = ctrl.event.data.category;
 
-    ctrl.allCategories = [];
+    if (ctrl.event.data.venue != undefined){
+      ctrl.event.data.venue_name = ctrl.event.data.venue.name;
+    };
 
-    ctrl.categories = CategoriesService.getCategories().then(function(res){
-      ctrl.allCategories = res.data.map(function(category){
+    CategoriesService.getCategories().then(function(res){
+      ctrl.categories = res.data.map(function(category){
         category.name = category.name.replace('&amp; ', '');
         return category;
       });
     });
 
     ctrl.editEvent = function() {
-      UserEvent.update({id: ctrl.event.data.id}, ctrl.event.data, function(resp){
-        ctrl.event.data = resp;
-        ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
-        $scope.$emit("eventUpdated", resp);
+      var updatedEvent = this.event.data;
+
+      UserEvent.update({id: updatedEvent.id}, {event: updatedEvent}, function(res){
+        ctrl.event.category = res.category.name;
+        ctrl.event.date = new Date(res.start_time);
+        $scope.$emit("eventUpdated", res);
       });
     };
   },
-
   controllerAs: 'eventForm'
 };
 
@@ -68276,14 +68273,25 @@ var LoopEvent = {
   bindings: {
     details: '='
   },
-  controller: function(User, $state, $scope){
-    this.$inject = ['User', '$state', '$scope'];
-    this.removeEvent = function(myEvent) {
-      User.delete({id: myEvent.id }, function(res){
+  controller: function(User, CategoriesService, VenuesService){
+    this.$inject = ['User', 'CategoriesService', 'VenuesService'];
+    var ctrl = this;
+
+    ctrl.date = Date.parse(this.details.start_time);
+
+    CategoriesService.getCategory(ctrl.details.category_id).then(function(res){
+      ctrl.category = res.data.name;
+    });
+
+    VenuesService.getVenue(ctrl.details.venue_id).then(function(res){
+      ctrl.venue = res.data.name;
+    });
+
+    this.removeEvent = function() {
+      User.delete({id: this.details.id }, function(res){
         $('[data-event-id="' + res.id +'"]').text('');
       });
     };
-    this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'
 };
@@ -68296,11 +68304,17 @@ var LoopIndexEvent = {
   bindings: {
     details: '='
   },
-  controller: function(UserEvent){
-    this.$inject = ['UserEvent'];
-    if(this.details.start_time){
-      this.date = Date.parse(this.details.start_time);
-    };
+  controller: function(UserEvent, EventsService, $state){
+    this.$inject = ['UserEvent','EventsService','$state'];
+    this.date = new Date(this.details.start_time);
+
+    this.showEvent = function(id) {
+      EventsService.checkLoopEvent(id).then(function(resp){
+        $state.go('home.loopEvent', {id: resp.data.id})
+      }, function(error){
+        $state.go('home.event', {id: id})
+      })
+    }
   },
   controllerAs: 'event'
 };
@@ -68319,26 +68333,22 @@ var NewEventForm = {
       $scope.$emit('closeForm', false);
     };
 
-    ctrl.allCategories = [];
+    $scope.selectedCountry = [];
 
-    ctrl.categories = CategoriesService.getCategories().then(function(res){
-      ctrl.allCategories = res.data.map(function(category){
+    Auth.currentUser().then(function(resp) {
+      ctrl.creator = resp.id;
+    });
+
+    CategoriesService.getCategories().then(function(res){
+      ctrl.categories = res.data.map(function(category){
         category.name = category.name.replace('&amp; ', '');
         return category;
       });
     });
 
-    $scope.selectedCountry = [];
-
-    ctrl.currentUser = Auth.currentUser().then(function(resp) {
-      ctrl.creator = resp.id;
-    }, function(error) {
-      console.log(error);
-    })
-
     ctrl.createEvent = function() {
-      ctrl.formData.creator = ctrl.creator
-      UserEvent.create({event: ctrl.formData}, function(res){
+      this.formData.creator = ctrl.creator
+      UserEvent.create({event: this.formData}, function(res){
         $scope.closeForm();
         $state.go('home.myEvents');
         ctrl.formData = {};
@@ -68346,7 +68356,6 @@ var NewEventForm = {
         console.log(error);
       });
     };
-
   },
   controllerAs: 'eventForm'
 };
@@ -68406,8 +68415,8 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
     }];
   });
 
-  ctrl.addEvent = function(ourEvent){
-    ctrl.event = UserEvent.create({event: ourEvent}, function(res){
+  ctrl.addEvent = function(){
+    ctrl.event = UserEvent.create({event: this.data}, function(res){
       $state.go('home.myEvents');
     });
   };
@@ -68423,39 +68432,35 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
   $scope.markerClick = function(map, event, marker) {
     var newHash = 'anchor' + marker.id;
     if ($location.hash() !== newHash) {
-        // set the $location.hash to `newHash` and
-        // $anchorScroll will automatically scroll to it
         $location.hash(newHash);
         $('li.active-marker').removeClass('active-marker')
         $('#' + newHash).addClass('active-marker');
       } else {
-        // call $anchorScroll() explicitly,
-        // since $location.hash hasn't changed
         $anchorScroll();
-      }
-  }
+      };
+  };
 
   ctrl.zipcodeSearch = function() {
 
-    EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
-      ctrl.loop = events.data;
-    }, function(error){
-      console.log(error);
-    });
+  EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
+    ctrl.loop = events.data;
+  }, function(error){
+    console.log(error);
+  });
 
-    EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
-      ctrl.data      = resp.data.events.event;
-      ctrl.latitude  = resp.data.events.event.latitude;
-      ctrl.longitude = resp.data.events.event.longitude;
+  EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
+    ctrl.data      = resp.data.events.event;
+    ctrl.latitude  = resp.data.events.event.latitude;
+    ctrl.longitude = resp.data.events.event.longitude;
 
-      var map = {
-          center : {
-              latitude: ctrl.data[0].latitude,
-              longitude: ctrl.data[0].longitude
-          },
-          zoom : 10,
-          control : {}
-      };
+    var map = {
+        center : {
+            latitude: ctrl.data[0].latitude,
+            longitude: ctrl.data[0].longitude
+        },
+        zoom : 10,
+        control : {}
+    };
 
     uiGmapIsReady.promise().then(function(map_instances) {
       $scope.map = map;
@@ -68516,7 +68521,6 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
                show: true
              });
            };
-           debugger;
         });
         $scope.loading = false;
 
@@ -68536,12 +68540,12 @@ angular
 function LocalController($scope, uiGmapIsReady) {
 
   $scope.map = {
-      center : {
-          latitude: 51.5,
-          longitude: -0.1
-      },
-      zoom : 9,
-      control : {}
+    center : {
+        latitude: 51.5,
+        longitude: -0.1
+    },
+    zoom : 9,
+    control : {}
   };
 
   if(!!navigator.geolocation) {
@@ -68571,24 +68575,17 @@ function LocalController($scope, uiGmapIsReady) {
 angular
   .module('app')
   .controller('LocalController', ['$scope', 'uiGmapIsReady', LocalController]);
-function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment, $http){
+function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment){
 
   var ctrl = this;
-
   ctrl.data = event.data;
-  if(ctrl.data.category){
-    ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
-  }
+  debugger;
+  if(ctrl.data.category !== undefined){
+    ctrl.category = ctrl.data.category.name;
+  };
   ctrl.date = new Date(ctrl.data.start_time);
-  $scope.signedIn = Auth.isAuthenticated;
-
-  Auth.currentUser()
-    .then(function(user) {
-      ctrl.user = user;
-      console.log(ctrl.user);
-    });
-
   ctrl.comment = new Comment();
+
 
   ctrl.addComment = function(event, comment, user) {
     comment.event_id = event;
@@ -68599,6 +68596,8 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
     ctrl.comment = new Comment();
   };
+
+  $scope.signedIn = Auth.isAuthenticated;
 
   var map = {
     center : {
@@ -68620,26 +68619,23 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   });
 
   ctrl.addEvent = function(ourEvent){
-    if ( (Number.isInteger(ourEvent.id)) && (ourEvent.users.length == 0)){
-      ctrl.event = UserEvent.update({id: ourEvent.id}, ourEvent, function(res){
-        $state.go('home.myEvents');
-      });
-    }else{
-      ctrl.event = UserEvent.create(ourEvent, function(res){
-        $state.go('home.myEvents');
-      });
-    };
+    ctrl.event = UserEvent.create({event: this.data}, function(res){
+      $state.go('home.myEvents');
+    });
   };
-  ctrl.editable = '';
 
-  ctrl.canEdit = Auth.currentUser().then(function(resp) {
-    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+  Auth.currentUser().then(function(user) {
+    ctrl.user = user;
   });
 
-  ctrl.attending = Auth.currentUser().then(function(resp){
-    return ctrl.attending = ctrl.data.users.some(function(user){
+  Auth.currentUser().then(function(resp){
+    ctrl.attending = ctrl.data.users.some(function(user){
       return resp.id == user.id;
     });
+  });
+
+  Auth.currentUser().then(function(resp) {
+    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
   });
 
   $scope.$on('closeEditForm', function (emitEvent, data) {
@@ -68650,7 +68646,6 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     ctrl.data = data;
     $scope.editEvent = false;
   });
-
 };
 angular
   .module('app')
@@ -68687,14 +68682,12 @@ function NavbarController($scope, Auth, $state, $location) {
     $scope.newEvent = data
   });
 };
-function UserEventsController(User, Auth) {
-
+function UserEventsController(User, Auth, $http) {
   var ctrl = this;
 
   ctrl.user = Auth.currentUser().then(function(user) {
     ctrl.events = User.get({ 'id': user.id });
   });
-
 };
 
 
@@ -68787,10 +68780,13 @@ angular
   .filter('truncate', Truncate);
   function CategoriesService($http) {
 
+  this.getCategory = function(category_id) {
+    return $http.get('http://localhost:3000/api/v1/categories/' + category_id);
+  };
+
   this.getCategories = function() {
     return $http.get('/api/v1/categories');
   };
-
 };
 
 angular
@@ -68860,6 +68856,16 @@ function EventsService($http){
 angular
   .module('app')
   .service('EventsService', ['$http', EventsService]);
+function VenuesService($http) {
+
+  this.getVenue = function(venue_id) {
+    return $http.get('http://localhost:3000/api/v1/venues/' + venue_id);
+  };
+};
+
+angular
+  .module('app')
+  .service('VenuesService', VenuesService);
 // Angular Rails Template
 // source: app/assets/javascripts/templates/auth/login.html
 
@@ -68892,35 +68898,28 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/edit_event_form.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/edit_event_form.html", '<div class="blackout" ng-click="closeForm()">\n  <form name="form" ng-submit="eventForm.editEvent()" class=\'create_event_form\' ng-click=" $event.stopPropagation()">\n    <h2 class="auth-header">Edit Event</h2>\n    <div class="row">\n      <div class="col-sm-8 auth-inputs">\n        <div ng-messages="form.title.$error" ng-if="form.title.$touched">\n          <div ng-message="required">The event name is required</div>\n          <div ng-message="pattern">The event name must be more than 3 characters</div>\n        </div>\n\n        <label for="eventForm.formData.name">Event Name</label>\n        <input\n          name="title"\n          type="text"\n          class="form-control"\n          placeholder="Event Name"\n          pattern=".{3,}"\n          ng-model="eventForm.event.data.title"\n          required="required"><br>\n\n        <label for="eventForm.event.data.description">Description</label>\n        <textarea\n          name="description"\n          rows="4"\n          cols="50"\n          class="form-control"\n          placeholder="Description"\n          ng-model="eventForm.event.data.description"></textarea><br>\n\n        <label for="eventForm.event.data.data.start_time">Start Time</label>\n        <input type="datetime-local" class="form-control" ng-model="eventForm.event.data.start_time"><br>\n\n        <label for="eventForm.event.data.event_url">Event or Ticketing URL (optional)</label>\n        <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.event.data.event_url"><br>\n\n        <div ng-messages="form.address.$error" ng-if="form.address.$touched">\n          <div ng-message="required">You must provide a street address</div>\n        </div>\n        <label for="eventForm.event.data.street_address">Street Address</label>\n        <input\n          name="address"\n          type="text"\n          class="form-control"\n          placeholder="Address"\n          required="required"\n          ng-model="eventForm.event.data.street_address"><br>\n\n        <div ng-messages="form.city.$error" ng-if="form.city.$touched">\n          <div ng-message="required">You must provide the city where the event takes place</div>\n        </div>\n        <label for="eventForm.event.data.city">City</label>\n        <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.event.data.city" required="required"><br>\n\n        <div ng-messages="form.state.$error" ng-if="form.state.$touched">\n          <div ng-message="required">You must provide the state</div>\n        </div>\n        <label for="eventForm.event.data.region_abbr">State</label>\n        <input name="state" type="text" class="form-control" placeholder="State" ng-model="eventForm.event.data.region_abbr" required="required"><br>\n\n        <label for="eventForm.event.data.postal_code">Zipcode / Postal Code</label>\n        <input type="number" class="form-control" placeholder="Zipcode / Postal Code" ng-model="eventForm.event.data.postal_code"><br>\n\n        <label for="eventForm.event.data.country_abbr">Country</label>\n        <select ng-model="eventForm.event.data.country_abbr" class="form-control" pvp-country-picker></select><br>\n\n        <label for="eventForm.event.data.image_url">Image URL (optional)</label>\n        <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.event.data.image_url"><br>\n\n        <div ng-messages="form.category.$error" ng-if="form.category.$touched">\n          <div ng-message="required">You must provide a category</div>\n        </div>\n\n        <label for="eventForm.event.data.category">Categories</label>\n        <select ng-model="eventForm.event.data.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">\n        </select><br>\n\n        <label for="eventForm.event.data.venue">Venue (optional)</label>\n        <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.event.data.venue.name"><br>\n      </div>\n    </div>\n\n    <input type="submit" class="btn btn-primary" value="Edit Event">\n  </form>\n</div>')
-}]);
-
-// Angular Rails Template
-// source: app/assets/javascripts/templates/events/event_form.html
-
-angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/event_form.html", '<div ng-controller="UserEventsController as ctrl">\n  <div class="modal fade" id="create-event" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\n    <div class="modal-dialog" role="document">\n      <div class="modal-content">\n        <div class="modal-header">\n          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n          <h4 class="modal-title" id="myModalLabel">Create a New Event</h4>\n        </div>\n        <div class="modal-body">\n\n          <form name="form" ng-submit="ctrl.createEvent()" class=\'create_event_form\' ng-click="$event.stopPropagation()">\n            <div class="row">\n\n              <div class="col-sm-6">\n                <div class="col-sm-9 auth-inputs">\n                  <label for="ctrl.formData.title">Event Name</label>\n                  <input\n                    name="title"\n                    type="text"\n                    class="form-control"\n                    placeholder="Event Name"\n                    pattern=".{3,}"\n                    ng-model="ctrl.formData.title"\n                    required="required"\n                    ><br>\n\n                  <div ng-messages="form.title.$error" ng-if="form.title.$touched">\n                    <div ng-message="required">An event name is required</div>\n                    <div ng-message="pattern">The event name must be more than 3 characters</div>\n                  </div>\n\n                  <label for="ctrl.formData.start_time">Start Time</label>\n                  <input type="datetime-local" name="date" class="form-control" ng-model="ctrl.formData.start_time"><br>\n\n                  <div ng-messages="form.date.$error" ng-if="form.date.$touched">\n                    <div ng-message="required">An event date is required</div>\n                  </div>\n\n                  <label for="ctrl.formData.description">Description</label>\n                  <textarea\n                    name="description"\n                    rows="4"\n                    cols="50"\n                    class="form-control"\n                    placeholder="Description"\n                    ng-model="ctrl.formData.description"></textarea><br>\n\n                  <label for="ctrl.formData.categories.category">Categories</label>\n\n                  <select ng-model="ctrl.formData.category" ng-options="category for category in ctrl.allCategories" class="form-control" name="category">\n                  </select><br>\n\n                  <div ng-messages="form.category.$error" ng-if="form.category.$touched">\n                    <div ng-message="required">You must provide a category</div>\n                  </div>\n                </div>\n              </div>\n\n              <div class="col-sm-6">\n                <label for="ctrl.formData.venue">Venue (optional)</label>\n                <input type="text" class="form-control" placeholder="Venue Name" ng-model="ctrl.formData.venue"><br>\n\n                <label for="ctrl.formData.street_address">Street Address</label>\n                <input\n                  name="address"\n                  type="text"\n                  class="form-control"\n                  placeholder="Address"\n                  required="required"\n                  ng-model="ctrl.formData.street_address"><br>\n\n                <div ng-messages="form.address.$error" ng-if="form.address.$touched">\n                  <div ng-message="required">You must provide a street address</div>\n                </div>\n\n                <div class="row">\n                  <div class="col-sm-5">\n                    <label for="ctrl.formData.city">City</label>\n                    <input name="city" type="text" class="form-control" placeholder="City" ng-model="ctrl.formData.city" required="required"><br>\n\n                    <div ng-messages="form.city.$error" ng-if="form.city.$touched">\n                      <div ng-message="required">You must provide the city where the event takes place</div>\n                    </div>\n                  </div>\n\n                  <div class="col-sm-4">\n                    <label for="ctrl.formData.region_abbr">State</label>\n                    <select ng-model="ctrl.formData.region_abbr" class="form-control" required="required" state-picker-directive></select><br>\n\n                    <div ng-messages="form.state.$error" ng-if="form.state.$touched">\n                      <div ng-message="required">You must provide the state</div>\n                    </div>\n                  </div>\n\n                  <div class="col-sm-3">\n                    <label for="ctrl.formData.postal_code">Zipcode</label>\n                    <input type="number" class="form-control" placeholder="Zipcode" ng-model="ctrl.formData.postal_code"><br>\n                  </div>\n                </div>\n\n                <label for="ctrl.formData.country_abbr">Country</label>\n                <select ng-model="ctrl.formData.country_abbr" class="form-control" pvp-country-picker></select><br>\n\n                <div class="row">\n                  <div class="col-sm-6">\n                    <label for="ctrl.formData.image_url">Image URL (optional)</label>\n                    <input type="text" class="form-control" placeholder="Image URL" ng-model="ctrl.formData.image_url"><br>\n                  </div>\n\n                  <div class="col-sm-6">\n                    <label for="ctrl.formData.event_url">Event or Ticketing URL (optional)</label>\n                    <input type="url" class="form-control" placeholder="URL" ng-model="ctrl.formData.event_url"><br>\n                  </div>\n                </div>\n              </div>\n            </div>\n\n            <div class="modal-footer">\n              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\n              <button type="submit" class="btn btn-primary">Create Event</button>\n            </div>\n          </form>\n        </div>\n    </div>\n  </div>\n</div>')
+  $templateCache.put("events/edit_event_form.html", '<div class="blackout" ng-click="closeForm()">\n  <form name="form" ng-submit="eventForm.editEvent()" ng-click=" $event.stopPropagation()" id=\'edit-event-form\' ng-click="$event.stopPropagation()">\n    <h3 class="form-header">Edit Your Event</h3>\n\n    <div class="row">\n\n      <div class="col-sm-5">\n        <div class="col-sm-12">\n          <label for="eventForm.event.data.title">Event Name</label>\n          <input\n            name="title"\n            type="text"\n            class="form-control"\n            placeholder="Event Name"\n            pattern=".{3,}"\n            ng-model="eventForm.event.data.title"\n            required="required">\n\n          <div ng-messages="form.title.$error" ng-if="form.title.$touched">\n            <div ng-message="required" class="error-message">An event name is required</div>\n            <div ng-message="pattern" class="error-message">The event name must be more than 3 characters</div>\n          </div>\n\n          <label for="eventForm.event.data.start_time">Start Time</label>\n          <input type="datetime-local" name="date" class="form-control" ng-model="eventForm.event.data.start_time" required="required">\n\n          <div ng-messages="form.date.$error" ng-if="form.date.$touched">\n            <div ng-message="required" class="error-message">An event date is required</div>\n          </div>\n\n          <label for="eventForm.event.data.description">Description</label>\n          <textarea\n            name="description"\n            rows="5"\n            cols="50"\n            class="form-control"\n            placeholder="Description"\n            ng-model="eventForm.event.data.description"></textarea>\n\n          <label for="eventForm.event.data.categories">Categories</label>\n\n          <select ng-model="eventForm.event.data.categories" ng-options="category.name for category in eventForm.categories | orderBy:\'name\'" class="form-control" name="category" required="required">\n          </select>\n\n          <div ng-messages="form.category.$error" ng-if="form.category.$touched">\n            <div ng-message="required" class="error-message">You must provide a category</div>\n          </div>\n        </div>\n      </div>\n\n      <div class="col-sm-7">\n        <div class="col-sm-12">\n          <label for="eventForm.event.data.venue_name">Venue</label>\n          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.event.data.venue_name">\n\n          <label for="eventForm.event.data.street_address">Street Address</label>\n          <input\n            name="address"\n            type="text"\n            class="form-control"\n            placeholder="Address"\n            required="required"\n            ng-model="eventForm.event.data.street_address">\n\n          <div ng-messages="form.address.$error" ng-if="form.address.$touched">\n            <div ng-message="required" class="error-message">You must provide a street address</div>\n          </div>\n\n          <div class="row">\n            <div class="col-sm-5">\n              <label for="eventForm.event.data.city">City</label>\n              <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.event.data.city" required="required">\n\n              <div ng-messages="form.city.$error" ng-if="form.city.$touched">\n                <div ng-message="required" class="error-message">You must provide the city</div>\n              </div>\n            </div>\n\n            <div class="col-sm-4">\n              <label for="eventForm.event.data.region_abbr">State</label>\n              <select ng-model="eventForm.event.data.region_abbr" name="state" class="form-control" state-picker-directive></select>\n            </div>\n\n            <div class="col-sm-3">\n              <label for="eventForm.event.data.postal_code">Zipcode</label>\n              <input type="number" class="form-control" placeholder="Zipcode" ng-model="eventForm.event.data.postal_code">\n            </div>\n          </div>\n\n          <label for="eventForm.event.data.country_abbr">Country</label>\n          <select ng-model="eventForm.event.data.country_abbr" class="form-control country-input" pvp-country-picker></select>\n\n          <div class="row">\n            <div class="col-sm-6">\n              <label for="eventForm.event.data.image_url">Image URL (optional)</label>\n              <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.event.data.image_url">\n            </div>\n\n            <div class="col-sm-6">\n              <label for="eventForm.event.data.event_url">Event URL (optional)</label>\n              <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.event.data.event_url">\n            </div>\n          </div>\n        </div>\n      </div>\n    </div><br><hr>\n\n    <div class="form-buttons">\n      <button type="submit" ng-click="closeForm()" class="btn btn-default">Close</button>\n      <button type="submit" value="Create Event" class="btn btn-primary">Edit Event</button>\n    </div>\n  </form>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/event_show_page.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/event_show_page.html", '<div class="container-fluid">\n  <div class="row">\n    <div class="col-sm-6" id="event-show-page">\n      <div class="row">\n        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>\n\n        <div class="col-sm-4" ng-show="event.data.images.image.thumb.url">\n          <div class="event-image">\n            <img class="event-image" ng-show="{{event.data.images.image.thumb.url.length > 0}}" src="{{event.data.images.image.thumb.url}}">\n          </div>\n        </div><br>\n      </div><hr>\n\n      <div class="row event-headers">\n        <p class="col-sm-8" ng-model="event.category">{{event.category}}</p>\n        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:\'medium\'}}</p><br>\n      </div>\n\n      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>\n\n      <div class="event-address">\n        <p>{{event.data.venue_name}}</p>\n        <p>{{event.data.address}}</p>\n        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>\n      </div><br>\n\n      <button class="btn btn-primary" id="attend-event-button" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>\n    </div>\n\n    <div class="col-sm-6">\n      <div id="event-show-map">\n        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">\n          <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n            <ui-gmap-window show=\'show\'>\n              <div>{{coords}}</div>\n            </ui-gmap-window>\n          </ui-gmap-markers>\n        </ui-gmap-google-map>\n      </div>\n    </div>\n  </div>\n</div>')
+  $templateCache.put("events/event_show_page.html", '<div class="container-fluid">\n  <div class="row">\n    <div class="col-sm-6" id="event-show-page">\n      <div class="row">\n        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>\n\n        <div class="col-sm-4" ng-show="event.data.images.image.thumb.url">\n          <div class="event-image">\n            <img class="event-image" src="{{event.data.images.image.thumb.url}}">\n          </div>\n        </div><br>\n      </div><hr>\n\n      <div class="row event-headers">\n        <p class="col-sm-8" ng-model="event.category">{{event.category}}</p>\n        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:\'medium\'}}</p><br>\n      </div>\n\n      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>\n\n      <div class="event-address">\n        <p>{{event.data.venue_name}}</p>\n        <p>{{event.data.address}}</p>\n        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>\n      </div><br>\n\n      <button class="btn btn-primary" id="attend-event-button" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>\n    </div>\n\n    <div class="col-sm-6">\n      <div id="event-show-map">\n        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">\n          <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n            <ui-gmap-window show=\'show\'>\n              <div>{{coords}}</div>\n            </ui-gmap-window>\n          </ui-gmap-markers>\n        </ui-gmap-google-map>\n      </div>\n    </div>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/events_index.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" click="markerClick" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n          <!-- <ui-gmap-window show=\'show\'>\n            <div>{{coords}}</div>\n          </ui-gmap-window> -->\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
+  $templateCache.put("events/events_index.html", '<div class="row">\n  <div class="col-sm-7" id="events-index">\n    <div ng-hide="loading">\n      <h2 id="events-header">Welcome To The Loop</h2><br>\n\n        <!-- Search inputs -->\n        <div class="row">\n          <div class="col-sm-5">\n            <p><input type="text" class="form-control" placeholder=\'Keyword Search\' ng-model=\'ctrl.keyword\'></p>\n          </div>\n\n          <div class="col-sm-5">\n            <form ng-submit=\'ctrl.zipcodeSearch()\'>\n              <input type="text" class="form-control" placeholder=\'Different Zipcode or City\' ng-model=\'ctrl.zipcode\'>\n              <input type="submit" hidden=\'true\'>\n            </form>\n          </div>\n\n          <!-- Sort by Date -->\n          <div class="col-sm-2">\n            <p id="sort-by-link">\n              Sort by: <a href="" ng-click="sort = \'-start_time\'; reverse = !reverse">Date</a>\n            </p>\n          </div>\n        </div><br>\n\n        <!-- Display events -->\n        <div id="events-list-container">\n          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">\n            <loop-index-event details=\'eventData\'></loop-index-event>\n          </ul>\n         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">\n            <api-event details=\'eventData\'></api-event>\n          </ul>\n        </div>\n\n      </div>\n    </div>\n\n    <!-- Map with event location markers -->\n    <div class="col-sm-5" id="events-map">\n      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">\n        <ui-gmap-markers models= \'markers\' coords= "\'coords\'" click="markerClick">\n        </ui-gmap-markers>\n      </ui-gmap-google-map>\n    </div>\n  </div>\n\n  <!-- Loading gif -->\n  <div ng-show="loading" id="loading-gif">\n    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class=\'loading_img\'>\n    <p id="loading-map-message">Loading Map...</p>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/local_event.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/local_event.html", '<div data-event-id="{{event.details.id}}">\n  <h3><a ui-sref=\'home.loopEvent({id: event.details.id})\'>{{event.details.title}}</a></h3>\n  <p ng-bind-html="event.details.description | removeWhiteSpace"></p>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p>City: {{event.details.city}}</p>\n  <p>State: {{event.details.region}}</p>\n  <button type="submit" class="btn btn-danger" ng-click="event.removeEvent(event.details)">Remove Event</button>\n</div>')
+  $templateCache.put("events/local_event.html", '<li class="local-event" data-event-id="{{event.details.id}}">\n  <div class="row">\n    <!-- Date container -->\n    <div class="col-sm-3 local-date">\n      <p class="local-category">{{event.category}} Event</p><hr>\n      <h3 class="my-event-date"><span ng-bind="event.date | date:\'medium\'"></span></h3>\n      <div class="col-sm-4">\n        <div ng-show="{{event.details.image_url}}">\n          <img class="local-image" src="{{event.details.image_url}}">\n        </div>\n      </div><br>\n    </div>\n\n    <!-- Event container -->\n    <div class="col-sm-9 local-details">\n      <h3 class="my-event-title"><a ui-sref=\'home.loopEvent({id: event.details.id})\'>{{event.details.title}}</a></h3><hr>\n      <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n      <p><a href="{{event.details.event_url}}" target="_blank">View Event</a></p>\n      <div class="row">\n        <div class="col-sm-10">\n          <div class="local-address">\n            <p>{{event.venue}}</a></p>\n            <p>{{event.details.street_address}}</p>\n            <p>{{event.details.city}}, {{event.details.region_abbr}} {{event.details.postal_code}}</p>\n          </div>\n        </div>\n\n        <div class="col-sm-2">\n          <button class="btn btn-danger" ng-click="event.removeEvent()" id="remove-event">Remove Event</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</li><br>')
 }]);
 
 // Angular Rails Template
@@ -68934,28 +68933,28 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/loop_event_show_page.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/loop_event_show_page.html", '<div class="container-fluid" ng-init="editEvent=false">\n  <div class="row" >\n    <div class="col-sm-6" id="event-show-page">\n      <div class="row">\n        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>\n\n        <div class="col-sm-4">\n          <div class="event-image">\n            <img class="event-image" src="{{event.data.image_url}}" ng-show="{{event.data.images.image.thumb.url}}">\n          </div>\n        </div>\n      </div><hr>\n\n      <div class="row event-headers">\n        <p class="col-sm-8">{{event.category}}</p>\n        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:\'medium\'}}</p><br>\n      </div>\n\n      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>\n\n      <div class="event-address">\n        <p>{{event.data.venue.name}}</p>\n        <p>{{event.data.street_address}}</p>\n        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>\n      </div><br>\n\n      <p>Users attending the event: {{event.data.users.length}}</p>\n      <p ng-show="event.attending"><strong>On The Guest List!</strong></p>\n\n      <button class="btn btn-primary" id="attend-event-button" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button><br>\n\n\n      <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>\n\n      <div>Comments:\n        <div ng-repeat="comment in event.data.comments">\n          <comment-item comment="comment"></comment-item>\n        </div>\n        <form ng-submit="event.addComment(event.data.id, event.comment, event.user.id)">\n          <input type="text" placeholder="comment" ng-model="event.comment.content">\n          <input type="submit" value="Add Comment">\n        </form>\n      </div>\n\n\n\n      <!-- <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button> -->\n    </div>\n\n    <div ng-show=\'editEvent\'>\n      <edit-event-form event="event"></edit-event-form>\n    </div>\n\n    <div class="col-sm-6">\n      <div id="event-show-map">\n\n        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">\n          <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n            <ui-gmap-window show=\'show\'>\n              <div>{{coords}}</div>\n            </ui-gmap-window>\n          </ui-gmap-markers>\n        </ui-gmap-google-map>\n      </div>\n    </div>\n  </div>\n</div>')
+  $templateCache.put("events/loop_event_show_page.html", '<div class="container-fluid" ng-init="editEvent=false">\n  <div class="row" >\n    <div class="col-sm-6" id="event-show-page">\n      <div class="row">\n        <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>\n\n        <div class="col-sm-4">\n          <div class="event-image">\n            <img class="event-image" src="{{event.data.image_url}}" ng-show="{{event.data.images.image.thumb.url}}">\n          </div>\n        </div>\n      </div><hr>\n\n      <div class="row event-headers">\n        <p class="col-sm-8">{{event.category}}</p>\n        <p class="col-sm-offset-1 col-sm-offset-4 event-date">{{event.date | date:\'medium\'}}</p><br>\n      </div>\n\n      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>\n\n      <div class="event-address">\n        <p>{{event.data.venue.name}}</p>\n        <p>{{event.data.street_address}}</p>\n        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>\n      </div><br>\n\n      <p>Users attending the event: {{event.data.users.length}}</p>\n      <p ng-show="event.attending"><strong>On The Guest List!</strong></p>\n\n      <button class="btn btn-primary" id="attend-event-button" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button><br>\n\n\n      <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>\n\n      <div>Comments:\n        <div ng-repeat="comment in event.data.comments">\n          <comment-item comment="comment"></comment-item>\n        </div>\n        <form ng-submit="event.addComment(event.data.id, event.comment, event.user.id)">\n          <input type="text" placeholder="comment" ng-model="event.comment.content">\n          <input type="submit" value="Add Comment">\n        </form>\n      </div>\n    </div>\n<!-- ng-show=\'editEvent\' -->\n    <div ng-show=\'editEvent\'>\n      <edit-event-form event="event"></edit-event-form>\n    </div>\n\n    <div class="col-sm-6">\n      <div id="event-show-map">\n\n        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">\n          <ui-gmap-markers models= \'markers\' coords= "\'coords\'" icon="\'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png\'">\n            <ui-gmap-window show=\'show\'>\n              <div>{{coords}}</div>\n            </ui-gmap-window>\n          </ui-gmap-markers>\n        </ui-gmap-google-map>\n      </div>\n    </div>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/loop_index_event.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/loop_index_event.html", '<li class="event-container" id="anchor{{event.details.id}}">\n  <h3 class="event-title"><a ui-sref=\'home.loopEvent({id: event.details.id})\'>{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p>Venue: <a href="{{event.details.venue_url}}" target="_blank"> {{event.details.venue.name}}</a></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>{{event.details.city}}, {{event.details.region}}</p>\n</li>')
+  $templateCache.put("events/loop_index_event.html", '<li class="event-container" id="anchor{{event.details.id}}">\n  <h3 class="event-title"><a ui-sref="home.loopEvent({id: event.details.id})">{{event.details.title}}</a></h3>\n  <p>Date: <span ng-bind="event.date | date:\'medium\'"></span></p>\n  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n  <p>Venue: {{event.details.venue.name}}</a></p>\n  <p>{{event.details.city}}, {{event.details.region_abbr}}</p>\n</li>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/my_events.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/my_events.html", "<div id=\"events-index\">\n  <h2 id=\"events-header\">Welcome To The Loop</h2><br><br>\n\n  <div ng-show='ctrl.events.events.length > 0'>\n    <li id='events_list' ng-repeat=\"eventData in ctrl.events.events\" >\n      <loop-event details='eventData'></loop-event>\n    </li>\n  </div>\n\n  <div ng-show='ctrl.events.events.length == 0'>\n    <p>You have no events yet. <a ui-sref='home.events'>Find events near you!</a></p>\n  </div>\n\n  <!-- -->\n  <!-- <div id='map_view'>\n    <ui-gmap-google-map center=\"map.center\" options=\"options\" zoom=\"map.zoom\"></ui-gmap-google-map>\n  </div> -->\n</div>")
+  $templateCache.put("events/my_events.html", '<div id="events-index" class="container">\n  <div class="row">\n    <h2 id="my-events-header">The Loop</h2><br>\n\n    <div ng-show=\'ctrl.events.events.length > 0\'>\n      <div class="row">\n        <p id="sort-by-link">\n          Sort by: <a href="" ng-click="sort = \'-date\'; reverse = !reverse">Date</a>\n        </p>\n      </div>\n\n      <ul id=\'events_list\' ng-repeat="eventData in ctrl.events.events | orderBy:sort:reverse">\n        <loop-event details=\'eventData\'></loop-event>\n      </ul>\n    </div>\n\n    <div ng-show=\'ctrl.events.events.length == 0\'>\n      <p id="no-events-message">You have no events yet. <a ui-sref=\'home.events\'>Find events near you!</a></p>\n    </div>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
 // source: app/assets/javascripts/templates/events/new_event_form.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/new_event_form.html", '<div class="blackout" ng-click="closeForm()">\n  <form name="form" ng-submit="eventForm.createEvent()" class=\'event-form\' ng-click="$event.stopPropagation()">\n    <h3 class="form-header">Create a New Event</h3>\n\n    <div class="row">\n\n      <div class="col-sm-5">\n        <div class="col-sm-12">\n          <label for="eventForm.formData.title">Event Name</label>\n          <input\n            name="title"\n            type="text"\n            class="form-control"\n            placeholder="Event Name"\n            pattern=".{3,}"\n            ng-model="eventForm.formData.title"\n            required="required"\n            >\n\n          <div ng-messages="form.title.$error" ng-if="form.title.$touched">\n            <div ng-message="required" class="error-message">An event name is required</div>\n            <div ng-message="pattern" class="error-message">The event name must be more than 3 characters</div>\n          </div>\n\n          <label for="eventForm.formData.start_time">Start Time</label>\n          <input type="datetime-local" name="date" class="form-control" ng-model="eventForm.formData.start_time" required="required">\n\n          <div ng-messages="form.date.$error" ng-if="form.date.$touched">\n            <div ng-message="required" class="error-message">An event date is required</div>\n          </div>\n\n          <label for="eventForm.formData.description">Description</label>\n          <textarea\n            name="description"\n            rows="5"\n            cols="50"\n            class="form-control"\n            placeholder="Description"\n            ng-model="eventForm.formData.description"></textarea>\n\n          <label for="eventForm.formData.categories.category">Categories</label>\n\n          <select ng-model="eventForm.formData.category" ng-options="category for category in eventForm.allCategories | orderBy:category " class="form-control" name="category">\n          </select>\n\n          <div ng-messages="form.category.$error" ng-if="form.category.$touched">\n            <div ng-message="required" class="error-message">You must provide a category</div>\n          </div>\n        </div>\n      </div>\n\n      <div class="col-sm-7">\n        <div class="col-sm-12">\n          <label for="eventForm.formData.venue">Venue (optional)</label>\n          <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue">\n\n\n          <label for="eventForm.formData.street_address">Street Address</label>\n          <input\n            name="address"\n            type="text"\n            class="form-control"\n            placeholder="Address"\n            required="required"\n            ng-model="eventForm.formData.street_address">\n\n          <div ng-messages="form.address.$error" ng-if="form.address.$touched">\n            <div ng-message="required" class="error-message">You must provide a street address</div>\n          </div>\n\n        <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">\n        </select><br>\n\n          <div class="row">\n            <div class="col-sm-5">\n              <label for="eventForm.formData.city">City</label>\n              <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.formData.city" required="required">\n\n              <div ng-messages="form.city.$error" ng-if="form.city.$touched">\n                <div ng-message="required" class="error-message">You must provide the city</div>\n              </div>\n            </div>\n\n            <div class="col-sm-4">\n              <label for="eventForm.formData.region_abbr">State</label>\n              <select ng-model="eventForm.formData.region_abbr" name="state" class="form-control" required="required" state-picker-directive></select>\n\n              <div ng-messages="form.state.$error" ng-if="form.state.$touched">\n                <div ng-message="required" class="error-message">State is required</div>\n              </div>\n            </div>\n\n            <div class="col-sm-3">\n              <label for="eventForm.formData.postal_code">Zipcode</label>\n              <input type="number" class="form-control" placeholder="Zipcode" ng-model="eventForm.formData.postal_code">\n            </div>\n          </div>\n\n          <label for="eventForm.formData.country_abbr">Country</label>\n          <select ng-model="eventForm.formData.country_abbr" class="form-control country-input" pvp-country-picker></select>\n\n          <div class="row">\n            <div class="col-sm-6">\n              <label for="eventForm.formData.image_url">Image URL (optional)</label>\n              <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url">\n            </div>\n\n            <div class="col-sm-6">\n              <label for="eventForm.formData.event_url">Event URL (optional)</label>\n              <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.formData.event_url">\n            </div>\n          </div>\n        </div>\n      </div>\n    </div><br><hr>\n\n    <div class="form-buttons">\n      <button type="submit" ng-click="closeForm()" class="btn btn-default">Close</button>\n      <button type="submit" ng-click="eventForm.reset(form)" value="Create Event" class="btn btn-primary">Create Event</button>\n    </div>\n  </form>\n</div>')
+  $templateCache.put("events/new_event_form.html", '<div class="blackout" ng-click="closeForm()">\n  <form name="form" ng-submit="eventForm.createEvent()" class=\'event-form\' ng-click="$event.stopPropagation()">\n    <h3 class="form-header">Create a New Event</h3>\n\n    <div class="row">\n\n      <div class="col-sm-5">\n        <div class="col-sm-12">\n          <label for="eventForm.formData.title">Event Name</label>\n          <input\n            name="title"\n            type="text"\n            class="form-control"\n            placeholder="Event Name"\n            pattern=".{3,}"\n            ng-model="eventForm.formData.title"\n            required="required"\n            >\n\n          <div ng-messages="form.title.$error" ng-if="form.title.$touched">\n            <div ng-message="required" class="error-message">An event name is required</div>\n            <div ng-message="pattern" class="error-message">The event name must be more than 3 characters</div>\n          </div>\n\n          <label for="eventForm.formData.start_time">Start Time</label>\n          <input type="datetime-local" name="date" class="form-control" ng-model="eventForm.formData.start_time" required="required">\n\n          <div ng-messages="form.date.$error" ng-if="form.date.$touched">\n            <div ng-message="required" class="error-message">An event date is required</div>\n          </div>\n\n          <label for="eventForm.formData.description">Description</label>\n          <textarea\n            name="description"\n            rows="5"\n            cols="50"\n            class="form-control"\n            placeholder="Description"\n            ng-model="eventForm.formData.description"></textarea>\n\n          <label for="eventForm.formData.categories">Categories</label>\n\n          <select ng-model="eventForm.formData.categories" ng-options="category.name for category in eventForm.categories | orderBy:\'name\'" class="form-control" name="category" required="required">\n          </select>\n\n          <div ng-messages="form.category.$error" ng-if="form.category.$touched">\n            <div ng-message="required" class="error-message">You must provide a category</div>\n          </div>\n        </div>\n      </div>\n\n      <div class="col-sm-7">\n        <div class="col-sm-12">\n          <label for="eventForm.formData.venue_name">Venue</label>\n          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.formData.venue_name">\n\n          <label for="eventForm.formData.street_address">Street Address</label>\n          <input\n            name="address"\n            type="text"\n            class="form-control"\n            placeholder="Address"\n            required="required"\n            ng-model="eventForm.formData.street_address">\n\n          <div ng-messages="form.address.$error" ng-if="form.address.$touched">\n            <div ng-message="required" class="error-message">You must provide a street address</div>\n          </div>\n\n          <div class="row">\n            <div class="col-sm-5">\n              <label for="eventForm.formData.city">City</label>\n              <input name="city" type="text" class="form-control" placeholder="City" ng-model="eventForm.formData.city" required="required">\n\n              <div ng-messages="form.city.$error" ng-if="form.city.$touched">\n                <div ng-message="required" class="error-message">You must provide the city</div>\n              </div>\n            </div>\n\n            <div class="col-sm-4">\n              <label for="eventForm.formData.region_abbr">State</label>\n              <select ng-model="eventForm.formData.region_abbr" name="state" class="form-control" state-picker-directive></select>\n            </div>\n\n            <div class="col-sm-3">\n              <label for="eventForm.formData.postal_code">Zipcode</label>\n              <input type="number" class="form-control" placeholder="Zipcode" ng-model="eventForm.formData.postal_code">\n            </div>\n          </div>\n\n          <label for="eventForm.formData.country_abbr">Country</label>\n          <select ng-model="eventForm.formData.country_abbr" class="form-control country-input" pvp-country-picker></select>\n\n          <div class="row">\n            <div class="col-sm-6">\n              <label for="eventForm.formData.image_url">Image URL (optional)</label>\n              <input type="text" class="form-control" placeholder="Image URL" ng-model="eventForm.formData.image_url">\n            </div>\n\n            <div class="col-sm-6">\n              <label for="eventForm.formData.event_url">Event URL (optional)</label>\n              <input type="url" class="form-control" placeholder="URL" ng-model="eventForm.formData.event_url">\n            </div>\n          </div>\n        </div>\n      </div>\n    </div><br><hr>\n\n    <div class="form-buttons">\n      <button type="submit" ng-click="closeForm()" class="btn btn-default">Close</button>\n      <button type="submit" ng-click="eventForm.reset(form)" value="Create Event" class="btn btn-primary">Create Event</button>\n    </div>\n  </form>\n</div>')
 }]);
 
 // Angular Rails Template
