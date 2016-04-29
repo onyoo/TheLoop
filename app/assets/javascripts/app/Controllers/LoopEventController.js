@@ -2,6 +2,7 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 
   var ctrl = this;
   ctrl.data = event.data;
+  debugger;
   if(ctrl.data.category !== undefined){
     ctrl.category = ctrl.data.category.name;
   };
