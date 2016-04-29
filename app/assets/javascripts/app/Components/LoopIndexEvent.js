@@ -8,10 +8,8 @@ var LoopIndexEvent = {
 
     this.showEvent = function(id) {
       EventsService.checkLoopEvent(id).then(function(resp){
-        debugger;
         $state.go('home.loopEvent', {id: resp.data.id})
       }, function(error){
-        debugger;
         $state.go('home.event', {id: id})
       })
     }

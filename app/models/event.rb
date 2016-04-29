@@ -5,8 +5,7 @@ class Event < ActiveRecord::Base
   has_many :users, through: :user_events
   belongs_to :category
   belongs_to :venue
-  # has_many :users, through: :comments
-
+  
   include Geokit::Geocoders
 
   acts_as_mappable :default_units => :miles,
@@ -32,10 +31,6 @@ class Event < ActiveRecord::Base
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
-  # def cat=(category_hash)
-  #   binding.pry
-  # end
-
   def categories=(category)
     if category[:name]
       category_name = category[:name]
@@ -55,75 +50,6 @@ class Event < ActiveRecord::Base
 
   def url=(api_url)
     self.update(event_url: api_url)
-  end
-
-  # def category=(cat)
-  #   binding.pry
-  #   self.update(category_id: Category.find_or_create_by(name: cat.name).id)
-  # end
-
-  # def venue=(venue_name)
-  #   binding.pry
-  #   self.update(venue_id: Venue.find_or_create_by(name: venue_name).id)
-  # end
-
-  # def api_id=(event_id)
-  #   binding.pry
-  # end
-
-  # def id=(id)
-  #   binding.pry
-  #   event_id = 0
-  #   if id.to_i == 0
-  #     self.update(api_id: id)
-  #     binding.pry
-  #   else
-  #     binding.pry
-  #   end
-  # end
-
-  # def venue_name
-  #   binding.pry
-  # end
-
-  # def category=(category_name)
-  #   binding.pry
-  #   # self.update(category_id: Category.find_or_create_by(name: category_name.name).id)
-  # end
-
-  # def categories
-  #   binding.pry
-  # end
-
-  # def categories=(category)
-  #   category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
-  #   self.update(category_id: Category.find_or_create_by(name: category_name).id)
-  # end
-
-  # def category_id=(category)
-  #   binding.pry
-  #   self.update(category_id: Category.find_or_create_by(name: category.name).id)
-  # end
-
-  # def update_relations(params,e current_user)
-  #   binding.pry
-  #   # self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
-  #   self.category = Category.find(params[:event][:category_id])
-  #   self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
-  #   save
-  # end
-
-  def create_relations(params, current_user)
-    self.street_address = params[:event][:address] if params[:event][:address]
-    self.venue = Venue.find_or_create_by(name: params[:event][:venue_name]) if params[:event][:venue_name]
-    if (!params[:event][:id].nil?) && (params[:event][:id].to_i == 0) && (params[:event][:id].length != 1)
-      self.api_id = params[:event][:id]
-    end
-    self.creator = current_user.id if self.api_id.nil?
-    self.category = Category.find_or_create_by(name: params[:event][:category][:name]) if params[:event][:category]
-    self.set_location
-    self.users << current_user
-    save
   end
 
   def set_location

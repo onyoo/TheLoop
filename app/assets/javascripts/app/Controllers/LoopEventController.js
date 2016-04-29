@@ -1,16 +1,11 @@
-function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment, $http){
+function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment){
+
   var ctrl = this;
   ctrl.data = event.data;
-
-  $scope.signedIn = Auth.isAuthenticated;
-
-  // if(ctrl.data.category){
-  // }
-  
-  ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
+  ctrl.category = ctrl.data.category.name;
   ctrl.date = new Date(ctrl.data.start_time);
-
   ctrl.comment = new Comment();
+
 
   ctrl.addComment = function(event, comment, user) {
     comment.event_id = event;
@@ -21,6 +16,8 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
     ctrl.comment = new Comment();
   };
+
+  $scope.signedIn = Auth.isAuthenticated;
 
   var map = {
     center : {
@@ -47,21 +44,6 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
   };
 
-  // ctrl.addEvent = function(ourEvent){
-  //   debugger;
-  //   if ( (Number.isInteger(ourEvent.id)) && (ourEvent.users.length == 0)){
-  //     ctrl.event = UserEvent.update({id: ourEvent.id}, ourEvent, function(res){
-  //       $state.go('home.myEvents');
-  //     });
-  //   }else{
-  //     ctrl.event = UserEvent.create(ourEvent, function(res){
-  //       $state.go('home.myEvents');
-  //     });
-  //   };
-  // };
-
-  // ctrl.editable = '';
-
   Auth.currentUser().then(function(user) {
     ctrl.user = user;
   });
@@ -84,7 +66,6 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     ctrl.data = data;
     $scope.editEvent = false;
   });
-
 };
 angular
   .module('app')

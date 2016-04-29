@@ -40,7 +40,7 @@
 
           <label for="eventForm.formData.categories">Categories</label>
 
-          <select ng-model="eventForm.formData.categories" ng-options="category.name for category in eventForm.allCategories | orderBy:'name'" class="form-control" name="category" required="required">
+          <select ng-model="eventForm.formData.categories" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
           </select>
 
           <div ng-messages="form.category.$error" ng-if="form.category.$touched">
@@ -52,8 +52,7 @@
       <div class="col-sm-7">
         <div class="col-sm-12">
           <label for="eventForm.formData.venue_name">Venue</label>
-          <input type="text" class="form-control" placeholder="Venue Name (optiona.)" ng-model="eventForm.formData.venue_name">
-
+          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.formData.venue_name">
 
           <label for="eventForm.formData.street_address">Street Address</label>
           <input

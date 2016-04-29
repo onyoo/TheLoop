@@ -1,12 +1,12 @@
 function LocalController($scope, uiGmapIsReady) {
 
   $scope.map = {
-      center : {
-          latitude: 51.5,
-          longitude: -0.1
-      },
-      zoom : 9,
-      control : {}
+    center : {
+        latitude: 51.5,
+        longitude: -0.1
+    },
+    zoom : 9,
+    control : {}
   };
 
   if(!!navigator.geolocation) {
