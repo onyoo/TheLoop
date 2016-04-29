@@ -3,8 +3,10 @@ var LoopEvent = {
   bindings: {
     details: '='
   },
-  controller: function(User, $state, $scope, $http){
+  controller: function(User, $state, $scope, CategoriesService, VenuesService){
     var ctrl = this;
+
+    this.date = Date.parse(this.details.start_time);
 
     this.removeEvent = function() {
       User.delete({id: this.details.id }, function(res){
@@ -12,15 +14,13 @@ var LoopEvent = {
       });
     };
 
-    ctrl.assignCategory = $http.get('http://localhost:3000/api/v1/categories/' + ctrl.details.category_id).then(function(res){
+    CategoriesService.getCategory(ctrl.details.category_id).then(function(res){
       ctrl.category = res.data.name;
     });
 
-    ctrl.assignVenue = $http.get('http://localhost:3000/api/v1/venues/' + ctrl.details.venue_id).then(function(res){
+    VenuesService.getVenue(ctrl.details.venue_id).then(function(res){
       ctrl.venue = res.data.name;
-    });
-
-    this.date = Date.parse(this.details.start_time);
+    })
   },
   controllerAs: 'event'
 };

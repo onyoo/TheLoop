@@ -58,3 +58,38 @@
   margin-top: -6px;
   margin-bottom: 3px;
 }
+
+#edit-event-form{
+  background-color: white;
+  border-radius: 7px;
+  width: 70%;
+  height: 84%;
+  margin: 5% 15%;
+  overflow-y: scroll;
+  padding: 2em;
+  z-index: 5;
+  font-weight: 300;
+  label {
+    font-size: 1.2em;
+    font-weight: 200;
+  }
+  input {
+    margin-bottom: 10px;
+  }
+  select {
+    margin-bottom: 10px;
+  }
+  textarea {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    margin-right: 3px;
+  }
+  .error-message {
+    color: red;
+    font-size: 1.0em;
+    margin-top: -6px;
+    margin-bottom: 3px;
+  }
+}

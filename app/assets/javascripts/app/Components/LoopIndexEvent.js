@@ -3,10 +3,18 @@ var LoopIndexEvent = {
   bindings: {
     details: '='
   },
-  controller: function(UserEvent){
-    if(this.details.start_time){
-      this.date = Date.parse(this.details.start_time);
-    };
+  controller: function(UserEvent, EventsService, $state){
+    this.date = new Date(this.details.start_time);
+
+    this.showEvent = function(id) {
+      EventsService.checkLoopEvent(id).then(function(resp){
+        debugger;
+        $state.go('home.loopEvent', {id: resp.data.id})
+      }, function(error){
+        debugger;
+        $state.go('home.event', {id: id})
+      })
+    }
   },
   controllerAs: 'event'
 };

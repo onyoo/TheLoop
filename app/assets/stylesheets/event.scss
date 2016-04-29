@@ -60,7 +60,8 @@
   h3 {
     font-weight: 200;
     color: rgb(0, 107, 179);
-    font-size: 1.2em;
+    font-size: 1.1em;
+    text-align: center;
   }
 }
 
@@ -80,13 +81,6 @@
   box-shadow: 1px 1px 2px gray;
   border-radius: 10px;
   padding-bottom: 10px;
-  // list-style-type: none;
-  // padding: 25px;
-  // margin-left: -45px;
-  // width: 100%;
-  // box-shadow: 1px 1px 2px gray;
-  // border-radius: 5px;
-  // margin-bottom: 10px;
 }
 
 .local-image {
@@ -122,4 +116,11 @@
   font-weight: 300;
   margin-top: 15px;
   margin-bottom: -10px;
+}
+
+#no-events-message {
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 150px;
+  font-weight: 200;
 }

@@ -1,11 +1,11 @@
 class Event < ActiveRecord::Base
 
   has_many :comments
-  # has_many :users, through: :comments
   has_many :user_events
   has_many :users, through: :user_events
   belongs_to :category
   belongs_to :venue
+  # has_many :users, through: :comments
 
   include Geokit::Geocoders
 
@@ -32,8 +32,16 @@ class Event < ActiveRecord::Base
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
+  # def cat=(category_hash)
+  #   binding.pry
+  # end
+
   def categories=(category)
-    category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
+    if category[:name]
+      category_name = category[:name]
+    else
+      category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
+    end
     self.update(category_id: Category.find_or_create_by(name: category_name).id)
   end
 
@@ -48,6 +56,11 @@ class Event < ActiveRecord::Base
   def url=(api_url)
     self.update(event_url: api_url)
   end
+
+  # def category=(cat)
+  #   binding.pry
+  #   self.update(category_id: Category.find_or_create_by(name: cat.name).id)
+  # end
 
   # def venue=(venue_name)
   #   binding.pry
@@ -92,13 +105,13 @@ class Event < ActiveRecord::Base
   #   self.update(category_id: Category.find_or_create_by(name: category.name).id)
   # end
 
-  def update_relations(params, current_user)
-    binding.pry
-    # self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
-    self.category = Category.find(params[:event][:category_id])
-    self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
-    save
-  end
+  # def update_relations(params,e current_user)
+  #   binding.pry
+  #   # self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
+  #   self.category = Category.find(params[:event][:category_id])
+  #   self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
+  #   save
+  # end
 
   def create_relations(params, current_user)
     self.street_address = params[:event][:address] if params[:event][:address]

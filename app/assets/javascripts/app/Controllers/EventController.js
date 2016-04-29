@@ -27,7 +27,6 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 
   ctrl.addEvent = function(){
     ctrl.event = UserEvent.create({event: this.data}, function(res){
-      debugger;
       $state.go('home.myEvents');
     });
   };

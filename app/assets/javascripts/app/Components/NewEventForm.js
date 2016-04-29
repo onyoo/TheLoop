@@ -7,7 +7,7 @@ var NewEventForm = {
       $scope.$emit('closeForm', false);
     };
 
-    ctrl.allCategories = [];
+    // ctrl.allCategories = [];
 
     ctrl.categories = CategoriesService.getCategories().then(function(res){
       ctrl.allCategories = res.data.map(function(category){
