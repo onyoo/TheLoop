@@ -7,7 +7,7 @@ var LoopEvent = {
     this.$inject = ['User', 'CategoriesService', 'VenuesService'];
     var ctrl = this;
 
-    ctrl.date = Date.parse(this.details.start_time);
+    ctrl.details.date = Date.parse(this.details.start_time);
 
     CategoriesService.getCategory(ctrl.details.category_id).then(function(res){
       ctrl.category = res.data.name;

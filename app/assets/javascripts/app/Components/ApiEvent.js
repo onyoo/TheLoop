@@ -6,7 +6,7 @@ var ApiEvent = {
   controller: function(UserEvent, EventsService, $state){
     var ctrl = this;
     ctrl.$inject = ['UserEvent', 'EventsService', '$state'];
-    this.date = Date.parse(this.details.start_time);
+    this.details.date = Date.parse(this.details.start_time);
 
     this.showEvent = function(api_id) {
       EventsService.checkLoopEvent(api_id).then(function(resp){

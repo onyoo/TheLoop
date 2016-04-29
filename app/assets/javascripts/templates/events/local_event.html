@@ -3,7 +3,7 @@
     <!-- Date container -->
     <div class="col-sm-3 local-date">
       <p class="local-category">{{event.category}} Event</p><hr>
-      <h3 class="my-event-date"><span ng-bind="event.date | date:'medium'"></span></h3>
+      <h3 class="my-event-date"><span ng-bind="event.details.date | date:'medium'"></span></h3>
       <div class="col-sm-4">
         <div ng-show="{{event.details.image_url}}">
           <img class="local-image" src="{{event.details.image_url}}">

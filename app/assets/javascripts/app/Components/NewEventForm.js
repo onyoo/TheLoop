@@ -16,10 +16,7 @@ var NewEventForm = {
     });
 
     CategoriesService.getCategories().then(function(res){
-      ctrl.categories = res.data.map(function(category){
-        category.name = category.name.replace('&amp; ', '');
-        return category;
-      });
+      ctrl.categories = res.data;
     });
 
     ctrl.createEvent = function() {

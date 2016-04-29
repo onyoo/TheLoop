@@ -42,14 +42,14 @@
         </form>
       </div>
     </div>
-<!-- ng-show='editEvent' -->
+
+    <!-- ng-show='editEvent' -->
     <div ng-show='editEvent'>
       <edit-event-form event="event"></edit-event-form>
     </div>
 
     <div class="col-sm-6">
       <div id="event-show-map">
-
         <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
           <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
             <ui-gmap-window show='show'>
