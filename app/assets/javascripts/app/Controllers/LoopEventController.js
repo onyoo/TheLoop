@@ -2,7 +2,9 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 
   var ctrl = this;
   ctrl.data = event.data;
-  ctrl.category = ctrl.data.category.name;
+  if(ctrl.data.category !== undefined){
+    ctrl.category = ctrl.data.category.name;
+  };
   ctrl.date = new Date(ctrl.data.start_time);
   ctrl.comment = new Comment();
 
