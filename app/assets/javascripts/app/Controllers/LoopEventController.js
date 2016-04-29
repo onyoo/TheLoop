@@ -1,21 +1,11 @@
-function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment, $http){
+function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state, Comment){
 
   var ctrl = this;
-
   ctrl.data = event.data;
-  if(ctrl.data.category){
-    ctrl.category = ctrl.data.category.name.replace('&amp; ', '');
-  }
+  ctrl.category = ctrl.data.category.name;
   ctrl.date = new Date(ctrl.data.start_time);
-  $scope.signedIn = Auth.isAuthenticated;
-
-  Auth.currentUser()
-    .then(function(user) {
-      ctrl.user = user;
-      console.log(ctrl.user);
-    });
-
   ctrl.comment = new Comment();
+
 
   ctrl.addComment = function(event, comment, user) {
     comment.event_id = event;
@@ -26,6 +16,8 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     });
     ctrl.comment = new Comment();
   };
+
+  $scope.signedIn = Auth.isAuthenticated;
 
   var map = {
     center : {
@@ -47,26 +39,23 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
   });
 
   ctrl.addEvent = function(ourEvent){
-    if ( (Number.isInteger(ourEvent.id)) && (ourEvent.users.length == 0)){
-      ctrl.event = UserEvent.update({id: ourEvent.id}, ourEvent, function(res){
-        $state.go('home.myEvents');
-      });
-    }else{
-      ctrl.event = UserEvent.create(ourEvent, function(res){
-        $state.go('home.myEvents');
-      });
-    };
+    ctrl.event = UserEvent.create({event: this.data}, function(res){
+      $state.go('home.myEvents');
+    });
   };
-  ctrl.editable = '';
 
-  ctrl.canEdit = Auth.currentUser().then(function(resp) {
-    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+  Auth.currentUser().then(function(user) {
+    ctrl.user = user;
   });
 
-  ctrl.attending = Auth.currentUser().then(function(resp){
-    return ctrl.attending = ctrl.data.users.some(function(user){
+  Auth.currentUser().then(function(resp){
+    ctrl.attending = ctrl.data.users.some(function(user){
       return resp.id == user.id;
     });
+  });
+
+  Auth.currentUser().then(function(resp) {
+    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
   });
 
   $scope.$on('closeEditForm', function (emitEvent, data) {
@@ -77,7 +66,6 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
     ctrl.data = data;
     $scope.editEvent = false;
   });
-
 };
 angular
   .module('app')

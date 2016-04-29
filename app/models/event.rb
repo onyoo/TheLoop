@@ -1,12 +1,11 @@
 class Event < ActiveRecord::Base
 
   has_many :comments
-  has_many :users, through: :comments
   has_many :user_events
   has_many :users, through: :user_events
   belongs_to :category
   belongs_to :venue
-
+  
   include Geokit::Geocoders
 
   acts_as_mappable :default_units => :miles,
@@ -24,11 +23,7 @@ class Event < ActiveRecord::Base
 
 
   def self.get_location(geo_string)
-    geo_array = geo_string.split(',')
-    geo_array.collect do |coord|
-      coord.to_f
-    end
-    geo_array
+    geo_string.split(',').map(&:to_f)
   end
 
   def self.find_by_zipcode(zipcode)
@@ -40,32 +35,37 @@ class Event < ActiveRecord::Base
     self.within(25, :origin => [latitude,longitude])
   end
 
-  def update_relations(params, current_user)
-    self.venue = Venue.find_or_create_by(name: params[:venue][:name]) if !params[:venue].nil?
-    self.category = Category.find(params[:event][:category_id])
-    self.users << current_user if !self.users.detect{ |user| user.id == current_user.id}
-    save
+  def venue_name=(venue)
+    self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
-  def create_relations(params, current_user)
-    self.street_address = params[:event][:address] if params[:event][:address]
-    self.venue = Venue.find_or_create_by(name: params[:event][:venue_name])
-    if (!params[:event][:id].nil?) && (params[:event][:id].to_i == 0) && (params[:event][:id].length != 1)
-      self.api_id = params[:event][:id]
+  def categories=(category)
+    if category[:name]
+      category_name = category[:name]
+    else
+      category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
     end
-    self.creator = current_user.id if self.api_id.nil?
-    self.category = Category.find_or_create_by(name: params[:event][:category][:name]) if !params[:event][:category].nil?
-    self.set_location
-    self.users << current_user
-    save
+    self.update(category_id: Category.find_or_create_by(name: category_name).id)
+  end
+
+  def images=(image)
+    self.update(image_url: image[:image][:thumb][:url]) unless image.nil?
+  end
+
+  def address=(street)
+    self.update(street_address: street)
+  end
+
+  def url=(api_url)
+    self.update(event_url: api_url)
   end
 
   def set_location
-    address = self[:street_address]
-    address += (", " + self[:city])             if !self[:city].nil?
-    address += (", " + self[:region_abbr])      if !self[:region_abbr].nil?
-    address += (' ' + self[:postal_code].to_s)  if !self[:postal_code].nil?
-    address += (", " + self[:country_abbr])     if !self[:country_abbr].nil?
+    address = street_address
+    address += (", " + city)                    unless city.nil?
+    address += (", " + self[:region_abbr])      unless region_abbr.nil?
+    address += (' ' + self[:postal_code].to_s)  unless postal_code.nil?
+    address += (", " + self[:country_abbr])     unless country_abbr.nil?
 
     if self.latitude.nil?
       loc=Event.geocode(address)

@@ -3,14 +3,25 @@ var LoopEvent = {
   bindings: {
     details: '='
   },
-  controller: function(User, $state, $scope){
-    this.$inject = ['User', '$state', '$scope'];
-    this.removeEvent = function(myEvent) {
-      User.delete({id: myEvent.id }, function(res){
+  controller: function(User, CategoriesService, VenuesService){
+    this.$inject = ['User', 'CategoriesService', 'VenuesService'];
+    var ctrl = this;
+
+    ctrl.date = Date.parse(this.details.start_time);
+
+    CategoriesService.getCategory(ctrl.details.category_id).then(function(res){
+      ctrl.category = res.data.name;
+    });
+
+    VenuesService.getVenue(ctrl.details.venue_id).then(function(res){
+      ctrl.venue = res.data.name;
+    });
+
+    this.removeEvent = function() {
+      User.delete({id: this.details.id }, function(res){
         $('[data-event-id="' + res.id +'"]').text('');
       });
     };
-    this.date = Date.parse(this.details.start_time);
   },
   controllerAs: 'event'
 };

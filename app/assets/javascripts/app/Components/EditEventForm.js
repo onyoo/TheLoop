@@ -4,35 +4,40 @@ var EditEventForm = {
     event: '='
   },
   controller: function(UserEvent, $scope, $stateParams, CategoriesService, EventsService) {
-    var ctrl = this;
 
+    var ctrl = this;
     ctrl.$inject = ['UserEvent', '$scope', '$stateParams', 'CategoriesService', 'EventsService'];
+
+    $scope.selectedCountry = [];
 
     $scope.closeForm = function() {
       $scope.$emit('closeEditForm', false);
     }
 
     ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
-    $scope.selectedCountry = [];
+    ctrl.event.data.categories = ctrl.event.data.category;
 
-    ctrl.allCategories = [];
+    if (ctrl.event.data.venue != undefined){
+      ctrl.event.data.venue_name = ctrl.event.data.venue.name;
+    };
 
-    ctrl.categories = CategoriesService.getCategories().then(function(res){
-      ctrl.allCategories = res.data.map(function(category){
+    CategoriesService.getCategories().then(function(res){
+      ctrl.categories = res.data.map(function(category){
         category.name = category.name.replace('&amp; ', '');
         return category;
       });
     });
 
     ctrl.editEvent = function() {
-      UserEvent.update({id: ctrl.event.data.id}, ctrl.event.data, function(resp){
-        ctrl.event.data = resp;
-        ctrl.event.data.start_time = new Date(ctrl.event.data.start_time);
-        $scope.$emit("eventUpdated", resp);
+      var updatedEvent = this.event.data;
+
+      UserEvent.update({id: updatedEvent.id}, {event: updatedEvent}, function(res){
+        ctrl.event.category = res.category.name;
+        ctrl.event.date = new Date(res.start_time);
+        $scope.$emit("eventUpdated", res);
       });
     };
   },
-
   controllerAs: 'eventForm'
 };
 

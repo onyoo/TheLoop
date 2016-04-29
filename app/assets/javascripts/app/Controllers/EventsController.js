@@ -14,25 +14,25 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
 
   ctrl.zipcodeSearch = function() {
 
-    EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
-      ctrl.loop = events.data;
-    }, function(error){
-      console.log(error);
-    });
+  EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
+    ctrl.loop = events.data;
+  }, function(error){
+    console.log(error);
+  });
 
-    EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
-      ctrl.data      = resp.data.events.event;
-      ctrl.latitude  = resp.data.events.event.latitude;
-      ctrl.longitude = resp.data.events.event.longitude;
+  EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
+    ctrl.data      = resp.data.events.event;
+    ctrl.latitude  = resp.data.events.event.latitude;
+    ctrl.longitude = resp.data.events.event.longitude;
 
-      var map = {
-          center : {
-              latitude: ctrl.data[0].latitude,
-              longitude: ctrl.data[0].longitude
-          },
-          zoom : 10,
-          control : {}
-      };
+    var map = {
+        center : {
+            latitude: ctrl.data[0].latitude,
+            longitude: ctrl.data[0].longitude
+        },
+        zoom : 10,
+        control : {}
+    };
 
     uiGmapIsReady.promise().then(function(map_instances) {
       $scope.map = map;

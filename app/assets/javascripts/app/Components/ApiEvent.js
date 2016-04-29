@@ -15,14 +15,6 @@ var ApiEvent = {
         $state.go('home.event', {id: api_id})
       })
     }
-
-    // If we want to add categories to eventful API event index card
-    // ctrl.category = '';
-    // ctrl.setCategory = EventsService.getEvent(this.details.id)
-    //   .then(function(resp){
-    //     ctrl.category = resp.data.categories.category[0].name.replace('&amp; ', '');
-    //   });
-
   },
   controllerAs: 'event'
 };

@@ -38,9 +38,9 @@
             placeholder="Description"
             ng-model="eventForm.formData.description"></textarea>
 
-          <label for="eventForm.formData.categories.category">Categories</label>
+          <label for="eventForm.formData.categories">Categories</label>
 
-          <select ng-model="eventForm.formData.category" ng-options="category for category in eventForm.allCategories | orderBy:category " class="form-control" name="category">
+          <select ng-model="eventForm.formData.categories" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
           </select>
 
           <div ng-messages="form.category.$error" ng-if="form.category.$touched">
@@ -51,9 +51,8 @@
 
       <div class="col-sm-7">
         <div class="col-sm-12">
-          <label for="eventForm.formData.venue">Venue (optional)</label>
-          <input type="text" class="form-control" placeholder="Venue Name" ng-model="eventForm.formData.venue">
-
+          <label for="eventForm.formData.venue_name">Venue</label>
+          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.formData.venue_name">
 
           <label for="eventForm.formData.street_address">Street Address</label>
           <input
@@ -68,9 +67,6 @@
             <div ng-message="required" class="error-message">You must provide a street address</div>
           </div>
 
-        <select ng-model="eventForm.formData.category" ng-options="category.name for category in eventForm.allCategories" class="form-control" name="category">
-        </select><br>
-
           <div class="row">
             <div class="col-sm-5">
               <label for="eventForm.formData.city">City</label>
@@ -83,11 +79,7 @@
 
             <div class="col-sm-4">
               <label for="eventForm.formData.region_abbr">State</label>
-              <select ng-model="eventForm.formData.region_abbr" name="state" class="form-control" required="required" state-picker-directive></select>
-
-              <div ng-messages="form.state.$error" ng-if="form.state.$touched">
-                <div ng-message="required" class="error-message">State is required</div>
-              </div>
+              <select ng-model="eventForm.formData.region_abbr" name="state" class="form-control" state-picker-directive></select>
             </div>
 
             <div class="col-sm-3">
