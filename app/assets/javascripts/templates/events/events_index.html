@@ -19,17 +19,17 @@
           <!-- Sort by Date -->
           <div class="col-sm-2">
             <p id="sort-by-link">
-              Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
+              Sort by: <a href="" ng-click="sort = '-date'; reverse = !reverse">Date</a>
             </p>
           </div>
         </div><br>
 
         <!-- Display events -->
         <div id="events-list-container">
-          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword">
+          <ul id="events-list" ng-repeat="eventData in ctrl.loop | filter:ctrl.keyword | orderBy:sort:reverse">
             <loop-index-event details='eventData'></loop-index-event>
           </ul>
-         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword">
+         <ul id="events-list" ng-repeat="eventData in ctrl.data | filter:ctrl.keyword | orderBy:sort:reverse">
             <api-event details='eventData'></api-event>
           </ul>
         </div>
@@ -48,7 +48,7 @@
 
   <!-- Loading gif -->
   <div ng-show="loading" id="loading-gif">
-    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading" class='loading_img'>
+    <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading">
     <p id="loading-map-message">Loading Map...</p>
   </div>
 </div>

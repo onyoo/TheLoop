@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   has_many :users, through: :user_events
   belongs_to :category
   belongs_to :venue
-  
+
   include Geokit::Geocoders
 
   acts_as_mappable :default_units => :miles,
@@ -13,14 +13,6 @@ class Event < ActiveRecord::Base
                    :distance_field_name => :distance,
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
-
-  def venue=(venue_name)
-    
-    Venue.find_or_create_by(name: venue_name)
-  end
-
-  
-
 
   def self.get_location(geo_string)
     geo_string.split(',').map(&:to_f)
@@ -34,7 +26,7 @@ class Event < ActiveRecord::Base
     end
     self.within(25, :origin => [latitude,longitude])
   end
-
+  
   def venue_name=(venue)
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
@@ -80,5 +72,4 @@ class Event < ActiveRecord::Base
   def as_json(options = {})
     super(options.merge(include: [:user_events, :category, :venue, :users, :comments => {:include => :user}]))
   end
-
 end

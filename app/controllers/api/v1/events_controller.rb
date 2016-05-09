@@ -25,23 +25,11 @@ module Api
       end
 
       def create
-# <<<<<<< HEAD
-#         if event = Event.find_by(title: params[:event][:title])
-#           event.users << current_user if !event.users.detect{ |user| user.id == current_user.id}
-#           respond_to do |format|
-#             format.json { render :json => event }
-#           end
-#         else
-#
-#           event = Event.create(event_params)
-#           event.create_relations(params, current_user)
-# =======
         if @event.nil?
           @event = Event.new(event_params)
           @event.update(api_id: params[:event][:id])
           @event.set_location
         end
-# >>>>>>> 10aa9634aabfef58151448a6b1d872cc55409571
 
         if @event.save
           current_user.user_events.create(event_id: @event.id)

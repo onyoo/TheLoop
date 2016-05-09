@@ -5,7 +5,7 @@ var LoopIndexEvent = {
   },
   controller: function(UserEvent, EventsService, $state){
     this.$inject = ['UserEvent','EventsService','$state'];
-    this.date = new Date(this.details.start_time);
+    this.details.date = new Date(this.details.start_time);
 
     this.showEvent = function(id) {
       EventsService.checkLoopEvent(id).then(function(resp){
