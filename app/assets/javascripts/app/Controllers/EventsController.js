@@ -1,52 +1,51 @@
-function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady, CategoriesService){
+function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady){
   var ctrl = this;
 
   ctrl.zipcodeSearch = function() {
-
-  EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
-    ctrl.loop = events.data;
-  }, function(error){
-    console.log(error);
-  });
-
-  EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
-    ctrl.data      = resp.data.events.event;
-    ctrl.latitude  = resp.data.events.event.latitude;
-    ctrl.longitude = resp.data.events.event.longitude;
-
-    var map = {
-        center : {
-            latitude: ctrl.data[0].latitude,
-            longitude: ctrl.data[0].longitude
-        },
-        zoom : 10,
-        control : {}
-    };
-
-    uiGmapIsReady.promise().then(function(map_instances) {
-      $scope.map = map;
-      $scope.markers = [];
-      var events = ctrl.data.concat(ctrl.loop);
-      for(var i = 0; i < events.length; i++) {
-         $scope.markers.push({
-           id: i,
-           coords: {
-             latitude: events[i].latitude,
-             longitude: events[i].longitude
-           },
-           show: true
-         });
-       };
-      });
+    EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
+      ctrl.loop = events.data;
+    }, function(error){
+      console.log(error);
     });
+
+    EventsService.byZipcode(ctrl.zipcode).then(function(resp) {
+      ctrl.data      = resp.data.events.event;
+      ctrl.latitude  = resp.data.events.event.latitude;
+      ctrl.longitude = resp.data.events.event.longitude;
+
+      var map = {
+          center : {
+              latitude: ctrl.data[0].latitude,
+              longitude: ctrl.data[0].longitude
+          },
+          zoom : 10,
+          control : {}
+      };
+
+      uiGmapIsReady.promise().then(function(map_instances) {
+        $scope.map = map;
+        $scope.markers = [];
+        var events = ctrl.data.concat(ctrl.loop);
+        for(var i = 0; i < events.length; i++) {
+           $scope.markers.push({
+             id: i,
+             coords: {
+               latitude: events[i].latitude,
+               longitude: events[i].longitude
+             },
+             show: true
+           });
+         };
+        });
+      });
   };
 
   if(!!navigator.geolocation) {
     $scope.loading = true;
     navigator.geolocation.getCurrentPosition(function(position) {
+      var searchCoords = position.coords.latitude + "," + position.coords.longitude + "&within=25";
       // can use .watchPosition(); for periodic updates to coords
-      var searchCoords = position.coords.latitude+","+position.coords.longitude +"&within=25";
-      var loopCoords = position.coords.latitude+","+position.coords.longitude;
+      // var loopCoords = position.coords.latitude+","+position.coords.longitude;
 
       EventsService.loopEvents(searchCoords).then(function(events) {
         ctrl.loop = events.data;
