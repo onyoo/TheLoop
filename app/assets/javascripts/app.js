@@ -1,6 +1,20 @@
 angular
-  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker'])
-  .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker', 'restangular'])
+  .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider, RestangularProvider) {
+    RestangularProvider.setBaseUrl('/api/v1');
+
+    // RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+    //   var extractedData;
+    //   if (operation === "getList") {
+    //     debugger;
+    //     extractedData = data.data.data;
+    //     extractedData.meta = data.data.meta;
+    //   } else {
+    //     extractedData = data.data;
+    //   }
+    //   return extractedData;
+    // });
+
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
         v: '3.23',

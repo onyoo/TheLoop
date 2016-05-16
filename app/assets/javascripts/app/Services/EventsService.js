@@ -30,13 +30,14 @@ function EventsService($http){
   };
 
   this.loopEventsZipcode = function(zip){
-    return $http({
-      method: 'get',
-      url: 'http://localhost:3000/api/v1/events?zipcode=' + zip
-    });
+    // return $http({
+    //   method: 'get',
+    //   url: 'http://localhost:3000/api/v1/events?zipcode=' + zip
+    // });
+    return $http.get('http://localhost:3000/api/v1/events?zipcode=' + zip);
   };
 
-  this.byZipcode = function(zipcode){
+  this.apiEvents = function(zipcode){
     return $http({
       method: 'jsonp',
       url: 'http://api.eventful.com/json/events/search?app_key=ckR7kwV6Ppwmq2sK&location=' + zipcode,

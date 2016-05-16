@@ -9,7 +9,8 @@ module Api
       respond_to :json
 
       def index
-        respond_with(@events.where(api_id: nil))
+        # respond_with(@events.where(api_id: nil))
+        respond_with(@events)
       end
 
       def show
@@ -66,7 +67,7 @@ module Api
         if params[:location]
           location = Event.get_location(params[:location])
           @events = Event.within(25, :origin => location)
-        elsif params[:zipcode]
+        else
           @events = Event.find_by_zipcode(params[:zipcode])
         end
       end
