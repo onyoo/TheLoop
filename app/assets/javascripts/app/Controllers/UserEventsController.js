@@ -1,4 +1,4 @@
-function UserEventsController(User, Auth, $http) {
+function UserEventsController(User, Auth) {
   var ctrl = this;
 
   ctrl.user = Auth.currentUser().then(function(user) {
@@ -6,7 +6,6 @@ function UserEventsController(User, Auth, $http) {
   });
 };
 
-
 angular
 .module('app')
-.controller('UserEventsController', UserEventsController);
+.controller('UserEventsController', ['User', 'Auth', UserEventsController]);

@@ -7,6 +7,17 @@ function EventsController($scope, $location, EventsService, MapService){
     });
   };
 
+  // $scope.markerClick = function(map, event, marker) {
+  //   var newHash = 'anchor' + marker.id;
+  //   if ($location.hash() !== newHash) {
+  //       $location.hash(newHash);
+  //       $('li.active-marker').removeClass('active-marker')
+  //       $('#' + newHash).addClass('active-marker');
+  //     } else {
+  //       $anchorScroll();
+  //     };
+  // };
+
   ctrl.zipcodeSearch = function(){
     EventsService.getEvents(this.zipcode).then(function(res){
       ctrl.allEvents = res;
@@ -34,7 +45,7 @@ function EventsController($scope, $location, EventsService, MapService){
 
 angular
   .module('app')
-  .controller('EventsController', EventsController);
+  .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', EventsController]);
 
   // $scope.markerClick = function(map, event, marker) {
   //   debugger;

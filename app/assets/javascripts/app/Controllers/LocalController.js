@@ -35,4 +35,4 @@ function LocalController($scope, uiGmapIsReady) {
 
 angular
   .module('app')
-  .controller('LocalController', LocalController);
+  .controller('LocalController', ['$scope', 'uiGmapIsReady', LocalController]);

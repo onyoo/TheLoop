@@ -22,21 +22,21 @@ function EventsService($http, $q, EventFactory, EventfulService){
   this.getLoopEvent = function(id) {
     return $http({
       method: 'get',
-      url: 'http://localhost:3000/api/v1/events/' + id
+      url: '/api/v1/events/' + id
     });
   };
 
   this.checkLoopEvent = function(api_id) {
     return $http({
       method: 'get',
-      url: 'http://localhost:3000/api/v1/events/' + api_id + '/check'
+      url: '/api/v1/events/' + api_id + '/check'
     });
   };
 
   this.updateEvent = function(id, data) {
     return $http({
       method: 'put',
-      url: 'http://localhost:3000/api/v1/events/' + id,
+      url: '/api/v1/events/' + id,
       data: data
     });
   };
@@ -44,15 +44,20 @@ function EventsService($http, $q, EventFactory, EventfulService){
   this.loopEvents = function(coords){
     return $http({
       method: 'get',
-      url: 'http://localhost:3000/api/v1/events?location=' + coords
+      url: '/api/v1/events?location=' + coords
     });
   };
 
-  this.loopEventsZipcode = function(zip){
-    return $http.get('http://localhost:3000/api/v1/events?zipcode=' + zip);
-  };
+//   this.loopEventsZipcode = function(zip){
+//     return $http.get('http://localhost:3000/api/v1/events?zipcode=' + zip);
+// =======
+//     return $http({
+//       method: 'get',
+//       url: '/api/v1/events?zipcode=' + zip
+//     });
+//   };
 };
 
 angular
   .module('app')
-  .service('EventsService', EventsService);
+  .service('EventsService', ['$http', EventsService]);

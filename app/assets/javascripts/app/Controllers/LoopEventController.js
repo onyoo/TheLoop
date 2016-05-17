@@ -2,10 +2,16 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 
   var ctrl = this;
   ctrl.data = event.data;
-  ctrl.category = ctrl.data.category.name;
+
+  if (ctrl.data.category !== undefined){
+    ctrl.category = ctrl.data.category.name;
+  };
+  if (ctrl.data.venue !== undefined){
+    ctrl.data.venue_name = ctrl.data.venue.name;
+  }
+
   ctrl.date = new Date(ctrl.data.start_time);
   ctrl.comment = new Comment();
-
 
   ctrl.addComment = function(event, comment, user) {
     comment.event_id = event;
@@ -69,4 +75,4 @@ function LoopEventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, U
 };
 angular
   .module('app')
-  .controller('LoopEventController', LoopEventController);
+  .controller('LoopEventController', ['event', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'UserEvent', 'Auth', '$state', 'Comment', '$http', LoopEventController]);

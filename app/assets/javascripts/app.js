@@ -1,6 +1,6 @@
 angular
   .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker'])
-  .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
         v: '3.23',
@@ -42,9 +42,9 @@ angular
         templateUrl: 'events/event_show_page.html',
         controller: 'EventController as event',
         resolve: {
-          event: function ($stateParams, EventsService) {
+          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
             return EventsService.getEvent($stateParams.id);
-          }
+          }]
         }
       })
       .state('home.loopEvent', {
@@ -52,9 +52,9 @@ angular
         templateUrl: 'events/loop_event_show_page.html',
         controller: 'LoopEventController as event',
         resolve: {
-          event: function ($stateParams, EventsService) {
+          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
             return EventsService.getLoopEvent($stateParams.id);
-          }
+          }]
         }
       })
       .state('home.myEvents', {
@@ -68,4 +68,4 @@ angular
         controller: 'LocalController as local'
       });
     $urlRouterProvider.otherwise('/localview');
-  });
+  }]);

@@ -35,4 +35,4 @@ function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserE
 
 angular
   .module('app')
-  .controller('EventController', EventController);
+  .controller('EventController', ['event', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'UserEvent', 'Auth', '$state', EventController]);

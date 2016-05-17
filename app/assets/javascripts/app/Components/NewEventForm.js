@@ -3,6 +3,8 @@ var NewEventForm = {
   controller: function(UserEvent, $scope, CategoriesService, $state, Auth) {
     var ctrl = this;
 
+    ctrl.$inject = ['UserEvent', '$scope', 'CategoriesService', '$state', 'Auth'];
+
     $scope.closeForm = function() {
       $scope.$emit('closeForm', false);
     };
@@ -14,10 +16,7 @@ var NewEventForm = {
     });
 
     CategoriesService.getCategories().then(function(res){
-      ctrl.categories = res.data.map(function(category){
-        category.name = category.name.replace('&amp; ', '');
-        return category;
-      });
+      ctrl.categories = res.data;
     });
 
     ctrl.createEvent = function() {

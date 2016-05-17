@@ -1,7 +1,7 @@
 
 function UserEvent($resource){
 
-  var host = 'http://localhost:3000/api/v1/';
+  var host = '/api/v1/';
 
   var UserEvent = $resource( host + 'events/:id.json',{id: '@id'},{
         query: { method: 'GET', isArray: true },
@@ -14,4 +14,4 @@ function UserEvent($resource){
 
 angular
   .module('app')
-  .factory('UserEvent', UserEvent);
+  .factory('UserEvent', ['$resource', UserEvent]);

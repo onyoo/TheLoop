@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+
+gem 'ngannotate-rails'
+
 gem 'geokit-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
@@ -21,7 +24,6 @@ gem 'jquery-rails'
 
 gem 'rspec-core'
 gem 'rspec-rails'
-gem 'spring'
 gem 'capybara'
 
 
@@ -42,6 +44,14 @@ gem 'pry'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
+end
+
+gem "foreman"
+
+group :production, :staging do
+  gem "rails_12factor"
+  gem "rails_stdout_logging"
+  gem "rails_serve_static_assets"
 end
 
 group :development do
