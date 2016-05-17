@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   has_many :users, through: :user_events
   belongs_to :category
   belongs_to :venue
-  
+
   include Geokit::Geocoders
 
   acts_as_mappable :default_units => :miles,

@@ -1,56 +1,28 @@
-function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsReady, Restangular, $location, $anchorScroll, MapService, EventFactory, $q){
+function EventsController($scope, $location, EventsService, MapService){
   var ctrl = this;
 
-  ctrl.zipcodeSearch = function() {
-    EventsService.loopEventsZipcode(ctrl.zipcode).then(function(events) {
-      ctrl.localEvents = events.data;
+  function assignMarkers(events){
+    return MapService.constructMarkers(ctrl.allEvents).then(function(res){
+      $scope.markers = res;
     });
+  };
 
-    EventsService.eventfulEvents(ctrl.zipcode).then(function(resp) {
-      ctrl.data      = resp.data.events.event;
-      ctrl.latitude  = resp.data.events.event.latitude;
-      ctrl.longitude = resp.data.events.event.longitude;
-
-      var map = {
-          center : {
-              latitude: ctrl.data[0].latitude,
-              longitude: ctrl.data[0].longitude
-          },
-          zoom : 10,
-          control : {}
-      };
-
-      uiGmapGoogleMapApi.then(function(maps) {
-        $scope.map     = map;
-        $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
-        $scope.markers = [];
-
-        ctrl.allEvents = ctrl.localEvents.concat(ctrl.data);
-        for(var i = 0; i < ctrl.allEvents.length; i++) {
-           $scope.markers.push({
-             id: i,
-             coords: {
-               latitude: ctrl.allEvents[i].latitude,
-               longitude: ctrl.allEvents[i].longitude
-             },
-             show: true
-           });
-         };
-      });
+  ctrl.zipcodeSearch = function(){
+    EventsService.getEvents(this.zipcode).then(function(res){
+      ctrl.allEvents = res;
+      $scope.map = MapService.constructZipcodeMap(ctrl.allEvents);
+      assignMarkers(ctrl.allEvents);
     });
   };
 
   if(!!navigator.geolocation) {
     $scope.loading = true;
 
-    MapService.getAllEvents.then(function(res){
+    MapService.getEventsByGeoLocation().then(function(res){
       ctrl.allEvents = res.allEvents;
       $scope.map = res.map;
       $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
-
-      MapService.constructMarkers(ctrl.allEvents).then(function(res){
-        $scope.markers = res;
-      });
+      assignMarkers(ctrl.allEvents);
 
       $scope.loading = false;
     });
@@ -58,6 +30,11 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
     console.log('Sorry, your browser does not support geolocation.');
     document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
   };
+};
+
+angular
+  .module('app')
+  .controller('EventsController', EventsController);
 
   // $scope.markerClick = function(map, event, marker) {
   //   debugger;
@@ -70,8 +47,3 @@ function EventsController(EventsService, uiGmapGoogleMapApi, $scope, uiGmapIsRea
   //      $anchorScroll();
   //    };
   // };
-};
-
-angular
-  .module('app')
-  .controller('EventsController', EventsController);

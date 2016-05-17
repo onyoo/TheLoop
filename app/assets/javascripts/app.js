@@ -1,8 +1,6 @@
 angular
-  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker', 'restangular'])
-  .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider, RestangularProvider) {
-    RestangularProvider.setBaseUrl('/api/v1');
-
+  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker'])
+  .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
         v: '3.23',
@@ -37,7 +35,7 @@ angular
       .state('home.events', {
         url: 'events',
         templateUrl: 'events/events_index.html',
-        controller: 'EventsController as ctrl',
+        controller: 'EventsController as ctrl'
       })
       .state('home.event', {
         url: 'show/:id',

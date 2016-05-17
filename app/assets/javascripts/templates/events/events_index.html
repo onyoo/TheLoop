@@ -26,9 +26,6 @@
 
         <!-- Display events -->
         <div id="events-list-container">
-          <!-- <ul id="events-list" ng-repeat="eventData in ctrl.localEvents | filter:ctrl.keyword">
-            <loop-index-event details='eventData'></loop-index-event>
-          </ul> -->
          <ul id="events-list" ng-repeat="event in ctrl.allEvents | filter:ctrl.keyword">
             <api-event details='event'></api-event>
           </ul>

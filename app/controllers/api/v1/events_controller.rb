@@ -64,12 +64,16 @@ module Api
       end
 
       def set_location
-        if params[:location]
+        if zipcode?
+          @events = Event.find_by_zipcode(params[:location])
+        else
           location = Event.get_location(params[:location])
           @events = Event.within(25, :origin => location)
-        else
-          @events = Event.find_by_zipcode(params[:zipcode])
         end
+      end
+
+      def zipcode?
+        params[:location].size == 5
       end
 
       def event_params

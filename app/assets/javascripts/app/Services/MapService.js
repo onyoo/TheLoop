@@ -1,8 +1,11 @@
-function MapService($q, EventFactory, EventsService, uiGmapGoogleMapApi){
-  var mapService = {};
+function MapService($q, EventsService, uiGmapGoogleMapApi){
 
-  function constructMap(position) {
-    return mapService.map = {
+  function constructCoordinates(position){
+    return position.coords.latitude + "," + position.coords.longitude + "&within=25";
+  };
+
+  function constructGeoMap(position) {
+    return {
       center : {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -12,39 +15,27 @@ function MapService($q, EventFactory, EventsService, uiGmapGoogleMapApi){
     };
   };
 
-  function constructCoordinates(position){
-    return position.coords.latitude + "," + position.coords.longitude + "&within=25";
+  this.constructZipcodeMap = function(events){
+    return {
+      center : {
+        latitude: events[0].latitude,
+        longitude: events[0].longitude
+      },
+      zoom : 12,
+      control : {}
+    };
   };
 
-  function concatenateEvents(events){
-    return mapService.allEvents = events.localEvents.concat(events.eventfulEvents.data.events.event);
-  };
-
-  function getCoordinates() {
+  this.getEventsByGeoLocation = function() {
     return $q(function(resolve, reject) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        if(constructMap(position)) {
-          getEvents(constructCoordinates(position)).then(function(allEvents){
-            resolve (allEvents);
+        if (position) {
+          EventsService.getEvents(constructCoordinates(position)).then(function(allEvents){
+            resolve({ map: constructGeoMap(position), allEvents: allEvents });
           });
         } else {
-          reject ('There was an error loading events');
+          reject('There was an error loading the events.');
         };
-      });
-    });
-  };
-
-  function getEvents(coordinates) {
-    return $q(function(resolve, reject) {
-      $q.all({
-        localEvents: EventFactory.query({location: coordinates}),
-        eventfulEvents: EventsService.eventfulEvents(coordinates)
-      }).then(function(events){
-        if(concatenateEvents(events)) {
-          resolve(mapService);
-        } else {
-          reject("Error loading events.");
-        }
       });
     });
   };
@@ -65,9 +56,7 @@ function MapService($q, EventFactory, EventsService, uiGmapGoogleMapApi){
       };
       return markers;
     });
-  }
-
-  this.getAllEvents = getCoordinates();
+  };
 };
 
 angular

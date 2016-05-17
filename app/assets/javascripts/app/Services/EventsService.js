@@ -1,4 +1,23 @@
-function EventsService($http){
+function EventsService($http, $q, EventFactory, EventfulService){
+
+  function concatenateEvents(events){
+    return events.localEvents.concat(events.eventfulEvents.data.events.event);
+  };
+
+  this.getEvents = function(location) {
+    return $q(function(resolve, reject) {
+      $q.all({
+        localEvents: EventFactory.query({location: location}),
+        eventfulEvents: EventfulService.eventfulEvents(location)
+      }).then(function(events){
+        if (events) {
+          resolve(concatenateEvents(events));
+        } else {
+          reject("Error loading events.");
+        }
+      });
+    });
+  };
 
   this.getLoopEvent = function(id) {
     return $http({
@@ -30,35 +49,9 @@ function EventsService($http){
   };
 
   this.loopEventsZipcode = function(zip){
-    // return $http({
-    //   method: 'get',
-    //   url: 'http://localhost:3000/api/v1/events?zipcode=' + zip
-    // });
     return $http.get('http://localhost:3000/api/v1/events?zipcode=' + zip);
   };
-
-  this.eventfulEvents = function(zipcode){
-    return $http({
-      method: 'jsonp',
-      url: 'http://api.eventful.com/json/events/search?app_key=ckR7kwV6Ppwmq2sK&location=' + zipcode,
-      params: {
-        format: 'jsonp',
-        callback: 'JSON_CALLBACK'
-      }
-    });
-  };
-
-  this.getEvent = function(id){
-    return $http({
-      method: 'jsonp',
-      url: 'http://api.eventful.com/json/events/get?app_key=ckR7kwV6Ppwmq2sK&id=' + id,
-      params: {
-        format: 'jsonp',
-        callback: 'JSON_CALLBACK'
-      }
-    });
-  };
-}
+};
 
 angular
   .module('app')
