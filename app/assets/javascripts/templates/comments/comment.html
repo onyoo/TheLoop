@@ -1,2 +1,4 @@
-{{comment.comment.created_at}}
-{{comment.comment.user.email}} said {{comment.comment.content}}
+<blockquote>
+  <p>{{comment.comment.content}}</p>
+  <footer><strong>{{comment.comment.user.email}}</strong> {{comment.comment.created_at | date:'short'}}</footer>
+</blockquote>

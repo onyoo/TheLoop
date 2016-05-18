@@ -1,5 +1,5 @@
 var EditEventForm = {
-  templateUrl: 'events/edit_event_form.html',
+  templateUrl: 'events/forms/edit_event.html',
   bindings: {
     event: '='
   },

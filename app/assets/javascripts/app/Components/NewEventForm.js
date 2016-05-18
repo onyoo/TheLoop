@@ -1,15 +1,8 @@
 var NewEventForm = {
-  templateUrl: 'events/new_event_form.html',
-  controller: function(UserEvent, $scope, CategoriesService, $state, Auth) {
+  templateUrl: 'events/forms/new_event.html',
+  controller: function($scope, $state, Auth, UserEvent, CategoriesService) {
     var ctrl = this;
-
-    ctrl.$inject = ['UserEvent', '$scope', 'CategoriesService', '$state', 'Auth'];
-
-    $scope.closeForm = function() {
-      $scope.$emit('closeForm', false);
-    };
-
-    $scope.selectedCountry = [];
+    ctrl.$inject = ['$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService'];
 
     Auth.currentUser().then(function(resp) {
       ctrl.creator = resp.id;
@@ -29,6 +22,12 @@ var NewEventForm = {
         console.log(error);
       });
     };
+
+    $scope.closeForm = function() {
+      $scope.$emit('closeForm', false);
+    };
+
+    // $scope.selectedCountry = [];
   },
   controllerAs: 'eventForm'
 };
