@@ -30,23 +30,25 @@
       </button>
 
       <div class="text-center">
-        <button class="btn btn-primary" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent()">Attend Event</button><br>
+        <button class="btn btn-primary attend-event-button" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent()">Attend Event</button><br>
 
         <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
       </div><br>
 
-      <p>Comments:</p>
-      <div ng-repeat="comment in event.data.comments">
-        <comment-item comment="comment"></comment-item>
-      </div>
-
-      <form ng-submit="event.addComment()" class="form-group">
-        <textarea type="text" class="form-control comment-form" placeholder="Comment" ng-model="event.comment.content"></textarea><br>
-
-        <div class="comment-button">
-          <input type="submit" class="btn btn-primary text-center" value="Add Comment">
+      <div ng-show="event.data.users.length > 0">
+        <p>Comments:</p>
+        <div ng-repeat="comment in event.data.comments">
+          <comment-item comment="comment"></comment-item>
         </div>
-      </form>
+
+        <form ng-submit="event.addComment()" class="form-group">
+          <textarea type="text" class="form-control comment-form" placeholder="Comment" ng-model="event.comment.content"></textarea><br>
+
+          <div class="comment-button">
+            <input type="submit" class="btn btn-primary text-center" value="Add Comment">
+          </div>
+        </form>
+      </div>
 
       <div ng-show='editEvent'>
         <edit-event-form event="event"></edit-event-form>

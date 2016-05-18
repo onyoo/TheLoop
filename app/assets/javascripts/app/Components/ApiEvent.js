@@ -6,7 +6,7 @@ var ApiEvent = {
   controller: function(EventsService, $state){
     var ctrl = this;
     ctrl.$inject = ['UserEvent', 'EventsService', '$state'];
-    
+
     ctrl.date = Date.parse(this.details.start_time);
 
     if (this.details.venue_name === undefined && this.details.venue !== undefined){

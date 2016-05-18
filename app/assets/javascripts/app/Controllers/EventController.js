@@ -2,7 +2,10 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
   var ctrl = this;
   ctrl.data = event.data;
   ctrl.date = Date.parse(ctrl.data.start_time);
-  ctrl.category = CategoriesService.assignCategory(ctrl.data);
+
+  if (ctrl.data.categories || ctrl.data.category) {
+    ctrl.category = CategoriesService.assignCategory(ctrl.data);
+  };
 
   $scope.signedIn = Auth.isAuthenticated;
   $scope.map = MapService.constructMap(ctrl.data);
@@ -18,13 +21,32 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     });
   };
 
-  Auth.currentUser().then(function(resp){
-    ctrl.user = resp;
-    ctrl.comment = new Comment({user_id: ctrl.user.id, event_id: ctrl.data.id});
-    ctrl.attending = ctrl.data.users.some(function(user){
-      return resp.id == user.id;
+  ctrl.addComment = function() {
+    this.comment.$save(function(comment){
+       ctrl.data.comments.push(comment);
     });
-    ctrl.editable = resp.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+    setComment(ctrl.user);
+  };
+
+  function setAttending(user){
+    ctrl.attending = ctrl.data.users.some(function(attendingUser) {
+      return user.id == attendingUser.id;
+    });
+  };
+
+  function setComment(user){
+    ctrl.comment = new Comment({user_id: user.id, event_id: ctrl.data.id});
+  };
+
+  function setEditable(user){
+    ctrl.editable = user.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+  };
+
+  Auth.currentUser().then(function(user){
+    ctrl.user = user;
+    setComment(user);
+    setEditable(user);
+    if (ctrl.data.users){ setAttending(user) };
   });
 
   $scope.$on('closeEditForm', function (emitEvent, data) {
@@ -35,14 +57,6 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     ctrl.data = data;
     $scope.editEvent = false;
   });
-
-  ctrl.addComment = function() {
-    this.comment.$save(function(comment){
-       ctrl.data.comments.push(comment);
-    });
-
-    ctrl.comment = new Comment({user_id: ctrl.user.id, event_id: ctrl.data.id});
-  };
 };
 
 angular

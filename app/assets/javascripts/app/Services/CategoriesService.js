@@ -9,8 +9,8 @@ function CategoriesService($http) {
 
   this.assignCategory = function(api_event){
     if (api_event.category === undefined){
-      return api_event.categories.category[0].name.replace('&amp; ', '');
-    } else {
+      return  api_event.categories.category[0].name.replace('&amp; ', '');
+     } else {
       return api_event.category.name;
     };
   };
