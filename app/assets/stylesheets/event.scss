@@ -24,14 +24,8 @@
   border-radius: 5px;
 }
 
-#attend-event-button {
-  margin-top: 10px;
-  margin-left: 222px;
-}
-
-#edit-event-button {
-  margin-left: 230px;
-  margin-top: 10px;
+.btn-success {
+  cursor: default;
 }
 
 .event-headers {
@@ -131,4 +125,10 @@
   font-size: 1.5em;
   margin-top: 150px;
   font-weight: 200;
+}
+
+// Comment
+
+.comment-button {
+  text-align: center;
 }

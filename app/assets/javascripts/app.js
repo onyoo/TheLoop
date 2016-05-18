@@ -39,7 +39,7 @@ angular
       })
       .state('home.event', {
         url: 'event/:id',
-        templateUrl: 'events/event_show_page.html',
+        templateUrl: 'events/event_show.html',
         controller: 'EventController as event',
         resolve: {
           event: ['$stateParams', 'EventfulService', 'EventsService', function ($stateParams, EventfulService, EventsService) {

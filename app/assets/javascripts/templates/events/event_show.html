@@ -24,7 +24,33 @@
         <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>
       </div><br>
 
-      <button class="btn btn-primary" id="attend-event-button" ng-show="signedIn()" type="submit" ng-click="event.addEvent(event.data)">Attend Event</button>
+      <p ng-show="event.users.length > 0">Users attending event: {{event.data.users.length}}</p>
+      <button class="btn btn-success" ng-if="signedIn()" ng-show="event.attending" data-toggle="tooltip" data-placement="top" title="Attending Event">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Attending
+      </button>
+
+      <div class="text-center">
+        <button class="btn btn-primary" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent()">Attend Event</button><br>
+
+        <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
+      </div><br>
+
+      <p>Comments:</p>
+      <div ng-repeat="comment in event.data.comments">
+        <comment-item comment="comment"></comment-item>
+      </div>
+
+      <form ng-submit="event.addComment()" class="form-group">
+        <textarea type="text" class="form-control comment-form" placeholder="Comment" ng-model="event.comment.content"></textarea><br>
+
+        <div class="comment-button">
+          <input type="submit" class="btn btn-primary text-center" value="Add Comment">
+        </div>
+      </form>
+
+      <div ng-show='editEvent'>
+        <edit-event-form event="event"></edit-event-form>
+      </div>
     </div>
 
     <div class="col-sm-6">
@@ -40,3 +66,9 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
