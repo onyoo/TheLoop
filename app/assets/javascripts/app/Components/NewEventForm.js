@@ -13,11 +13,11 @@ var NewEventForm = {
     });
 
     ctrl.createEvent = function() {
-      this.formData.creator = ctrl.creator
-      UserEvent.create({event: this.formData}, function(res){
+      this.data.creator = ctrl.creator
+      UserEvent.create({event: this.data}, function(res){
         $scope.closeForm();
         $state.go('home.myEvents');
-        ctrl.formData = {};
+        ctrl.data = {};
       }, function(error) {
         console.log(error);
       });

@@ -1,4 +1,4 @@
-function EventsController($scope, $location, EventsService, MapService, $anchorScroll){
+function EventsController($scope, $location, EventsService, MapService, GeoLocationService, $anchorScroll){
   var ctrl = this;
 
   function assignMarkers(events){
@@ -18,7 +18,7 @@ function EventsController($scope, $location, EventsService, MapService, $anchorS
   if(!!navigator.geolocation) {
     $scope.loading = true;
 
-    MapService.getEventsByGeoLocation().then(function(res){
+    GeoLocationService.getEventsByGeoLocation().then(function(res){
       ctrl.allEvents = res.allEvents;
       $scope.map = res.map;
       $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
@@ -30,19 +30,34 @@ function EventsController($scope, $location, EventsService, MapService, $anchorS
     console.log('Sorry, your browser does not support geolocation.');
     document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
   };
+
+  $scope.markerClick = function(map, event, marker) {
+    var newHash = 'anchor' + marker.id;
+    if ($location.hash() !== newHash) {
+      $location.hash(newHash);
+      $('li.active-marker').removeClass('active-marker')
+      $('#' + newHash).addClass('active-marker');
+    } else {
+      $anchorScroll();
+    };
+  };
 };
 
 angular
   .module('app')
-  .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', '$anchorScroll', EventsController]);
+  .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', 'GeoLocationService', '$anchorScroll', EventsController]);
 
-  // $scope.markerClick = function(map, event, marker) {
+  // ctrl.markerClick = function(map, event, marker) {
   //   var newHash = 'anchor' + marker.id;
+  //
+  //   // console.log(ctrl);
+  //   // ctrl.allEvents[marker.id].highlight = true
   //   if ($location.hash() !== newHash) {
-  //       $location.hash(newHash);
-  //       $('li.active-marker').removeClass('active-marker')
-  //       $('#' + newHash).addClass('active-marker');
-  //     } else {
-  //       $anchorScroll();
-  //     };
+  //     $location.hash(newHash);
+  //     debugger;
+  //     $('li.active-marker').removeClass('active-marker')
+  //     $('#' + newHash).addClass('active-marker');
+  //   } else {
+  //     $anchorScroll();
+  //   };
   // };

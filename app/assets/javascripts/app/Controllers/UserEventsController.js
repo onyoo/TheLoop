@@ -1,4 +1,4 @@
-function UserEventsController(user, User) {
+function UserEventsController($scope, user, User) {
   var ctrl = this;
 
   User.get({'id': user.id}, function(res){
@@ -14,4 +14,4 @@ function UserEventsController(user, User) {
 
 angular
 .module('app')
-.controller('UserEventsController', ['user', 'User', UserEventsController]);
+.controller('UserEventsController', ['$scope', 'user', 'User', UserEventsController]);
