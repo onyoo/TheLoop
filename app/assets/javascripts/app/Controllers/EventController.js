@@ -1,38 +1,24 @@
-function EventController(event, uiGmapGoogleMapApi, $scope, uiGmapIsReady, UserEvent, Auth, $state){
-
+function EventController(event, $scope, $state, Auth, UserEvent, CategoriesService, MapService){
   var ctrl = this;
   ctrl.data = event.data;
-  ctrl.category = ctrl.data.categories.category[0].name.replace('&amp; ', '');
   ctrl.date = Date.parse(ctrl.data.start_time);
+  ctrl.category = CategoriesService.assignCategory(ctrl.data);
+
   $scope.signedIn = Auth.isAuthenticated;
+  $scope.map = MapService.constructMap(ctrl.data);
+  $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
 
-  var map = {
-    center : {
-        latitude: ctrl.data.latitude,
-        longitude: ctrl.data.longitude
-    },
-    zoom : 11,
-    control : {}
-  };
-
-  uiGmapGoogleMapApi.then(function(maps) {
-    $scope.map     = map;
-    $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
-    $scope.markers = [{
-      id: 1,
-      coords: { latitude: ctrl.data.latitude, longitude: ctrl.data.longitude},
-      show: true
-    }];
+  MapService.constructMarkers([ctrl.data]).then(function(res){
+    $scope.markers = res;
   });
 
   ctrl.addEvent = function(){
-    ctrl.event = UserEvent.create({event: this.data}, function(res){
+    UserEvent.create({event: this.data}, function(res){
       $state.go('home.myEvents');
     });
   };
 };
 
-
 angular
   .module('app')
-  .controller('EventController', ['event', 'uiGmapGoogleMapApi', '$scope', 'uiGmapIsReady', 'UserEvent', 'Auth', '$state', EventController]);
+  .controller('EventController', ['event', '$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService', 'MapService', EventController]);

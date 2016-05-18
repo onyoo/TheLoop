@@ -1,7 +1,3 @@
-angular
-.module('app')
-.controller('NavbarController', ['$scope', 'Auth', '$state', '$location', NavbarController]);
-
 function NavbarController($scope, Auth, $state, $location) {
 
   $scope.signedIn = Auth.isAuthenticated;
@@ -12,7 +8,7 @@ function NavbarController($scope, Auth, $state, $location) {
     .then(function(user) {
       $scope.user = user;
     });
-    
+
   $scope.$on('devise:new-registration', function(e, user) {
     $scope.user = user;
   });
@@ -30,3 +26,7 @@ function NavbarController($scope, Auth, $state, $location) {
     $scope.newEvent = data
   });
 };
+
+angular
+.module('app')
+.controller('NavbarController', ['$scope', 'Auth', '$state', '$location', NavbarController]);

@@ -2,20 +2,23 @@
   <div class="row">
     <h2 id="my-events-header">The Loop</h2><br>
 
-    <div ng-show='ctrl.events.events.length > 0'>
+    <div ng-show='ctrl.events.length > 0'>
       <div class="row">
         <p id="sort-by-link">
           Sort by: <a href="" ng-click="sort = '-date'; reverse = !reverse">Date</a>
         </p>
       </div>
 
-      <ul id='events_list' ng-repeat="eventData in ctrl.events.events | orderBy:sort:reverse">
-        <loop-event details='eventData'></loop-event>
+      <ul id='events_list' ng-repeat="event in ctrl.events | orderBy:sort:reverse">
+        <loop-event details='event'></loop-event>
+        <div class="col-sm-2">
+          <button class="btn btn-danger" ng-click="ctrl.removeEvent($index)" id="remove-event">Remove Event</button>
+        </div>
       </ul>
     </div>
 
-    <div ng-show='ctrl.events.events.length == 0'>
-      <p id="no-events-message">You have no events yet. <a ui-sref='home.events'>Find events near you!</a></p>
+    <div ng-show='ctrl.events.length == 0'>
+      <p id="no-events-message">You're not attending any events. <a ui-sref='home.events'>Find events near you!</a></p>
     </div>
   </div>
 </div>

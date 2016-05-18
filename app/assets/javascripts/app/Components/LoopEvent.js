@@ -16,12 +16,6 @@ var LoopEvent = {
     VenuesService.getVenue(ctrl.details.venue_id).then(function(res){
       ctrl.venue = res.data.name;
     });
-
-    this.removeEvent = function() {
-      User.delete({id: this.details.id }, function(res){
-        $('[data-event-id="' + res.id +'"]').text('');
-      });
-    };
   },
   controllerAs: 'event'
 };

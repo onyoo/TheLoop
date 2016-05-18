@@ -15,11 +15,11 @@ function MapService($q, EventsService, uiGmapGoogleMapApi){
     };
   };
 
-  this.constructZipcodeMap = function(events){
+  this.constructMap = function(apiEvent){
     return {
       center : {
-        latitude: events[0].latitude,
-        longitude: events[0].longitude
+        latitude: apiEvent.latitude,
+        longitude: apiEvent.longitude
       },
       zoom : 12,
       control : {}

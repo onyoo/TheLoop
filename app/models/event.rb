@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
     end
     self.within(25, :origin => [latitude,longitude])
   end
-  
+
   def venue_name=(venue)
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
     address += (", " + self[:country_abbr])     unless country_abbr.nil?
 
     if self.latitude.nil?
-      loc=Event.geocode(address)
+      loc = Event.geocode(address)
 
       if loc.success
          self.latitude = loc.lat

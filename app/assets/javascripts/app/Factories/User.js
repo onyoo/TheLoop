@@ -1,17 +1,12 @@
-  
 function User($resource){
-
-  var host = '/api/v1/';
-
-  var User = $resource( host + '/users/:id.json', {user_id: '@userId'}, {
-        query: { method: 'GET', isArray: true },
-        get: {method: 'GET'},
-        create: { method: 'POST' },
-        remove: { method: 'PUT' },
-        update: { method: 'PUT' },
-        delete: { method: 'DELETE' }
+  return $resource('/api/v1//users/:id.json', {user_id: '@userId'}, {
+    get: {method: 'GET'},
+    delete: { method: 'DELETE' }
+    // query: { method: 'GET', isArray: true },
+    // create: { method: 'POST' },
+    // remove: { method: 'PUT' },
+    // update: { method: 'PUT' },
   });
-  return User;
 }
 
 angular

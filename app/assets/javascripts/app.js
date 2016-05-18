@@ -38,29 +38,38 @@ angular
         controller: 'EventsController as ctrl'
       })
       .state('home.event', {
-        url: 'show/:id',
+        url: 'event/:id',
         templateUrl: 'events/event_show_page.html',
         controller: 'EventController as event',
         resolve: {
-          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
-            return EventsService.getEvent($stateParams.id);
+          event: ['$stateParams', 'EventfulService', 'EventsService', function ($stateParams, EventfulService, EventsService) {
+            if ($stateParams.id.search('-') > 0) {
+              return EventfulService.getEvent($stateParams.id);
+            } else {
+              return EventsService.getPersistedEvent($stateParams.id);
+            };
           }]
         }
       })
-      .state('home.loopEvent', {
-        url: 'loopShow/:id',
-        templateUrl: 'events/loop_event_show_page.html',
-        controller: 'LoopEventController as event',
-        resolve: {
-          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
-            return EventsService.getLoopEvent($stateParams.id);
-          }]
-        }
-      })
+      // .state('home.loopEvent', {
+      //   url: 'loopShow/:id',
+      //   templateUrl: 'events/loop_event_show_page.html',
+      //   controller: 'LoopEventController as event',
+      //   resolve: {
+      //     event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
+      //       return EventsService.getLoopEvent($stateParams.id);
+      //     }]
+      //   }
+      // })
       .state('home.myEvents', {
         url: 'my_events',
         templateUrl: 'events/my_events.html',
-        controller: 'UserEventsController as ctrl'
+        controller: 'UserEventsController as ctrl',
+        resolve: {
+          user: ['Auth', function(Auth){
+            return Auth.currentUser();
+          }]
+        }
       })
       .state('home.localView', {
         url: 'localview',

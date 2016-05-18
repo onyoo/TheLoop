@@ -5,11 +5,10 @@ module Api
       before_action :set_event, only: [:show, :update]
       before_action :set_location, only: [:index]
       before_action :saved_event, only: [:create]
-      before_action :set_api_event, only: [:check]
+      # before_action :set_api_event, only: [:check]
       respond_to :json
 
       def index
-        # respond_with(@events.where(api_id: nil))
         respond_with(@events)
       end
 
@@ -17,13 +16,13 @@ module Api
         respond_with(@event)
       end
 
-      def check
-        if @api_event.present?
-          render :json => @api_event
-        else
-          render nothing: true, status: 401
-        end
-      end
+      # def check
+      #   if @api_event.present?
+      #     render :json => @api_event
+      #   else
+      #     render nothing: true, status: 401
+      #   end
+      # end
 
       def create
         if @event.nil?
@@ -55,9 +54,9 @@ module Api
         @event = Event.find(params[:id])
       end
 
-      def set_api_event
-        @api_event = Event.find_by(api_id: params[:api_id])
-      end
+      # def set_api_event
+      #   @api_event = Event.find_by(api_id: params[:api_id])
+      # end
 
       def saved_event
         @event = Event.find_by(title: params[:event][:title])

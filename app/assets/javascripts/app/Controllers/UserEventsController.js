@@ -1,11 +1,17 @@
-function UserEventsController(User, Auth) {
+function UserEventsController(user, User) {
   var ctrl = this;
 
-  ctrl.user = Auth.currentUser().then(function(user) {
-    ctrl.events = User.get({ 'id': user.id });
+  User.get({'id': user.id}, function(res){
+    ctrl.events = res.events;
   });
+
+  ctrl.removeEvent = function(index) {
+    var apiEvent = this.events[index];
+    User.delete({id: apiEvent.id});
+    this.events.splice(index,1);
+  };
 };
 
 angular
 .module('app')
-.controller('UserEventsController', ['User', 'Auth', UserEventsController]);
+.controller('UserEventsController', ['user', 'User', UserEventsController]);

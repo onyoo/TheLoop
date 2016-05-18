@@ -3,6 +3,7 @@ module Api
     class UsersController < ApplicationController
       skip_before_filter :verify_authenticity_token
       before_action :set_event, only: [:destroy]
+      before_action :set_user, only: [:show]
       respond_to :json
 
       def index
@@ -10,7 +11,7 @@ module Api
       end
 
       def show
-        respond_with(User.find(params[:id]))
+        respond_with(@user)
       end
 
       def destroy
@@ -25,6 +26,10 @@ module Api
 
       def set_event
         @event = Event.find(params[:id])
+      end
+
+      def set_user
+        @user = User.find(params[:id])
       end
     end
 

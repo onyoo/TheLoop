@@ -1,15 +1,10 @@
-
 function UserEvent($resource){
-
-  var host = '/api/v1/';
-
-  var UserEvent = $resource( host + 'events/:id.json',{id: '@id'},{
+  return $resource('/api/v1/events/:id.json', {id: '@id'}, {
         query: { method: 'GET', isArray: true },
-        create: { method: 'POST' },
-        update: { method: 'PUT' },
-        delete: { method: 'DELETE' }
+        create: { method: 'POST' }
+        // update: { method: 'PUT' },
+        // delete: { method: 'DELETE' }
   });
-  return UserEvent;
 }
 
 angular

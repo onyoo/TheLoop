@@ -1,4 +1,4 @@
-function EventsController($scope, $location, EventsService, MapService){
+function EventsController($scope, $location, EventsService, MapService, $anchorScroll){
   var ctrl = this;
 
   function assignMarkers(events){
@@ -7,21 +7,10 @@ function EventsController($scope, $location, EventsService, MapService){
     });
   };
 
-  // $scope.markerClick = function(map, event, marker) {
-  //   var newHash = 'anchor' + marker.id;
-  //   if ($location.hash() !== newHash) {
-  //       $location.hash(newHash);
-  //       $('li.active-marker').removeClass('active-marker')
-  //       $('#' + newHash).addClass('active-marker');
-  //     } else {
-  //       $anchorScroll();
-  //     };
-  // };
-
   ctrl.zipcodeSearch = function(){
     EventsService.getEvents(this.zipcode).then(function(res){
       ctrl.allEvents = res;
-      $scope.map = MapService.constructZipcodeMap(ctrl.allEvents);
+      $scope.map = MapService.constructMap(ctrl.allEvents[0]);
       assignMarkers(ctrl.allEvents);
     });
   };
@@ -45,16 +34,15 @@ function EventsController($scope, $location, EventsService, MapService){
 
 angular
   .module('app')
-  .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', EventsController]);
+  .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', '$anchorScroll', EventsController]);
 
   // $scope.markerClick = function(map, event, marker) {
-  //   debugger;
-  //  var newHash = 'anchor' + marker.id;
-  //  if ($location.hash() !== newHash) {
-  //      $location.hash(newHash);
-  //      $('li.active-marker').removeClass('active-marker')
-  //      $('#' + newHash).addClass('active-marker');
-  //    } else {
-  //      $anchorScroll();
-  //    };
+  //   var newHash = 'anchor' + marker.id;
+  //   if ($location.hash() !== newHash) {
+  //       $location.hash(newHash);
+  //       $('li.active-marker').removeClass('active-marker')
+  //       $('#' + newHash).addClass('active-marker');
+  //     } else {
+  //       $anchorScroll();
+  //     };
   // };
