@@ -5,8 +5,13 @@
 #events-header {
   margin-top: 30px;
   font-weight: 300;
-  margin-left: 200px;
+  padding-bottom: 10px;
   color: rgb(0, 107, 179);
+  border-bottom: .8px solid rgb(0, 107, 179);
+}
+
+.search-inputs {
+  margin: auto;
 }
 
 #sort-by-link {
@@ -15,16 +20,17 @@
 
 #events-list {
   list-style-type: none;
+  margin: 4px 15px 13px -24px
 }
 
 #events-list-container{
+  margin-top: 11px;
   height: 475px;
   overflow: scroll;
 }
 
 .event-container {
-  margin-left: -50px;
-  padding: 5px 15px 7px 25px;
+  padding: 3px 42px 3px 42px;
   background-color: white;
   box-shadow: 2px 2px 5px gray;
   border-radius: 5px;
@@ -42,11 +48,11 @@
   border: 2px solid #006BB3;
 }
 
-#loading-gif {
-  margin: auto;
-  height: 850px;
-  width: 550px;
-}
+// #loading-gif {
+//   margin: auto;
+//   height: 850px;
+//   width: 550px;
+// }
 
 #loading-map-message {
   text-align: center;

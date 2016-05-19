@@ -1,11 +1,12 @@
 #event-show-page {
+  width: 47%;
+  margin: 48px 19px;
   background-color: white;
-  margin-top: 50px;
   padding: 25px 32px 35px 35px;
-  margin-left: 37px;
-  height: 560px;
+  height: 570px;
   overflow: scroll;
   box-shadow: 1px 1px 3px gray;
+  border-radius: 5px;
   font-size: 16px;
   font-weight: 300;
 }
@@ -36,6 +37,10 @@
   margin-top: 25px;
   line-height: 80%;
   margin-bottom: 10px;
+}
+
+.event-date {
+  padding-left: 40px;
 }
 
 // My Events Page

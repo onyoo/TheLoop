@@ -3,8 +3,12 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
   ctrl.data = event.data;
   ctrl.date = Date.parse(ctrl.data.start_time);
 
+  if (ctrl.data.images != undefined){
+    ctrl.data.image_url = ctrl.data.images.image.thumb.url;
+  };
+
   if (ctrl.data.categories || ctrl.data.category) {
-    ctrl.category = CategoriesService.assignCategory(ctrl.data);
+    ctrl.data.category = CategoriesService.assignCategory(ctrl.data);
   };
 
   $scope.signedIn = Auth.isAuthenticated;
@@ -16,6 +20,7 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
   });
 
   ctrl.addEvent = function(){
+    debugger;
     UserEvent.create({event: this.data}, function(res){
       $state.go('home.myEvents');
     });

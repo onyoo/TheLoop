@@ -46,18 +46,3 @@ function EventsController($scope, $location, EventsService, MapService, GeoLocat
 angular
   .module('app')
   .controller('EventsController', ['$scope', '$location', 'EventsService', 'MapService', 'GeoLocationService', '$anchorScroll', EventsController]);
-
-  // ctrl.markerClick = function(map, event, marker) {
-  //   var newHash = 'anchor' + marker.id;
-  //
-  //   // console.log(ctrl);
-  //   // ctrl.allEvents[marker.id].highlight = true
-  //   if ($location.hash() !== newHash) {
-  //     $location.hash(newHash);
-  //     debugger;
-  //     $('li.active-marker').removeClass('active-marker')
-  //     $('#' + newHash).addClass('active-marker');
-  //   } else {
-  //     $anchorScroll();
-  //   };
-  // };

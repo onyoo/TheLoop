@@ -31,17 +31,8 @@ class Event < ActiveRecord::Base
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
-  def categories=(category)
-    if category[:name]
-      category_name = category[:name]
-    else
-      category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
-    end
+  def category=(category_name)
     self.update(category_id: Category.find_or_create_by(name: category_name).id)
-  end
-
-  def images=(image)
-    self.update(image_url: image[:image][:thumb][:url]) unless image.nil?
   end
 
   def address=(street)
