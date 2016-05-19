@@ -33,6 +33,7 @@ function EventsController($scope, $location, EventsService, MapService, GeoLocat
 
   $scope.markerClick = function(map, event, marker) {
     var newHash = 'anchor' + marker.id;
+
     if ($location.hash() !== newHash) {
       $location.hash(newHash);
       $('li.active-marker').removeClass('active-marker')

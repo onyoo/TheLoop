@@ -3,9 +3,9 @@ var ApiEvent = {
   bindings: {
     details: '='
   },
-  controller: function(EventsService, $state){
+  controller: function(){
     var ctrl = this;
-    ctrl.$inject = ['UserEvent', 'EventsService', '$state'];
+    // ctrl.$inject = ['UserEvent', 'EventsService', '$state'];
 
     ctrl.date = Date.parse(this.details.start_time);
 

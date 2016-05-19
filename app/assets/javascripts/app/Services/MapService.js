@@ -1,12 +1,12 @@
 function MapService($q, uiGmapGoogleMapApi){
 
-  this.constructMap = function(apiEvent){
+  this.constructMap = function(apiEvent, zoom){
     return {
       center : {
         latitude: apiEvent.latitude,
         longitude: apiEvent.longitude
       },
-      zoom : 10,
+      zoom : zoom,
       control : {}
     };
   };

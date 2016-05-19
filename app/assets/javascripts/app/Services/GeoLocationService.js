@@ -9,7 +9,7 @@ function GeoLocationService($q, EventsService, MapService){
       navigator.geolocation.getCurrentPosition(function(position) {
         if (position) {
           EventsService.getEvents(constructCoordinates(position)).then(function(allEvents){
-            resolve({ map: MapService.constructMap(position.coords), allEvents: allEvents });
+            resolve({ map: MapService.constructMap(position.coords, 10), allEvents: allEvents });
           });
         } else {
           reject('There was an error loading the events.');

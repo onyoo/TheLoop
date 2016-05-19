@@ -12,9 +12,14 @@ var NewEventForm = {
       ctrl.categories = res.data;
     });
 
+    function setData(newEvent){
+      newEvent.creator = ctrl.creator;
+      newEvent.category = newEvent.category.name;
+      return newEvent;
+    };
+
     ctrl.createEvent = function() {
-      this.data.creator = ctrl.creator
-      UserEvent.create({event: this.data}, function(res){
+      UserEvent.create({event: setData(this.data)}, function(res){
         $scope.closeForm();
         $state.go('home.myEvents');
         ctrl.data = {};
@@ -26,8 +31,6 @@ var NewEventForm = {
     $scope.closeForm = function() {
       $scope.$emit('closeForm', false);
     };
-
-    // $scope.selectedCountry = [];
   },
   controllerAs: 'eventForm'
 };

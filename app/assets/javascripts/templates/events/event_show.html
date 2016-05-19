@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6" id="event-show-page">
       <div class="row">
-        <div ng-if="event.data.image_url">
+        <div ng-show="event.data.image_url">
           <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>
 
           <div class="col-sm-4">
@@ -12,22 +12,23 @@
           </div>
         </div>
 
-        <div ng-if="!event.data.image_url">
+        <div ng-hide="event.data.image_url">
           <h1 class="col-sm-12 event-header">{{event.data.title}}</h1>
         </div>
         <br>
       </div><hr>
 
       <div class="row event-headers">
-        <p class="col-sm-7" ng-model="event.category">{{event.data.category}}</p>
+        <p class="col-sm-7" ng-model="event.category"> {{event.category}}</p>
+
         <p class="col-sm-5 event-date">{{event.date | date:'medium'}}</p><br>
       </div>
 
       <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
 
       <div class="event-address">
-        <p>{{event.data.venue_name}}</p>
-        <p>{{event.data.address}}</p>
+        <p ng-model="event.data.venue_name">{{event.data.venue.name}}</p>
+        <p>{{event.data.street_address}}</p>
         <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>
       </div><br>
 

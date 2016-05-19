@@ -37,9 +37,9 @@
             placeholder="Description"
             ng-model="eventForm.event.data.description"></textarea>
 
-          <label for="eventForm.event.data.categories">Categories</label>
+          <label for="eventForm.event.data.category">Categories</label>
 
-          <select ng-model="eventForm.event.data.categories" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
+          <select ng-model="eventForm.event.data.category" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
           </select>
 
           <div ng-messages="form.category.$error" ng-if="form.category.$touched">
@@ -51,7 +51,7 @@
       <div class="col-sm-7">
         <div class="col-sm-12">
           <label for="eventForm.event.data.venue_name">Venue</label>
-          <input type="text" class="form-control" placeholder="Venue Name (optional)" ng-model="eventForm.event.data.venue_name">
+          <input type="text" class="form-control" placeholder="{{eventForm.event.data.venue.name}}" ng-model="eventForm.event.data.venue_name">
 
           <label for="eventForm.event.data.street_address">Street Address</label>
           <input

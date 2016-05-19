@@ -40,7 +40,8 @@
 
           <label for="eventForm.data.categories">Categories</label>
 
-          <select ng-model="eventForm.data.categories" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
+          <select ng-model="eventForm.data.category" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
+            <option value="" disabled selected>Select Category</option>
           </select>
 
           <div ng-messages="form.category.$error" ng-if="form.category.$touched">

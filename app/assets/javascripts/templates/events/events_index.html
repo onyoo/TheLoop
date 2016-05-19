@@ -27,7 +27,9 @@
         <!-- Display events -->
         <div id="events-list-container" class="row">
            <ul id="events-list" ng-repeat="eventData in ctrl.allEvents | filter:ctrl.keyword | orderBy:sort:reverse">
-            <api-event details="eventData"></api-event>
+            <a ui-sref="home.event({id: eventData.id})">
+              <api-event details="eventData"></api-event>
+            </a>
           </ul>
         </div>
       </div>

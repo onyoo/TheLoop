@@ -20,7 +20,20 @@
 
 #events-list {
   list-style-type: none;
-  margin: 4px 15px 13px -24px
+  margin: 4px 15px 13px -24px;
+  a {
+    text-decoration: none;
+    color: black;
+    h3 {
+      font-weight: 300;
+      padding-bottom: 7px;
+      color: rgb(0, 107, 179);
+      border-bottom: 1px solid rgba(0, 107, 179, .6);
+    }
+  }
+  a:hover {
+    background-color: red;
+  }
 }
 
 #events-list-container{
@@ -45,14 +58,9 @@
 }
 
 .active-marker {
-  border: 2px solid #006BB3;
+  border: 3px solid #006BB3;
+  border-bottom: 4px solid #006BB3;
 }
-
-// #loading-gif {
-//   margin: auto;
-//   height: 850px;
-//   width: 550px;
-// }
 
 #loading-map-message {
   text-align: center;
