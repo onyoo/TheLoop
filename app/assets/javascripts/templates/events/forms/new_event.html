@@ -26,7 +26,7 @@
           <input type="datetime-local" name="date" class="form-control" ng-model="eventForm.data.start_time" required="required">
 
           <div ng-messages="form.date.$error" ng-if="form.date.$touched">
-            <div ng-message="required" class="error-message">An event date is required</div>
+            <div ng-message="required" class="error-message">An event date and time are required</div>
           </div>
 
           <label for="eventForm.data.description">Description</label>
@@ -80,11 +80,7 @@
 
             <div class="col-sm-4">
               <label for="eventForm.data.region_abbr">State</label>
-              <select ng-model="eventForm.data.region_abbr" name="state" class="form-control" required="required" state-picker-directive></select>
-
-              <div ng-messages="form.state.$error" ng-if="form.state.$touched">
-                <div ng-message="required" class="error-message">State is required</div>
-              </div>
+              <select ng-model="eventForm.data.region_abbr" name="state" class="form-control" state-picker-directive></select>
             </div>
 
             <div class="col-sm-3">

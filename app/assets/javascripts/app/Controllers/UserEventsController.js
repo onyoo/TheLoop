@@ -10,6 +10,11 @@ function UserEventsController($scope, user, User) {
     User.delete({id: apiEvent.id});
     this.events.splice(index,1);
   };
+
+  $scope.$on('newEvent', function(e, event) { 
+    ctrl.events.push(event);
+  });
+
 };
 
 angular
