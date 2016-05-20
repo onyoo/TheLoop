@@ -1,7 +1,7 @@
-#navbar-tabs li {
+#navbar-ul li {
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
-  margin-left: 108px;
+  text-align: center;
   padding: 4px;
   display: inline;
   a {
@@ -16,6 +16,15 @@
   a:active {
     background-color: transparent;
   }
+}
+
+#nav-bar-height {
+  height: 58px;
+}
+
+#navbar-tabs {
+  display: table;
+  margin: 0 auto;
 }
 
 .nav {

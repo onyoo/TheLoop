@@ -1,22 +1,9 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      skip_before_filter :verify_authenticity_token
       before_filter :authenticate_user!, only: [:create, :destroy]
       before_action :set_event, only: [:create]
       respond_to :json
-
-      # def index
-      #   @event = Event.find(params[:event_id])
-      #   @comments = event.comments
-      #   respond_with @event, @comments
-      # end
-      #
-      # def show
-      #   @event = Event.find(params[:event_id])
-      #   @comment = @event.comments.find(params[:id])
-      #   respond_with @event, @comments
-      # end
 
       def create
         @event.comments.create(comment_params)

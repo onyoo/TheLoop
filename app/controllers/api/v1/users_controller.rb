@@ -1,7 +1,6 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      skip_before_filter :verify_authenticity_token
       before_action :set_event, only: [:destroy]
       before_action :set_user, only: [:show]
       respond_to :json

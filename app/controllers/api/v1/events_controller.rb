@@ -1,7 +1,6 @@
 module Api
   module V1
     class EventsController < ApplicationController
-      skip_before_filter :verify_authenticity_token
       before_action :set_event, only: [:show, :update]
       before_action :set_location, only: [:index]
       before_action :saved_event, only: [:create]

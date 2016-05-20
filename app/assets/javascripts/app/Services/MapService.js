@@ -14,7 +14,6 @@ function MapService($q, uiGmapGoogleMapApi){
   this.constructMarkers = function(allEvents){
     return uiGmapGoogleMapApi.then(function(maps) {
       var markers = [];
-
       for(var i = 0; i < allEvents.length; i++) {
         markers.push({
           id: allEvents[i].id,
