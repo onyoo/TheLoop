@@ -2,7 +2,7 @@ function UserEventsController($scope, user, User) {
   var ctrl = this;
 
   User.get({'id': user.id}, function(res){
-    ctrl.events = res.events;
+    ctrl.events = res;
   });
 
   ctrl.removeEvent = function(index) {
@@ -11,7 +11,7 @@ function UserEventsController($scope, user, User) {
     this.events.splice(index,1);
   };
 
-  $scope.$on('newEvent', function(e, event) { 
+  $scope.$on('newEvent', function(e, event) {
     ctrl.events.push(event);
   });
 

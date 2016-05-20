@@ -7,11 +7,12 @@ module Api
       respond_to :json
 
       def index
+        binding.pry
         respond_with(User.all.order("id DESC"))
       end
 
       def show
-        respond_with(@user)
+        respond_with(@user_events)
       end
 
       def destroy
@@ -29,7 +30,7 @@ module Api
       end
 
       def set_user
-        @user = User.find(params[:id])
+        @user_events = User.find(params[:id]).events.order('start_time')
       end
     end
 
