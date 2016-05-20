@@ -22,28 +22,6 @@ function EventsService($http, $q, EventFactory, EventfulService){
   this.getPersistedEvent = function(id) {
     return $http.get('/api/v1/events/' + id);
   };
-
-  // this.checkLoopEvent = function(api_id) {
-  //   return $http({
-  //     method: 'get',
-  //     url: '/api/v1/events/' + api_id + '/check'
-  //   });
-  // };
-  //
-  // this.updateEvent = function(id, data) {
-  //   return $http({
-  //     method: 'put',
-  //     url: '/api/v1/events/' + id,
-  //     data: data
-  //   });
-  // };
-  //
-  // this.loopEvents = function(coords){
-  //   return $http({
-  //     method: 'get',
-  //     url: '/api/v1/events?location=' + coords
-  //   });
-  // };
 };
 
 angular

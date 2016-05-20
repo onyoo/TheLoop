@@ -15,7 +15,7 @@ function AuthController($scope, $state, $location, Auth){
       $('.auth-errors').html('Email ' + error.data.errors.email);
       if (error.data.errors.password != undefined) {
         $('.auth-errors').html('Password ' + error.data.errors.password);
-      }
+      };
     });
   };
 }

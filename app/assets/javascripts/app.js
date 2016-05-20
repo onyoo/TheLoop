@@ -66,6 +66,6 @@ angular
         templateUrl: 'events/local_view.html',
         controller: 'LocalController as local'
       });
-      
+
     $urlRouterProvider.otherwise('/localview');
   }]);

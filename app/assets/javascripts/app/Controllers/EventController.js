@@ -39,6 +39,7 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     this.comment.$save(function(comment){
        ctrl.data.comments.push(comment);
     });
+    ctrl.submitted = false;
     setComment(ctrl.user);
   };
 

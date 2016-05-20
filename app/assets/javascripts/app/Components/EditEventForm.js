@@ -17,6 +17,12 @@ var EditEventForm = {
       ctrl.categories = res.data;
     });
 
+    function setData(updatedEvent){
+      updatedEvent.category = updatedEvent.category.name;
+      updatedEvent.venue_name = updatedEvent.venue;
+      return updatedEvent;
+    };
+
     function updateData(updatedEvent){
       ctrl.event.category = updatedEvent.category.name;
       ctrl.event.date = new Date(updatedEvent.start_time);
@@ -24,10 +30,7 @@ var EditEventForm = {
 
     ctrl.editEvent = function() {
       var updatedEvent = this.event.data;
-      updatedEvent.category = this.event.data.category.name;
-      updatedEvent.venue_name = this.event.venue;
-
-      UserEvent.update({id: updatedEvent.id}, {event: updatedEvent}, function(res){
+      UserEvent.update({id: updatedEvent.id}, {event: setData(updatedEvent)}, function(res){
         updateData(res);
         $scope.$emit("eventUpdated", res);
       });
