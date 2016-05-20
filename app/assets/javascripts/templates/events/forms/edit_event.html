@@ -36,7 +36,7 @@
             placeholder="Description"
             ng-model="eventForm.event.data.description"></textarea>
 
-          <label for="eventForm.event.data.category">Categories</label>
+          <label for="eventForm.event.data.category">Categories (currently: {{eventForm.event.data.category.name}})</label>
 
           <select ng-model="eventForm.event.data.category" ng-options="category.name for category in eventForm.categories | orderBy:'name'" class="form-control" name="category" required="required">
           </select>

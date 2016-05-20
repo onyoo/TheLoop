@@ -14,35 +14,23 @@
     <new-event-form></new-event-form>
   </div>
 
-
-  <!-- <button type="button" class="btn btn-lg btn-primary show-xs" data-animation="am-flip-x" bs-dropdown aria-haspopup="true" aria-expanded="false">Click to toggle dropdown
-    <br>
-    <small>(using inlined sibling template)</small>
+  <div class="visible-xs category_tab">
+    <button type="button"
+    class="btn btn-lg btn-primary  show-xs"
+    data-animation="am-flip-x"
+    bs-dropdown
+    aria-haspopup="true"
+    aria-expanded="false"><span class='glyphicon glyphicon-th-list'></span> Menu
   </button>
-  <ul class="dropdown-menu" role="menu" id="king">
-    <li><a href="#anotherAction"><i class="fa fa-download"></i>&nbsp;Some action</a></li>
-    <li><a ng-click="$alert('Holy guacamole')"><i class="fa fa-globe"></i>&nbsp;Display an alert</a></li>
-  </ul> -->
 
-    <!-- <div class="visible-xs category_tab">
-        <button type="button"
-                class="btn-md btn-primary glyphicon glyphicon-th-list"
-                data-animation="am-flip-x"
-                bs-dropdown aria-haspopup="true"
-                aria-expanded="false"> <span>Where to?</span></button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a ui-sref="home.localView" ui-sref-active="active">The Loop</a></li>
+    <li ng-hide="signedIn()"><a ui-sref="home.login" ui-sref-active="active">Log In</a></li>
+    <li ng-hide="signedIn()"><a ui-sref="home.register" ui-sref-active="active">Sign Up</a></li>
+    <li><a ui-sref="home.events" ui-sref-active="active">Events</a></li>
+    <li ng-show="signedIn()"><a ui-sref="home.myEvents" ui-sref-active="active">My Events</a></li>
+    <li ng-show="signedIn()"><a href="" ng-click="newEvent=!newEvent" ui-sref-active="active">Create New Event</a></li>
+    <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out</a></li>
+  </ul>
 
-        <ul class="dropdown-menu" id="king" role="menu">
-          <div>testing</div>
-          <div>testing</div>
-          <div>testing</div> -->
-
-          <!-- <li><a ui-sref="home.localView" ui-sref-active="active">The Loop</a></li>
-          <li ng-hide="signedIn()"><a ui-sref="home.login" ui-sref-active="active">Log In</a></li>
-          <li ng-hide="signedIn()"><a ui-sref="home.register" ui-sref-active="active">Sign Up</a></li>
-          <li><a ui-sref="home.events" ui-sref-active="active">Events</a></li>
-          <li ng-show="signedIn()"><a ui-sref="home.myEvents" ui-sref-active="active">My Events</a></li>
-          <li ng-show="signedIn()"><a href="" ng-click="newEvent=!newEvent" ui-sref-active="active">Create New Event</a></li>
-          <li ng-show="signedIn()"><a href="" ng-click="logout()">Log Out</a></li> -->
-        </ul>
-    </div>
 </nav>
