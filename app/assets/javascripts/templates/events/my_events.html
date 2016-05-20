@@ -13,9 +13,6 @@
 
       <ul id='events_list' ng-repeat="event in ctrl.events | orderBy:sort:reverse">
         <loop-event details='event'></loop-event>
-        <div class="col-sm-2">
-          <button class="btn btn-danger" ng-click="ctrl.removeEvent($index)" id="remove-event">Remove Event</button>
-        </div>
       </ul>
     </div>
 

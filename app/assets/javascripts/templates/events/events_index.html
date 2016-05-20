@@ -11,7 +11,8 @@
 
           <div class="col-sm-4">
             <form name="form" ng-submit='ctrl.zipcodeSearch()'>
-              <input type="text" class="form-control" placeholder='Search by zipcode' ng-model='ctrl.zipcode' name="zipcode" pattern="^\d{5}(?:[-\s]\d{4})?$">
+              <input type="text" class="form-control" placeholder='Search by zipcode' ng-model='ctrl.zipcode' name="zipcode" >
+              <!-- pattern="^\d{5}(?:[-\s]\d{4})?$" -->
               <div ng-messages="form.zipcode.$error" ng-if="form.zipcode.$touched">
                 <div ng-message="pattern" class="error-message" id="zipcode-error">Zipcode must be 5 digits</div>
               </div>
