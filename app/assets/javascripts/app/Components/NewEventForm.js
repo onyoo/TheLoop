@@ -23,6 +23,7 @@ var NewEventForm = {
         $rootScope.$broadcast("newEvent", res);
         $scope.closeForm();
         $state.go('home.myEvents');
+        delete $scope.form;
         ctrl.data = {};
       }, function(error) {
         console.log(error);
