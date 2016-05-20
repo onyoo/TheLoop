@@ -8,8 +8,9 @@
 //= require angular-resource
 //= require angular-sanitize
 //= require angular-messages
+//= require angular-strap
 
-// = require jquery
+//= require jquery
 //= require bootstrap-sprockets
 //= require angular-country-picker
 //= require angular-our-state-picker

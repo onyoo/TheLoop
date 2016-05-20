@@ -1,5 +1,4 @@
 class Event < ActiveRecord::Base
-
   has_many :comments
   has_many :user_events
   has_many :users, through: :user_events
@@ -26,22 +25,30 @@ class Event < ActiveRecord::Base
     end
     self.within(25, :origin => [latitude,longitude])
   end
-  
+
+  def set_location
+    address = street_address
+    address += (", " + city)                    unless city.nil?
+    address += (", " + self[:region_abbr])      unless region_abbr.nil?
+    address += (" " + self[:postal_code].to_s)  unless postal_code.nil?
+    address += (", " + self[:country_abbr])     unless country_abbr.nil?
+
+    if self.latitude.nil?
+      loc = Event.geocode(address)
+
+      if loc.success
+         self.latitude = loc.lat
+         self.longitude = loc.lng
+      end
+    end
+  end
+
   def venue_name=(venue)
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
-  def categories=(category)
-    if category[:name]
-      category_name = category[:name]
-    else
-      category_name = category[:category].first[:name].gsub('&amp;', '').split(' ').first
-    end
+  def category=(category_name)
     self.update(category_id: Category.find_or_create_by(name: category_name).id)
-  end
-
-  def images=(image)
-    self.update(image_url: image[:image][:thumb][:url]) unless image.nil?
   end
 
   def address=(street)
@@ -50,23 +57,6 @@ class Event < ActiveRecord::Base
 
   def url=(api_url)
     self.update(event_url: api_url)
-  end
-
-  def set_location
-    address = street_address
-    address += (", " + city)                    unless city.nil?
-    address += (", " + self[:region_abbr])      unless region_abbr.nil?
-    address += (' ' + self[:postal_code].to_s)  unless postal_code.nil?
-    address += (", " + self[:country_abbr])     unless country_abbr.nil?
-
-    if self.latitude.nil?
-      loc=Event.geocode(address)
-
-      if loc.success
-         self.latitude = loc.lat
-         self.longitude = loc.lng
-      end
-    end
   end
 
   def as_json(options = {})

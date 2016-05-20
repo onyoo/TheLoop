@@ -1,11 +1,12 @@
 #event-show-page {
+  width: 47%;
+  margin: 48px 19px;
   background-color: white;
-  margin-top: 50px;
   padding: 25px 32px 35px 35px;
-  margin-left: 37px;
-  height: 560px;
+  height: 557px;
   overflow: scroll;
   box-shadow: 1px 1px 3px gray;
+  border-radius: 5px;
   font-size: 16px;
   font-weight: 300;
 }
@@ -24,14 +25,8 @@
   border-radius: 5px;
 }
 
-#attend-event-button {
-  margin-top: 10px;
-  margin-left: 222px;
-}
-
-#edit-event-button {
-  margin-left: 230px;
-  margin-top: 10px;
+.btn-success {
+  cursor: default;
 }
 
 .event-headers {
@@ -42,6 +37,10 @@
   margin-top: 25px;
   line-height: 80%;
   margin-bottom: 10px;
+}
+
+.event-date {
+  padding-left: 32px;
 }
 
 // My Events Page
@@ -109,6 +108,14 @@
 
 #remove-event {
   float:right;
+  margin: -74px -880px;
+}
+
+.view-event {
+  float: right;
+  font-size: 1.3em;
+  font-weight: 300;
+  margin: -5px 14px -39px;
 }
 
 .my-event-title {
@@ -123,4 +130,18 @@
   font-size: 1.5em;
   margin-top: 150px;
   font-weight: 200;
+}
+
+.attend-event-button {
+  margin-bottom: 5px;
+}
+
+// Comment
+
+.comment-button {
+  text-align: center;
+}
+
+#comment-error {
+  font-size: .8em;
 }

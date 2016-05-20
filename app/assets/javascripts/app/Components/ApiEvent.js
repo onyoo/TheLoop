@@ -3,18 +3,17 @@ var ApiEvent = {
   bindings: {
     details: '='
   },
-  controller: function(UserEvent, EventsService, $state){
+  controller: function(){
     var ctrl = this;
-    ctrl.$inject = ['UserEvent', 'EventsService', '$state'];
-    this.details.date = Date.parse(this.details.start_time);
+    ctrl.date = Date.parse(this.details.start_time);
 
-    this.showEvent = function(api_id) {
-      EventsService.checkLoopEvent(api_id).then(function(resp){
-        $state.go('home.loopEvent', {id: resp.data.id})
-      }, function(error){
-        $state.go('home.event', {id: api_id})
-      })
-    }
+    if (this.details.venue_name === undefined && this.details.venue !== undefined){
+      ctrl.details.venue_name = this.details.venue.name;
+    };
+
+    if (this.details.city_name === undefined){
+      ctrl.details.city_name = this.details.city;
+    };
   },
   controllerAs: 'event'
 };

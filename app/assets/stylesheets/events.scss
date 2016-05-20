@@ -5,8 +5,13 @@
 #events-header {
   margin-top: 30px;
   font-weight: 300;
-  margin-left: 200px;
+  padding-bottom: 10px;
   color: rgb(0, 107, 179);
+  border-bottom: .8px solid rgb(0, 107, 179);
+}
+
+.search-inputs {
+  margin: auto;
 }
 
 #sort-by-link {
@@ -15,16 +20,30 @@
 
 #events-list {
   list-style-type: none;
+  margin: 4px 15px 13px -24px;
+  a {
+    text-decoration: none;
+    color: black;
+    h3 {
+      font-weight: 300;
+      padding-bottom: 7px;
+      color: rgb(0, 107, 179);
+      border-bottom: 1px solid rgba(0, 107, 179, .6);
+    }
+  }
+  a:hover {
+    background-color: red;
+  }
 }
 
 #events-list-container{
+  margin-top: 11px;
   height: 475px;
   overflow: scroll;
 }
 
 .event-container {
-  margin-left: -50px;
-  padding: 5px 15px 7px 25px;
+  padding: 3px 42px 3px 42px;
   background-color: white;
   box-shadow: 2px 2px 5px gray;
   border-radius: 5px;
@@ -39,13 +58,8 @@
 }
 
 .active-marker {
-  border: 2px solid #006BB3;
-}
-
-#loading-gif {
-  margin: auto;
-  height: 850px;
-  width: 550px;
+  border: 3px solid #006BB3;
+  border-bottom: 4px solid #006BB3;
 }
 
 #loading-map-message {
@@ -53,4 +67,8 @@
   padding: 10px;
   font-size: 1.3em;
   border-radius: 5px;
+}
+
+.wait {
+  cursor: wait;
 }

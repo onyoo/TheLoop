@@ -5,23 +5,14 @@ module Api
       before_action :set_event, only: [:show, :update]
       before_action :set_location, only: [:index]
       before_action :saved_event, only: [:create]
-      before_action :set_api_event, only: [:check]
       respond_to :json
 
       def index
-        respond_with(@events.where(api_id: nil))
+        respond_with(@events)
       end
 
       def show
         respond_with(@event)
-      end
-
-      def check
-        if @api_event.present?
-          render :json => @api_event
-        else
-          render nothing: true, status: 401
-        end
       end
 
       def create
@@ -54,28 +45,25 @@ module Api
         @event = Event.find(params[:id])
       end
 
-      def set_api_event
-        @api_event = Event.find_by(api_id: params[:api_id])
-      end
-
       def saved_event
         @event = Event.find_by(title: params[:event][:title])
       end
 
       def set_location
-        if params[:location]
+        if zipcode?
+          @events = Event.find_by_zipcode(params[:location])
+        else
           location = Event.get_location(params[:location])
           @events = Event.within(25, :origin => location)
-        elsif params[:zipcode]
-          @events = Event.find_by_zipcode(params[:zipcode])
         end
       end
 
+      def zipcode?
+        params[:location].size == 5
+      end
+
       def event_params
-        params.require(:event).permit(:title, :description, :start_time, :event_url, :url, :street_address, :address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :creator, :venue_name).tap do |whitelisted|
-          whitelisted[:categories] = params[:event][:categories]
-          whitelisted[:images] = params[:event][:images]
-        end
+        params.require(:event).permit(:title, :description, :start_time, :event_url, :url, :street_address, :address, :city, :region_abbr, :postal_code, :country_abbr, :latitude, :longitude, :image_url, :creator, :venue_name, :category)
       end
     end
   end

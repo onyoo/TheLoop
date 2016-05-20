@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6" id="event-show-page">
+      <div class="row">
+        <div ng-show="event.data.image_url">
+          <h1 class="col-sm-8 event-header">{{event.data.title}}</h1>
+
+          <div class="col-sm-4">
+            <div class="event-image">
+              <img class="event-image" src="{{event.data.image_url}}">
+            </div>
+          </div>
+        </div>
+
+        <div ng-hide="event.data.image_url">
+          <h1 class="col-sm-12 event-header">{{event.data.title}}</h1>
+        </div>
+        <br>
+      </div><hr>
+
+      <div class="row event-headers">
+        <p class="col-sm-7" ng-model="event.category"> {{event.category}}</p>
+
+        <p class="col-sm-5 event-date">{{event.date | date:'medium'}}</p><br>
+      </div>
+
+      <p ng-bind-html="event.data.description | removeWhiteSpace"></p>
+
+      <div class="event-address">
+        <p ng-model="event.venue">{{event.venue}}</p>
+        <p>{{event.data.street_address}}</p>
+        <p>{{event.data.city}}, {{event.data.region_abbr}} {{event.data.postal_code}}</p>
+      </div><br>
+
+      <p ng-show="event.users.length > 0">Users attending event: {{event.data.users.length}}</p>
+      <button class="btn btn-success" ng-if="signedIn()" ng-show="event.attending" data-toggle="tooltip" data-placement="top" title="Attending Event">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Attending
+      </button>
+
+      <div class="text-center">
+        <button class="btn btn-primary attend-event-button" ng-if="signedIn()" ng-show="!event.attending" type="submit" ng-click="event.addEvent()">Attend Event</button><br>
+
+        <button class="btn btn-primary event-buttons" id="edit-event-button" ng-show="event.editable" ng-click="editEvent=!editEvent">Edit Event</button>
+      </div><br>
+
+      <div ng-show="event.data.users.length > 0">
+        <p>Comments:</p>
+        <div ng-repeat="comment in event.data.comments">
+          <comment-item comment="comment"></comment-item>
+        </div>
+
+        <form name="form" ng-submit="event.addComment()" class="form-group">
+          <div ng-messages="form.comment.$error" ng-if="event.submitted">
+            <div ng-message="required" class="error-message" id="comment-error">Please provide some content</div>
+          </div>
+
+          <textarea name="comment" type="text" class="form-control comment-form" placeholder="Comment" ng-model="event.comment.content" required></textarea><br>
+
+          <div class="comment-button">
+            <input type="submit" class="btn btn-primary text-center" value="Add Comment" ng-click="event.submitted = true">
+          </div>
+        </form>
+      </div>
+
+      <div ng-show='editEvent'>
+        <edit-event-form event="event"></edit-event-form>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div id="events-map">
+        <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom">
+          <ui-gmap-markers models= 'markers' coords= "'coords'" icon="'http://www.webweaver.nu/clipart/img/nature/planets/smiling-gold-star.png'">
+            <ui-gmap-window show='show'>
+              <div>{{coords}}</div>
+            </ui-gmap-window>
+          </ui-gmap-markers>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

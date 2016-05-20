@@ -1,7 +1,0 @@
-<li class="event-container" id="anchor{{event.details.id}}">
-  <h3 class="event-title"><a ui-sref="home.loopEvent({id: event.details.id})">{{event.details.title}}</a></h3>
-  <p>Date: <span ng-bind="event.details.date | date:'medium'"></span></p>
-  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
-  <p>Venue: {{event.details.venue.name}}</a></p>
-  <p>{{event.details.city}}, {{event.details.region_abbr}}</p>
-</li>

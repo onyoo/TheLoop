@@ -1,64 +1,29 @@
-function EventsService($http){
+function EventsService($http, $q, EventFactory, EventfulService){
 
-  this.getLoopEvent = function(id) {
-    return $http({
-      method: 'get',
-      url: '/api/v1/events/' + id
+  function concatenateEvents(events){
+    return events.localEvents.concat(events.eventfulEvents.data.events.event);
+  };
+
+  this.getEvents = function(location) {
+    return $q(function(resolve, reject) {
+      $q.all({
+        localEvents: EventFactory.query({location: location}),
+        eventfulEvents: EventfulService.eventfulEvents(location)
+      }).then(function(events){
+        if (events) {
+          resolve(concatenateEvents(events));
+        } else {
+          reject("Error loading events.");
+        }
+      });
     });
   };
 
-  this.checkLoopEvent = function(api_id) {
-    return $http({
-      method: 'get',
-      url: '/api/v1/events/' + api_id + '/check'
-    });
+  this.getPersistedEvent = function(id) {
+    return $http.get('/api/v1/events/' + id);
   };
-
-  this.updateEvent = function(id, data) {
-    return $http({
-      method: 'put',
-      url: '/api/v1/events/' + id,
-      data: data
-    });
-  };
-
-  this.loopEvents = function(coords){
-    return $http({
-      method: 'get',
-      url: '/api/v1/events?location=' + coords
-    });
-  };
-
-  this.loopEventsZipcode = function(zip){
-    return $http({
-      method: 'get',
-      url: '/api/v1/events?zipcode=' + zip
-    });
-  };
-
-  this.byZipcode = function(zipcode){
-    return $http({
-      method: 'jsonp',
-      url: 'https://api.eventful.com/json/events/search?app_key=ckR7kwV6Ppwmq2sK&location=' + zipcode,
-      params: {
-        format: 'jsonp',
-        callback: 'JSON_CALLBACK'
-      }
-    });
-  };
-
-  this.getEvent = function(id){
-    return $http({
-      method: 'jsonp',
-      url: 'https://api.eventful.com/json/events/get?app_key=ckR7kwV6Ppwmq2sK&id=' + id,
-      params: {
-        format: 'jsonp',
-        callback: 'JSON_CALLBACK'
-      }
-    });
-  };
-}
+};
 
 angular
   .module('app')
-  .service('EventsService', ['$http', EventsService]);
+  .service('EventsService', ['$http', '$q', 'EventFactory', 'EventfulService', EventsService]);

@@ -1,38 +1,33 @@
-function LocalController($scope, uiGmapIsReady) {
+function LocalController($scope, $state, GeoLocationService, MapService, uiGmapIsReady) {
+  var ctrl = this;
 
-  $scope.map = {
-    center : {
-        latitude: 51.5,
-        longitude: -0.1
-    },
-    zoom : 9,
-    control : {}
+  function assignMarkers(events){
+    return MapService.constructMarkers(events).then(function(res){
+      $scope.markers = res;
+    });
   };
 
   if(!!navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-                      // can use .watchPosition(); for periodic updates to coords
-      $scope.map = {
-        center : {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        },
-        zoom : 18,
-        control : {}
-      };
+    $scope.loading = true;
 
-      uiGmapIsReady.promise()
-      .then(function (map_instances) {
-        var map1 = $scope.map.control;    // get map object through $scope.map.control getGMap() function
-        var map2 = map_instances[0].map;            // get map object through array object returned by uiGmapIsReady promise
-      });
+    GeoLocationService.getEventsByGeoLocation().then(function(res){
+      ctrl.allEvents = res.allEvents;
+      $scope.map = res.map;
+      $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
+      assignMarkers(ctrl.allEvents);
+
+      $scope.loading = false;
     });
   } else {
-      console.log('Sorry, your browser does not support geolocation.')
-      document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
+    console.log('Sorry, your browser does not support geolocation.');
+    document.getElementById('your_location_map').innerHTML = 'Sorry, Your Browser Does Not Support Geolocation.';
+  };
+
+  $scope.markerClick = function(map, event, marker) {
+    $state.go('home.event', {id: marker.id});
   };
 };
 
 angular
   .module('app')
-  .controller('LocalController', ['$scope', 'uiGmapIsReady', LocalController]);
+  .controller('LocalController', ['$scope', '$state', 'GeoLocationService', 'MapService', 'uiGmapIsReady', LocalController]);

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'application#home'
-  put '/api/v1/users', to: 'api/v1/users#remove'
+  # put '/api/v1/users', to: 'api/v1/users#remove'
 
-  get 'api/v1/events/:api_id/check', to: 'api/v1/events#check'
+  # get 'api/v1/events/:api_id/check', to: 'api/v1/events#check'
 end

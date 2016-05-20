@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker'])
+  .module('app', ['ui.router', 'templates', 'uiGmapgoogle-maps', 'Devise', 'ngResource', 'ngSanitize', 'ngMessages', 'puigcerber.countryPicker', 'statePicker', 'mgcrea.ngStrap'])
   .config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyCyq6FsbEY-tBqO05UA9cQw5OjWBRw9oTM',
@@ -35,37 +35,37 @@ angular
       .state('home.events', {
         url: 'events',
         templateUrl: 'events/events_index.html',
-        controller: 'EventsController as ctrl',
+        controller: 'EventsController as ctrl'
       })
       .state('home.event', {
-        url: 'show/:id',
-        templateUrl: 'events/event_show_page.html',
+        url: 'event/:id',
+        templateUrl: 'events/event_show.html',
         controller: 'EventController as event',
         resolve: {
-          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
-            return EventsService.getEvent($stateParams.id);
-          }]
-        }
-      })
-      .state('home.loopEvent', {
-        url: 'loopShow/:id',
-        templateUrl: 'events/loop_event_show_page.html',
-        controller: 'LoopEventController as event',
-        resolve: {
-          event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
-            return EventsService.getLoopEvent($stateParams.id);
+          event: ['$stateParams', 'EventfulService', 'EventsService', function ($stateParams, EventfulService, EventsService) {
+            if ($stateParams.id.search('-') > 0) {
+              return EventfulService.getEvent($stateParams.id);
+            } else {
+              return EventsService.getPersistedEvent($stateParams.id);
+            };
           }]
         }
       })
       .state('home.myEvents', {
         url: 'my_events',
         templateUrl: 'events/my_events.html',
-        controller: 'UserEventsController as ctrl'
+        controller: 'UserEventsController as ctrl',
+        resolve: {
+          user: ['Auth', function(Auth){
+            return Auth.currentUser();
+          }]
+        }
       })
       .state('home.localView', {
         url: 'localview',
         templateUrl: 'events/local_view.html',
         controller: 'LocalController as local'
       });
+
     $urlRouterProvider.otherwise('/localview');
   }]);

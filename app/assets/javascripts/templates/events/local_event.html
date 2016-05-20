@@ -13,9 +13,11 @@
 
     <!-- Event container -->
     <div class="col-sm-9 local-details">
-      <h3 class="my-event-title"><a ui-sref='home.loopEvent({id: event.details.id})'>{{event.details.title}}</a></h3><hr>
-      <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
-      <p><a href="{{event.details.event_url}}" target="_blank">View Event</a></p>
+      <h3 class="my-event-title"><a ui-sref='home.event({id: event.details.id})'>{{event.details.title}}</a></h3><hr>
+      <div class="row">
+        <p class="col-sm-9" ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
+        <p class="col-sm-3"><a href="{{event.details.event_url}}" target="_blank" class="view-event">View Event</a></p>
+      </div>
       <div class="row">
         <div class="col-sm-10">
           <div class="local-address">
@@ -23,10 +25,6 @@
             <p>{{event.details.street_address}}</p>
             <p>{{event.details.city}}, {{event.details.region_abbr}} {{event.details.postal_code}}</p>
           </div>
-        </div>
-
-        <div class="col-sm-2">
-          <button class="btn btn-danger" ng-click="event.removeEvent()" id="remove-event">Remove Event</button>
         </div>
       </div>
     </div>

@@ -1,15 +1,8 @@
 var NewEventForm = {
-  templateUrl: 'events/new_event_form.html',
-  controller: function(UserEvent, $scope, CategoriesService, $state, Auth) {
+  templateUrl: 'events/forms/new_event.html',
+  controller: function($scope, $state, Auth, UserEvent, CategoriesService, $rootScope) {
     var ctrl = this;
-
-    ctrl.$inject = ['UserEvent', '$scope', 'CategoriesService', '$state', 'Auth'];
-
-    $scope.closeForm = function() {
-      $scope.$emit('closeForm', false);
-    };
-
-    $scope.selectedCountry = [];
+    ctrl.$inject = ['$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService'];
 
     Auth.currentUser().then(function(resp) {
       ctrl.creator = resp.id;
@@ -19,15 +12,25 @@ var NewEventForm = {
       ctrl.categories = res.data;
     });
 
+    function setData(newEvent){
+      newEvent.creator = ctrl.creator;
+      newEvent.category = newEvent.category.name;
+      return newEvent;
+    };
+
     ctrl.createEvent = function() {
-      this.formData.creator = ctrl.creator
-      UserEvent.create({event: this.formData}, function(res){
+      UserEvent.create({event: setData(this.data)}, function(res){
+        $rootScope.$broadcast("newEvent", res);
         $scope.closeForm();
         $state.go('home.myEvents');
-        ctrl.formData = {};
+        ctrl.data = {};
       }, function(error) {
         console.log(error);
       });
+    };
+
+    $scope.closeForm = function() {
+      $scope.$emit('closeForm', false);
     };
   },
   controllerAs: 'eventForm'
