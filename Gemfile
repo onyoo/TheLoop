@@ -21,6 +21,7 @@ gem 'angular_rails_csrf'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'
+gem 'angular_rails_csrf'
 
 gem 'rspec-core'
 gem 'rspec-rails'
