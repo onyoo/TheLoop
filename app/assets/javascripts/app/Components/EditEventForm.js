@@ -18,7 +18,7 @@ var EditEventForm = {
     });
 
     function setData(updatedEvent){
-      updatedEvent.category = updatedEvent.category.name;
+      updatedEvent.category_name = updatedEvent.category.name;
       updatedEvent.venue_name = updatedEvent.venue;
       return updatedEvent;
     };
