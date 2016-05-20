@@ -20,6 +20,7 @@ function EventsController($scope, $location, EventsService, MapService, GeoLocat
 
     GeoLocationService.getEventsByGeoLocation().then(function(res){
       ctrl.allEvents = res.allEvents;
+      debugger;
       $scope.map = res.map;
       $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
       assignMarkers(ctrl.allEvents);

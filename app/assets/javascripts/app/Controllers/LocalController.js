@@ -17,20 +17,6 @@ function LocalController($scope, $state, GeoLocationService, MapService, uiGmapI
       assignMarkers(ctrl.allEvents);
 
       $scope.loading = false;
-
-      // $scope.map.markers = {
-      //   mouseover: function (marker, eventName, model, args) {
-      //     debugger;
-      //     model.options.labelContent = "Position - lat: " + model.latitude + " lon: " + model.longitude;
-      //     marker.showWindow = true;
-      //     $scope.$apply();
-      //   },
-      //   mouseout: function (marker, eventName, model, args) {
-      //     model.options.labelContent = " ";
-      //     marker.showWindow = false;
-      //     $scope.$apply();
-      //   }
-      // };
     });
   } else {
     console.log('Sorry, your browser does not support geolocation.');
@@ -45,3 +31,18 @@ function LocalController($scope, $state, GeoLocationService, MapService, uiGmapI
 angular
   .module('app')
   .controller('LocalController', ['$scope', '$state', 'GeoLocationService', 'MapService', 'uiGmapIsReady', LocalController]);
+
+
+  // $scope.map.markers = {
+  //   mouseover: function (marker, eventName, model, args) {
+  //     debugger;
+  //     model.options.labelContent = "Position - lat: " + model.latitude + " lon: " + model.longitude;
+  //     marker.showWindow = true;
+  //     $scope.$apply();
+  //   },
+  //   mouseout: function (marker, eventName, model, args) {
+  //     model.options.labelContent = " ";
+  //     marker.showWindow = false;
+  //     $scope.$apply();
+  //   }
+  // };
