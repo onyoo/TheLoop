@@ -80,12 +80,20 @@
 
             <div class="col-sm-4">
               <label for="eventForm.data.region_abbr">State</label>
-              <select ng-model="eventForm.data.region_abbr" name="state" class="form-control" state-picker-directive></select>
+              <select ng-model="eventForm.data.region_abbr" name="state" class="form-control" required="required" state-picker-directive></select>
+
+              <div ng-messages="form.state.$error" ng-if="form.state.$touched">
+                <div ng-message="required" class="error-message">State is required</div>
+              </div>
             </div>
 
             <div class="col-sm-3">
               <label for="eventForm.data.postal_code">Zipcode</label>
-              <input type="number" class="form-control" placeholder="Zipcode" ng-model="eventForm.data.postal_code">
+              <input type="text" class="form-control" placeholder="Zipcode" ng-model="eventForm.data.postal_code" pattern="^\d{5}(?:[-\s]\d{4})?$" name="zipcode">
+            </div>
+
+            <div ng-messages="form.zipcode.$error" ng-if="form.zipcode.$touched">
+              <div ng-message="pattern" class="error-message" id="new-event-zipcode-error">Must be 5 digits</div>
             </div>
           </div>
 

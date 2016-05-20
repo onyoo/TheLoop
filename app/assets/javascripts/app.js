@@ -51,16 +51,6 @@ angular
           }]
         }
       })
-      // .state('home.loopEvent', {
-      //   url: 'loopShow/:id',
-      //   templateUrl: 'events/loop_event_show_page.html',
-      //   controller: 'LoopEventController as event',
-      //   resolve: {
-      //     event: ['$stateParams', 'EventsService', function ($stateParams, EventsService) {
-      //       return EventsService.getLoopEvent($stateParams.id);
-      //     }]
-      //   }
-      // })
       .state('home.myEvents', {
         url: 'my_events',
         templateUrl: 'events/my_events.html',
@@ -76,5 +66,6 @@ angular
         templateUrl: 'events/local_view.html',
         controller: 'LocalController as local'
       });
+      
     $urlRouterProvider.otherwise('/localview');
   }]);

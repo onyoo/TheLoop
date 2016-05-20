@@ -1,5 +1,7 @@
-function EventController(event, $scope, $state, Auth, UserEvent, CategoriesService, MapService, Comment){
+function EventController(event, $scope, $state, Auth, UserEvent, CategoriesService, MapService, VenuesService, Comment){
   var ctrl = this;
+
+  // Set data
   ctrl.data = event.data;
   ctrl.date = Date.parse(ctrl.data.start_time);
   ctrl.data.street_address = ctrl.data.street_address || ctrl.data.address;
@@ -12,8 +14,11 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     ctrl.category = CategoriesService.assignCategory(ctrl.data);
   };
 
-  if (ctrl.data.venue_name){ ctrl.data.venue.name = ctrl.data.venue_name; }
+  if (ctrl.data.venue_name || ctrl.data.venue){
+    ctrl.venue = VenuesService.assignVenue(ctrl.data);
+  };
 
+  // Map
   $scope.signedIn = Auth.isAuthenticated;
   $scope.map = MapService.constructMap(ctrl.data, 15);
   $scope.options = { scrollwheel: true, scrollwheel: true, mapMakers: true };
@@ -22,7 +27,9 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     $scope.markers = res;
   });
 
+  // Actions
   ctrl.addEvent = function(){
+    this.data.category = this.category;
     UserEvent.create({event: this.data}, function(res){
       $state.go('home.myEvents');
     });
@@ -41,12 +48,12 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     });
   };
 
-  function setComment(user){
-    ctrl.comment = new Comment({user_id: user.id, event_id: ctrl.data.id});
-  };
-
   function setEditable(user){
     ctrl.editable = user.id == ctrl.data.creator && ctrl.data.api_id == undefined;
+  };
+
+  function setComment(user){
+    ctrl.comment = new Comment({user_id: user.id, event_id: ctrl.data.id});
   };
 
   Auth.currentUser().then(function(user){
@@ -56,6 +63,7 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
     if (ctrl.data.users){ setAttending(user) };
   });
 
+  // Edit form
   $scope.$on('closeEditForm', function(emitEvent, data) {
     $scope.editEvent = false;
   });
@@ -68,4 +76,4 @@ function EventController(event, $scope, $state, Auth, UserEvent, CategoriesServi
 
 angular
 .module('app')
-.controller('EventController', ['event', '$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService', 'MapService', 'Comment', EventController]);
+.controller('EventController', ['event', '$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService', 'MapService', 'VenuesService', 'Comment', EventController]);
