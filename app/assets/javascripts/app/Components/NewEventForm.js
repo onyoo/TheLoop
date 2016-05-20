@@ -1,6 +1,6 @@
 var NewEventForm = {
   templateUrl: 'events/forms/new_event.html',
-  controller: function($scope, $state, Auth, UserEvent, CategoriesService) {
+  controller: function($scope, $state, Auth, UserEvent, CategoriesService, $rootScope) {
     var ctrl = this;
     ctrl.$inject = ['$scope', '$state', 'Auth', 'UserEvent', 'CategoriesService'];
 
@@ -20,6 +20,7 @@ var NewEventForm = {
 
     ctrl.createEvent = function() {
       UserEvent.create({event: setData(this.data)}, function(res){
+        $rootScope.$broadcast("newEvent", res);
         $scope.closeForm();
         $state.go('home.myEvents');
         ctrl.data = {};
