@@ -47,8 +47,8 @@ class Event < ActiveRecord::Base
     self.update(venue_id: Venue.find_or_create_by(name: venue).id)
   end
 
-  def category=(category_name)
-    self.update(category_id: Category.find_or_create_by(name: category_name).id)
+  def category_name=(category)
+    self.update(category_id: Category.find_or_create_by(name: category).id)
   end
 
   def address=(street)

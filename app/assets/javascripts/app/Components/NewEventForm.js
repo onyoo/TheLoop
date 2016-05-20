@@ -13,6 +13,7 @@ var NewEventForm = {
     });
 
     function setData(newEvent){
+      debugger;
       newEvent.creator = ctrl.creator;
       newEvent.category = newEvent.category.name;
       return newEvent;
