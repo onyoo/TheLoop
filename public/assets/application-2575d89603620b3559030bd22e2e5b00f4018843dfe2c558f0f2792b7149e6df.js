@@ -72921,7 +72921,7 @@ angular
   .module('app')
   .factory('Comment', ['$resource', Comment]);
 function EventFactory($resource) {
-  var EventFactory = $resource('http://localhost:3000/api/v1/events/', {event_id: '@event_id'}, {
+  var EventFactory = $resource('/api/v1/events/', {event_id: '@event_id'}, {
     query: { method: 'GET', isArray: true },
   });
 
@@ -72986,7 +72986,7 @@ angular
   .filter('truncate', Truncate);
 function CategoriesService($http) {
   this.getCategory = function(category_id) {
-    return $http.get('http://localhost:3000/api/v1/categories/' + category_id);
+    return $http.get('/api/v1/categories/' + category_id);
   };
 
   this.getCategories = function() {
@@ -73117,7 +73117,7 @@ angular
   .service('MapService', MapService);
 function VenuesService($http) {
   this.getVenue = function(venue_id) {
-    return $http.get('http://localhost:3000/api/v1/venues/' + venue_id);
+    return $http.get('/api/v1/venues/' + venue_id);
   };
 
   this.assignVenue = function(api_event){
