@@ -41,7 +41,7 @@
     </div>
 
     <!-- Map with event location markers -->
-    <div class="col-sm-6" id="events-map">
+    <div class="col-sm-6" id=events-map>
       <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">
         <ui-gmap-markers models= 'markers' coords= "'coords'" click="markerClick">
         </ui-gmap-markers>
@@ -51,7 +51,6 @@
 
   <!-- Loading gif -->
   <div ng-show="loading">
-    <!-- <img src="https://www.owlhatworld.com/wp-content/uploads/2015/12/38.gif" alt="loading"> -->
     <p id="no-events-message">Loading upcoming events near you...</p>
   </div>
 </div>

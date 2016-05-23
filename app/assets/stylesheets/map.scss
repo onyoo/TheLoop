@@ -10,9 +10,19 @@
   margin-top: 58px;
   margin-right: -30px;
   border-radius: 5px;
-  // width: 50%;
   right: 0px;
   top: 0px;
+}
+
+#event-show-map {
+  position: fixed;
+  float: right;
+  margin-top: 58px;
+  margin-right: -30px;
+  border-radius: 5px;
+  right: 0px;
+  top: 0px;
+  width: 50%;
 }
 
 #your-location-map {
