@@ -7,7 +7,7 @@ function EventsService($http, $q, EventFactory, EventfulService){
   this.getEvents = function(location) {
     return $q(function(resolve, reject) {
       $q.all({
-        localEvents: EventFactory.query({location: location}),
+        localEvents: EventFactory.query({location: location}).$promise,
         eventfulEvents: EventfulService.eventfulEvents(location)
       }).then(function(events){
         if (events) {
