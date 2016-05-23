@@ -18,7 +18,7 @@
         <p class="col-sm-9" ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
         <div class="clearfix">
           <p class="col-sm-3 margin-bottom"><a href="{{event.details.event_url}}" target="_blank" class="view-event">View Event</a></p>
-          <button class="btn btn-danger" ng-click="ctrl.removeEvent($index)" id="remove-event">Remove Event</button>
+          <button class="btn btn-danger" ng-click="event.removeEvent($index)" id="remove-event">Remove Event</button>
         </div>
       </div>
       <div class="row">

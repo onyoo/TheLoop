@@ -72613,10 +72613,16 @@ var LoopEvent = {
   bindings: {
     details: '='
   },
-  controller: function(User, CategoriesService, VenuesService){
-    this.$inject = ['User', 'CategoriesService', 'VenuesService'];
+  controller: function($rootScope, User, CategoriesService, VenuesService){
+    this.$inject = ['$rootScope,', 'User', 'CategoriesService', 'VenuesService'];
     var ctrl = this;
     ctrl.details.date = Date.parse(this.details.start_time);
+
+    ctrl.removeEvent = function(index) {
+      User.delete({id: this.details.id}, function(res){
+        $rootScope.$broadcast("removeEvent", res);
+      });
+    };
   },
   controllerAs: 'event'
 };
@@ -72892,14 +72898,16 @@ function UserEventsController($scope, user, User) {
     ctrl.events = res;
   });
 
-  ctrl.removeEvent = function(index) {
-    var apiEvent = this.events[index];
-    User.delete({id: apiEvent.id});
-    this.events.splice(index,1);
-  };
-
   $scope.$on('newEvent', function(e, event) {
     ctrl.events.push(event);
+  });
+
+  $scope.$on('removeEvent', function(e, removedEvent){
+    ctrl.events.forEach(function(event, index){
+      if (event.id == removedEvent.id) {
+        ctrl.events.splice(index, 1);
+      }
+    })
   });
 
 };
@@ -73037,7 +73045,7 @@ function EventsService($http, $q, EventFactory, EventfulService){
   this.getEvents = function(location) {
     return $q(function(resolve, reject) {
       $q.all({
-        localEvents: EventFactory.query({location: location}),
+        localEvents: EventFactory.query({location: location}).$promise,
         eventfulEvents: EventfulService.eventfulEvents(location)
       }).then(function(events){
         if (events) {
@@ -73192,7 +73200,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/templates/events/local_event.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("events/local_event.html", '<li class="local-event" data-event-id="{{event.details.id}}">\n  <div class="row">\n    <!-- Date container -->\n    <div class="col-sm-3 local-date">\n      <p class="local-category">{{event.details.category.name}} Event</p><hr>\n      <h3 class="my-event-date"><span ng-bind="event.details.date | date:\'medium\'"></span></h3>\n      <div class="col-sm-4">\n        <div ng-show="{{event.details.image_url}}">\n          <img class="local-image" src="{{event.details.image_url}}">\n        </div>\n      </div><br>\n    </div>\n\n    <!-- Event container -->\n    <div class="col-sm-9 local-details">\n      <h3 class="my-event-title"><a ui-sref=\'home.event({id: event.details.id})\'>{{event.details.title}}</a></h3><hr>\n      <div class="row">\n        <p class="col-sm-9" ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n        <div class="clearfix">\n          <p class="col-sm-3 margin-bottom"><a href="{{event.details.event_url}}" target="_blank" class="view-event">View Event</a></p>\n          <button class="btn btn-danger" ng-click="ctrl.removeEvent($index)" id="remove-event">Remove Event</button>\n        </div>\n      </div>\n      <div class="row">\n        <div class="col-sm-10">\n          <div class="local-address">\n            <p>{{event.details.venue.name}}</a></p>\n            <p>{{event.details.street_address}}</p>\n            <p>{{event.details.city}}, {{event.details.region_abbr}} {{event.details.postal_code}}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</li><br>')
+  $templateCache.put("events/local_event.html", '<li class="local-event" data-event-id="{{event.details.id}}">\n  <div class="row">\n    <!-- Date container -->\n    <div class="col-sm-3 local-date">\n      <p class="local-category">{{event.details.category.name}} Event</p><hr>\n      <h3 class="my-event-date"><span ng-bind="event.details.date | date:\'medium\'"></span></h3>\n      <div class="col-sm-4">\n        <div ng-show="{{event.details.image_url}}">\n          <img class="local-image" src="{{event.details.image_url}}">\n        </div>\n      </div><br>\n    </div>\n\n    <!-- Event container -->\n    <div class="col-sm-9 local-details">\n      <h3 class="my-event-title"><a ui-sref=\'home.event({id: event.details.id})\'>{{event.details.title}}</a></h3><hr>\n      <div class="row">\n        <p class="col-sm-9" ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>\n        <div class="clearfix">\n          <p class="col-sm-3 margin-bottom"><a href="{{event.details.event_url}}" target="_blank" class="view-event">View Event</a></p>\n          <button class="btn btn-danger" ng-click="event.removeEvent($index)" id="remove-event">Remove Event</button>\n        </div>\n      </div>\n      <div class="row">\n        <div class="col-sm-10">\n          <div class="local-address">\n            <p>{{event.details.venue.name}}</a></p>\n            <p>{{event.details.street_address}}</p>\n            <p>{{event.details.city}}, {{event.details.region_abbr}} {{event.details.postal_code}}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</li><br>')
 }]);
 
 // Angular Rails Template

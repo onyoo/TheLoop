@@ -5,14 +5,16 @@ function UserEventsController($scope, user, User) {
     ctrl.events = res;
   });
 
-  ctrl.removeEvent = function(index) {
-    var apiEvent = this.events[index];
-    User.delete({id: apiEvent.id});
-    this.events.splice(index,1);
-  };
-
   $scope.$on('newEvent', function(e, event) {
     ctrl.events.push(event);
+  });
+
+  $scope.$on('removeEvent', function(e, removedEvent){
+    ctrl.events.forEach(function(event, index){
+      if (event.id == removedEvent.id) {
+        ctrl.events.splice(index, 1);
+      }
+    })
   });
 
 };
