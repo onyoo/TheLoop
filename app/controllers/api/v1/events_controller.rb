@@ -17,15 +17,13 @@ module Api
       def create
         if @event.nil?
           @event = Event.new(event_params)
-          @event.update(api_id: params[:event][:id])
           @event.set_location
         end
 
-        if @event.save
+        if @event.longitude
+          @event.save
           current_user.user_events.create(event_id: @event.id)
-          respond_to do |format|
-            format.json { render :json => @event }
-          end
+          render :json => @event
         end
       end
 

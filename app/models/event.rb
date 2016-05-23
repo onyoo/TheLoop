@@ -44,19 +44,19 @@ class Event < ActiveRecord::Base
   end
 
   def venue_name=(venue)
-    self.update(venue_id: Venue.find_or_create_by(name: venue).id)
+    self.venue_id= Venue.find_or_create_by(name: venue).id
   end
 
   def category_name=(category)
-    self.update(category_id: Category.find_or_create_by(name: category).id)
+    self.category_id= Category.find_or_create_by(name: category).id
   end
 
   def address=(street)
-    self.update(street_address: street)
+    self.street_address= street
   end
 
   def url=(api_url)
-    self.update(event_url: api_url)
+    self.event_url= api_url
   end
 
   def as_json(options = {})
