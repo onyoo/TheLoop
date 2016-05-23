@@ -1,0 +1,9 @@
+<li class="event-container" id="anchor{{event.details.id}}">
+  <h3 class="event-title">{{event.details.title}}</h3>
+  <p ng-bind="event.date | date:'medium'"></p>
+  <p ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
+  <address>
+    <span ng-show="event.details.venue_name">{{event.details.venue_name}}</a></span><br>
+    {{event.details.city_name}}, {{event.details.region_abbr}}
+  </address>
+</li>

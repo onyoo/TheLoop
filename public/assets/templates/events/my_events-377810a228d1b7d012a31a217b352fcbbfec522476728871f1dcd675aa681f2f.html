@@ -1,0 +1,22 @@
+<div id="events-index" class="container">
+  <div class="row">
+    <h2 id="my-events-header">The Loop</h2><br>
+
+    <div ng-show='ctrl.events.length > 0'>
+      <div class="row">
+        <p id="sort-by-link">
+          Sort by:
+          <a href="" ng-click="sort = '-date'; reverse = !reverse">Date</a>
+        </p>
+      </div>
+
+      <ul id='events_list' ng-repeat="event in ctrl.events | orderBy:sort:reverse">
+        <loop-event details='event'></loop-event>
+      </ul>
+    </div>
+
+    <div ng-show='ctrl.events.length == 0'>
+      <p id="no-events-message">You're not attending any events. <a ui-sref='home.events'>Find events near you!</a></p>
+    </div>
+  </div>
+</div>

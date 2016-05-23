@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-6 text-center" id="events-index">
+    <div ng-hide="loading">
+      <h2 id="events-header">Welcome To The Loop</h2><br>
+
+        <!-- Search inputs -->
+        <div class="row search-inputs">
+          <div class="col-sm-4">
+            <p><input type="text" class="form-control" placeholder='Search by keyword' ng-model='ctrl.keyword'></p>
+          </div>
+
+          <div class="col-sm-4">
+            <form name="form" ng-submit='ctrl.zipcodeSearch()'>
+              <input type="text" class="form-control" placeholder='Search by zipcode' ng-model='ctrl.zipcode' name="zipcode" >
+
+              <div ng-messages="form.zipcode.$error" ng-if="form.zipcode.$touched">
+                <div ng-message="pattern" class="error-message" id="zipcode-error">Zipcode must be 5 digits</div>
+              </div>
+
+              <input type="submit" hidden='true'>
+            </form>
+          </div>
+
+          <!-- Sort by Date -->
+          <div class="col-sm-3">
+            <p id="sort-by-link">
+              Sort by: <a href="" ng-click="sort = '-start_time'; reverse = !reverse">Date</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Display events -->
+        <div id="events-list-container" class="row">
+           <ul id="events-list" ng-repeat="eventData in ctrl.allEvents | filter:ctrl.keyword | orderBy:sort:reverse">
+            <a ui-sref="home.event({id: eventData.id})">
+              <api-event details="eventData"></api-event>
+            </a>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map with event location markers -->
+    <div class="col-sm-6" id=events-map>
+      <ui-gmap-google-map center="map.center" options="options" zoom="map.zoom" refresh="refreshMap()">
+        <ui-gmap-markers models= 'markers' coords= "'coords'" click="markerClick">
+        </ui-gmap-markers>
+      </ui-gmap-google-map>
+    </div>
+  </div>
+
+  <!-- Loading gif -->
+  <div ng-show="loading">
+    <p id="no-events-message">Loading upcoming events near you...</p>
+  </div>
+</div>

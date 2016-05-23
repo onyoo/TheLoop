@@ -14,7 +14,7 @@ function EventsController($scope, $location, EventsService, MapService, GeoLocat
       assignMarkers(ctrl.allEvents);
     });
   };
-
+ 
   if(!!navigator.geolocation) {
     $scope.loading = true;
 

@@ -1,0 +1,35 @@
+<li class="local-event" data-event-id="{{event.details.id}}">
+  <div class="row">
+    <!-- Date container -->
+    <div class="col-sm-3 local-date">
+      <p class="local-category">{{event.details.category.name}} Event</p><hr>
+      <h3 class="my-event-date"><span ng-bind="event.details.date | date:'medium'"></span></h3>
+      <div class="col-sm-4">
+        <div ng-show="{{event.details.image_url}}">
+          <img class="local-image" src="{{event.details.image_url}}">
+        </div>
+      </div><br>
+    </div>
+
+    <!-- Event container -->
+    <div class="col-sm-9 local-details">
+      <h3 class="my-event-title"><a ui-sref='home.event({id: event.details.id})'>{{event.details.title}}</a></h3><hr>
+      <div class="row">
+        <p class="col-sm-9" ng-bind-html="event.details.description | removeWhiteSpace | truncate"></p>
+        <div class="clearfix">
+          <p class="col-sm-3 margin-bottom"><a href="{{event.details.event_url}}" target="_blank" class="view-event">View Event</a></p>
+          <button class="btn btn-danger" ng-click="ctrl.removeEvent($index)" id="remove-event">Remove Event</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10">
+          <div class="local-address">
+            <p>{{event.details.venue.name}}</a></p>
+            <p>{{event.details.street_address}}</p>
+            <p>{{event.details.city}}, {{event.details.region_abbr}} {{event.details.postal_code}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li><br>
